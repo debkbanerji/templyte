@@ -1,0 +1,29 @@
+{
+    "name": "templyte",
+    "version": "2018.8.21",
+    "description": "Junior Design Project",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js",
+        "postinstall": "npm run rebuild-static",
+        "rebuild-static": "(cd static && cd templyte && npm install && ng build --prod)",
+        "development-server": "nodemon server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/debkbanerji/templyte.git"
+    },
+    "author": "The Team Formerly Known as The Team Formerly Known as 7331",
+    "bugs": {
+        "url": "https://github.com/debkbanerji/templyte/issues"
+    },
+    "homepage": "https://github.com/debkbanerji/templyte#readme",
+    "devDependencies": {
+        "nodemon": "^1.17.4"
+    },
+    "dependencies": {
+        "@angular/cli": "^6.0.0",
+        "express": "^4.16.3"
+    }
+}
