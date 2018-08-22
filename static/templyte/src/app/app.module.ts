@@ -9,6 +9,7 @@ import {ApiInterfaceService} from "./providers/api-interface.service";
 import {HttpClientModule} from "@angular/common/http";
 import {AngularFireModule} from "angularfire2";
 import {AngularFireDatabase} from "angularfire2/database";
+import {AngularFireAuth} from "angularfire2/auth";
 
 const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
@@ -29,8 +30,9 @@ const routes: Routes = [
         RouterModule.forRoot(routes)
     ],
     providers: [
-        ApiInterfaceService,
-        AngularFireDatabase
+        AngularFireAuth,
+        AngularFireDatabase,
+        ApiInterfaceService
     ],
     bootstrap: [
         AppComponent
