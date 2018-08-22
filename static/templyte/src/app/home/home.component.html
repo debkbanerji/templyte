@@ -4,3 +4,6 @@
 <p>
     {{apiTestMessage}}
 </p>
+<p>
+    {{(firebaseTestObject | async) || 'Database Connection not Established'}}
+</p>
