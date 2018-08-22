@@ -13,7 +13,34 @@ const app = express();
  */
 const port = process.env.PORT || '3000';
 app.set('port', port);
-console.log("Node server running on port " + port);
+
+let isDevMode = false;
+
+process.argv.forEach(function (val) {
+    if (/DEVELOP/.test(val)) {
+        isDevMode = true;
+    }
+});
+
+if (isDevMode) {
+    console.log('RUNNING IN DEVELOPMENT MODE');
+
+    // Add headers
+    app.use(function (req, res, next) {
+
+        // Website you wish to allow to connect
+        res.setHeader('Access-Control-Allow-Origin', '*');
+
+        // Request methods you wish to allow
+        res.setHeader('Access-Control-Allow-Methods', 'GET');
+
+        // Request headers you wish to allow
+        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+        // Pass to next layer of middleware
+        next();
+    });
+}
 
 const frontendFolder = path.join(__dirname, 'static', 'templyte', 'dist', 'templyte');
 // Point static path to frontend folder
@@ -41,4 +68,11 @@ console.log("Created Server");
 /**
  * Listen on provided port, on all network interfaces.
  */
-server.listen(port, () => console.log(`Server running on port: ${port}`));
+server.listen(port, () => {
+    if (isDevMode) {
+        console.log('\nPlease use \'npm run development-gui\' to start a development gui and navigate to localhost:4200');
+        console.log('Node that the api is still running on port ' + port.toString())
+    } else {
+        console.log(`\nServer running on port: ${port}`);
+    }
+});
