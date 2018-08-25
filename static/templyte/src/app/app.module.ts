@@ -11,6 +11,7 @@ import {AngularFireModule} from 'angularfire2';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {CreateTemplateComponent} from './create-template/create-template.component';
+import {AngularFireStorage} from 'angularfire2/storage';
 
 const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
@@ -35,6 +36,7 @@ const routes: Routes = [
     providers: [
         AngularFireAuth,
         AngularFireDatabase,
+        AngularFireStorage,
         ApiInterfaceService
     ],
     bootstrap: [
