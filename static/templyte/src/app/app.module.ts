@@ -12,6 +12,8 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {CreateTemplateComponent} from './create-template/create-template.component';
 import {AngularFireStorage} from 'angularfire2/storage';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatButtonModule, MatCardMdImage, MatCardModule} from "@angular/material";
 
 const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
@@ -29,8 +31,11 @@ const routes: Routes = [
     ],
     imports: [
         AngularFireModule.initializeApp(config),
+        BrowserAnimationsModule,
         BrowserModule,
         HttpClientModule,
+        MatButtonModule,
+        MatCardModule,
         RouterModule.forRoot(routes)
     ],
     providers: [
