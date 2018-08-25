@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {ApiInterfaceService} from "../providers/api-interface.service";
-import {AngularFireDatabase} from "angularfire2/database";
-import {Observable} from "rxjs";
-import {AuthService} from "../providers/auth.service";
-import {Router} from "@angular/router";
-import {User} from "firebase";
+import {ApiInterfaceService} from '../providers/api-interface.service';
+import {AngularFireDatabase} from 'angularfire2/database';
+import {Observable} from 'rxjs';
+import {AuthService} from '../providers/auth.service';
+import {Router} from '@angular/router';
+import {User} from 'firebase';
 
 @Component({
     selector: 'app-home',
@@ -14,7 +14,7 @@ import {User} from "firebase";
 export class HomeComponent implements OnInit {
 
     // TODO: Remove once an actual API call is being made
-    apiTestMessage: string = 'API connection not established';
+    apiTestMessage = 'API connection not established';
     // TODO: Remove once an actual database call is being made
     firebaseTestObject: Observable<any>;
 
@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
         component.testApi();
 
         // TODO: Remove once an actual database call is being made
-        let testObject = this.db.object('test');
+        const testObject = this.db.object('test');
         component.firebaseTestObject = testObject.valueChanges();
 
         component.authService.onAuthStateChanged(function (auth) {
@@ -58,6 +58,10 @@ export class HomeComponent implements OnInit {
         component.apiInterfaceService.testApi(function (result) {
             component.apiTestMessage = result;
         });
+    }
+
+    createTemplate() {
+        this.router.navigate(['create']);
     }
 
     logout(): void {
