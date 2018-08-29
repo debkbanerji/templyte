@@ -14,6 +14,8 @@ import {CreateTemplateComponent} from './create-template/create-template.compone
 import {AngularFireStorage} from 'angularfire2/storage';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule, MatCardMdImage, MatCardModule} from "@angular/material";
+import {TodoListComponent} from "./todo-list/todolist.component"
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
@@ -27,7 +29,8 @@ const routes: Routes = [
         AppComponent,
         HomeComponent,
         LoginComponent,
-        CreateTemplateComponent
+        CreateTemplateComponent,
+        TodoListComponent
     ],
     imports: [
         AngularFireModule.initializeApp(config),
@@ -36,7 +39,8 @@ const routes: Routes = [
         HttpClientModule,
         MatButtonModule,
         MatCardModule,
-        RouterModule.forRoot(routes)
+        RouterModule.forRoot(routes),
+        FormsModule
     ],
     providers: [
         AngularFireAuth,
