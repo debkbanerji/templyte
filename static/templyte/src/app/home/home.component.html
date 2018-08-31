@@ -1,3 +1,4 @@
+<!--
 <p>
     Home component loaded
 </p>
@@ -7,7 +8,28 @@
 <p>
     {{(firebaseTestObject | async) || 'Database connection not established'}}
 </p>
-<!--
-<button (click)="createTemplate()">Create Template</button>
-<button (click)="logout()">Logout</button> -->
+
 <todo-list></todo-list>
+-->
+
+<!--<h6>Home component loaded</h6>-->
+<!--<h6>API Test message: -&#45;&#45; {{apiTestMessage}} </h6>-->
+<!--<h6>Database Connection Test message: -&#45;&#45;  {{(firebaseTestObject | async) || 'Database connection not established'}} </h6>-->
+<!--<create-template></create-template>-->
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="#" class="navbar-brand" style="font-size: xx-large ;font-weight: bold"> Template Upload Form</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Create Template</a></li>
+                <button (click)="logout()" class="btn btn-primary btn-sm" type="button">Logout with github</button>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--<button (click)="logout()" class="btn btn-primary btn-sm" type="button">Logout with github</button>-->
+<!--TODO:  need to link routes to the home, and create template links in nav bar-->
+

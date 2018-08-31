@@ -10,11 +10,10 @@ import {HttpClientModule} from '@angular/common/http';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth';
-import {CreateTemplateComponent} from './create-template/create-template.component';
+import {CreateTemplateComponent} from './create-template/createtemplate.component';
 import {AngularFireStorage} from 'angularfire2/storage';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule, MatCardMdImage, MatCardModule} from "@angular/material";
-import {TodoListComponent} from "./todo-list/todolist.component"
 import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
@@ -30,7 +29,6 @@ const routes: Routes = [
         HomeComponent,
         LoginComponent,
         CreateTemplateComponent,
-        TodoListComponent
     ],
     imports: [
         AngularFireModule.initializeApp(config),
