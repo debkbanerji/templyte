@@ -6,7 +6,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "node server.js",
-        "postinstall": "(cd static && cd templyte && npm install) && npm run rebuild-static",
+        "postinstall": "cd static && cd templyte && npm install && cd .. && cd .. && npm run rebuild-static",
         "rebuild-static": "(cd static && cd templyte && ng build --prod)",
         "development-gui": "(cd static && cd templyte && npm run develop)",
         "development-server": "nodemon server.js --DEVELOP"
