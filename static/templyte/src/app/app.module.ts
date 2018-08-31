@@ -10,11 +10,11 @@ import {HttpClientModule} from '@angular/common/http';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {AngularFireAuth} from 'angularfire2/auth';
-import {CreateTemplateComponent} from './create-template/createtemplate.component';
+import {CreateTemplateComponent} from './create-template/create-template.component';
 import {AngularFireStorage} from 'angularfire2/storage';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCardMdImage, MatCardModule} from "@angular/material";
-import { FormsModule } from '@angular/forms';
+import {MatButtonModule, MatCardModule} from '@angular/material';
+import {FormsModule} from '@angular/forms';
 
 const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},

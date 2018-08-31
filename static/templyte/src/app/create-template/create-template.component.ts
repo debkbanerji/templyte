@@ -7,8 +7,8 @@ import { OnInit } from '@angular/core';
     // TODO:  maybe I should rename this selector as app-createTemplate without hyphen in create Template
     // TODO: maybe  i need to create a model for the template later on, if the template object becomes more than a simple string.
     selector: 'create-template',
-    templateUrl: './createtemplate.component.html',
-    styleUrls: ['./createtemplate.component.css']
+    templateUrl: './create-template.component.html',
+    styleUrls: ['./create-template.component.css']
 })
 // TODO:  maybe I should rename this directory as createTemplate without hyphen
 export class CreateTemplateComponent  implements OnInit {
