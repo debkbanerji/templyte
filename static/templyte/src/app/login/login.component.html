@@ -1,4 +1,8 @@
-<p>
-  Login component loaded
-</p>
+<nav class="navbar">
+    <ul class="nav navbar-right">
+        <li><a href="/">Home</a></li>
+        <li><a href="/create">Create Template</a></li>
+        <li><button mat-raised-button (click)="logout()" class="btn btn-primary btn-sm" type="button">Logout with github</button></li>
+    </ul>
+</nav>
 <button (click)="login()">Login with GitHub</button>
