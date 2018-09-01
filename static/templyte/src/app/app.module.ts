@@ -15,6 +15,7 @@ import {AngularFireStorage} from 'angularfire2/storage';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule, MatCardModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
+import { UploadService } from './upload/upload.service';
 
 const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
@@ -44,7 +45,8 @@ const routes: Routes = [
         AngularFireAuth,
         AngularFireDatabase,
         AngularFireStorage,
-        ApiInterfaceService
+        ApiInterfaceService,
+        UploadService
     ],
     bootstrap: [
         AppComponent

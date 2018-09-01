@@ -17,13 +17,25 @@
         </div>
     </div>
 
+    <div *ngIf="currentUpload">
+        <div class="progress">
+          <div class="progress-bar progress-bar-animated" [ngStyle]="{ 'width': currentUpload?.progress + '%' }"></div>
+        </div>
+        Progress: {{currentUpload?.name}} | {{currentUpload?.progress}}% Complete
+      </div>
+
     <!--File Selection Form widget-->
     <!--TODO: V what happens to file selected info after selection?-->
     <form style="color: #f00;" id="uploadbanner" enctype="multipart/form-data" method="post" action="#">
         <div class="input-group">
-            <input id="fileupload" name="myfile" placeholder="Choose your file" type="file"/>
+            <input type="file" (change)="detectFiles($event)"/>
             <div class="input-group-btn">
-                <button class="btn btn-success btn-lg" value="Submit">Submit</button>
+                <button 
+                    [disabled]="!selectedFiles" 
+                    (click)="upload()" 
+                    class="btn btn-success btn-lg" 
+                    value="Submit">Submit
+                </button>
             </div>
         </div>
     </form>

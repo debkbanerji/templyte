@@ -1,8 +1,15 @@
-import { Component } from '@angular/core';
 import {AuthService} from '../providers/auth.service';
 import {Router} from '@angular/router';
 import {User} from 'firebase';
-import { OnInit } from '@angular/core';
+
+import {Component, OnInit, OnDestroy, ViewChild, ApplicationRef} from '@angular/core';
+import {NgForm} from '@angular/forms';
+
+import {AngularFireDatabase} from 'angularfire2/database';
+import * as firebase from 'firebase';
+
+import { UploadService, Upload } from '../upload/upload.service';
+import * as _ from "lodash";
 @Component({
     // TODO:  maybe I should rename this selector as app-createTemplate without hyphen in create Template
     // TODO: maybe  i need to create a model for the template later on, if the template object becomes more than a simple string.
@@ -19,9 +26,9 @@ export class CreateTemplateComponent  implements OnInit {
     firstFieldName = '';
     isEditItems: boolean = true;
 
-
     constructor(
         private authService: AuthService,
+        private upSvc: UploadService,
         private router: Router
     ) {
     }
@@ -61,5 +68,21 @@ export class CreateTemplateComponent  implements OnInit {
 
     logout(): void {
         this.authService.logout(null);
+    }
+
+    selectedFiles: FileList;
+    currentUpload: Upload;
+
+    detectFiles(event) {
+        console.log(event.target.files);
+        
+        this.selectedFiles = event.target.files;
+    }
+  
+    upload() {
+      let file = this.selectedFiles.item(0)
+      console.log('uploading')
+      this.currentUpload = new Upload(file);
+      this.upSvc.pushUpload(this.currentUpload)
     }
 }
