@@ -11,6 +11,18 @@
     <div class='row'>
         <div class='col-lg-12'>
             <h2 style="font-size: xx-large ;font-weight: bold; color: dodgerblue; font-family: Helvetica; align-content: left">
+                Template Name</h2>
+            <!--Blue Horizontal Header bar-->
+            <hr style="color: #f00;background-color: dodgerblue;height: 5px;">
+        </div>
+    </div>
+    <div class="row">
+        <input #name placeholder="My Awesome Template!">
+    </div>
+
+    <div class='row'>
+        <div class='col-lg-12'>
+            <h2 style="font-size: xx-large ;font-weight: bold; color: dodgerblue; font-family: Helvetica; align-content: left">
                 Select File</h2>
             <!--Blue Horizontal Header bar-->
             <hr style="color: #f00;background-color: dodgerblue;height: 5px;">
@@ -29,14 +41,6 @@
     <form style="color: #f00;" id="uploadbanner" enctype="multipart/form-data" method="post" action="#">
         <div class="input-group">
             <input type="file" (change)="detectFiles($event)"/>
-            <div class="input-group-btn">
-                <button 
-                    [disabled]="!selectedFiles" 
-                    (click)="upload()" 
-                    class="btn btn-success btn-lg" 
-                    value="Submit">Submit
-                </button>
-            </div>
         </div>
     </form>
 
@@ -47,7 +51,7 @@
     <div class='row'>
         <div class='col-lg-10'>
             <h2 style="font-size: xx-large ;font-weight: bold; color: dodgerblue; font-family: Helvetica; align-content: left">
-                Template Descriptor Items</h2>
+                Template Variables</h2>
         </div>
         <!--2 Buttons
         <td align="right">
@@ -61,6 +65,10 @@
         <table class="table col-sm-12">
             <tbody>
             <tr *ngFor="let field of fieldArray; let i = index">
+                <td class='col-lg-12'>
+                    <input [(ngModel)]="field.name" class="form-control" style="box-shadow:none" type="text" name="{{field.name}}"
+                           placeholder="Item Name">
+                </td>
                 <td class='col-lg-1'>
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -68,10 +76,7 @@
                         </div>
                     </div>
                 </td>
-                <td class='col-lg-12'>
-                    <input [(ngModel)]="field.name" class="form-control" style="box-shadow:none" type="text" name="{{field.name}}"
-                           placeholder="Item Name">
-                </td>
+                
             </tr>
             </tbody>
             <tfoot>
@@ -86,9 +91,48 @@
             </tr>
             </tfoot>
         </table>
+
+        <!--Template tags section begins-->
+    <div class='row'>
+        <div class='col-lg-12'>
+            <h2 style="font-size: xx-large ;font-weight: bold; color: dodgerblue; font-family: Helvetica; align-content: left">
+                Template Tags</h2>
+            <!--Blue Horizontal Header bar-->
+            <hr style="color: #f00;background-color: dodgerblue;height: 5px;">
+        </div>
+    </div>
+    <div class="row" *ngFor="let tag of tagArray; let i = index">
+        <!--TODO: Figure out why the tag inputs render next to each other rater than under each other-->
+        <br/>
+        <input placeholder="Tag name">
+        <button (click)="deleteTag(i)">Delete</button>
+    </div>
+    <div>
+        <button (click)="onAddTag()">Add Tag</button>            
+    </div>
+
+        <div class="row">
+            <h2>Rendered File Endings</h2>
+            <h4>Pick the file endings for files that have template variables in them</h4>
+            <br/>
+            <input #fileEndings value=".txt, .ts, .java, etc.">
+        </div>
+
     </div>
     <br/>
     <!--Blue Horizontal Header bar-->
     <hr style="color: #f00;background-color: dodgerblue;height: 5px;">
     <br/>
+
+    <div class="input-group-btn">
+        <!--TODO: Figure out best way to get tag values over to the upload service-
+        because we don't know how many tags there are I don't know how to call the saveMetadata() function -->
+        <!--TODO: Move the submit button to the bottom of he page rather than halfway through-->
+        <button 
+            [disabled]="!selectedFiles" 
+            (click)="upload(); saveMetadata(name.value, fileEndings.value)" 
+            class="btn btn-success btn-lg" 
+            value="Submit">Submit
+        </button>
+    </div>
 </div>

@@ -19,7 +19,10 @@ import * as _ from "lodash";
 })
 // TODO:  maybe I should rename this directory as createTemplate without hyphen
 export class CreateTemplateComponent  implements OnInit {
+    templateName: String = "A Template";
     fieldArray: Array<any> = [];
+    tagArray: Array<String> = [];
+    fileEndings: String = "";
     newAttribute: any = {};
     user: User = null;
     firstField = false;
@@ -78,11 +81,21 @@ export class CreateTemplateComponent  implements OnInit {
         
         this.selectedFiles = event.target.files;
     }
+
+    saveMetadata(templateName: String, fileEndings: String, ...restOfTags: String[]) {
+        this.templateName = templateName;
+        this.fileEndings = fileEndings;
+        this.tagArray = restOfTags;
+    }
   
     upload() {
       let file = this.selectedFiles.item(0)
       console.log('uploading')
       this.currentUpload = new Upload(file);
       this.upSvc.pushUpload(this.currentUpload)
+    }
+
+    onAddTag() {
+        this.tagArray.push("");
     }
 }
