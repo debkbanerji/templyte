@@ -1,14 +1,19 @@
 <!--<p>-->
     <!--{{(firebaseTestObject | async) || 'Database connection not established'}}-->
 <!--</p>-->
-<!--<mat-toolbar>-->
-    <!--<span>Templyte</span>-->
-<!--</mat-toolbar>-->
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
+    <a class="navbar-brand" href="#">
+        <img src="assets/img/templyte_favicon.png" alt="Logo" style="width:40px;">
+    </a>
+    <button (click)="logout()">Logout</button>
+</nav>
 
 <header>
-    <div class="container-fluid">
-        <h1>Welcome to Templyte</h1>
-        <h3>The place to find ready-to-code repositories</h3>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <img src="assets/img/logo.png">
+            <h1>Welcome to Templyte</h1>
+            <h3>The place to find ready-to-code repositories</h3>
+        </div>
     </div>
 </header>
-<button (click)="logout()">Logout</button>

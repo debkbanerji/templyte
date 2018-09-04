@@ -11,7 +11,6 @@ import {AngularFireModule} from "angularfire2";
 import {AngularFireDatabase} from "angularfire2/database";
 import {AngularFireAuth} from "angularfire2/auth";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatToolbarModule} from '@angular/material';
 
 const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
