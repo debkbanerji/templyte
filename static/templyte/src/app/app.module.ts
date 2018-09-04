@@ -10,6 +10,8 @@ import {HttpClientModule} from "@angular/common/http";
 import {AngularFireModule} from "angularfire2";
 import {AngularFireDatabase} from "angularfire2/database";
 import {AngularFireAuth} from "angularfire2/auth";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatToolbarModule} from '@angular/material';
 
 const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
@@ -27,7 +29,8 @@ const routes: Routes = [
         AngularFireModule.initializeApp(config),
         BrowserModule,
         HttpClientModule,
-        RouterModule.forRoot(routes)
+        RouterModule.forRoot(routes),
+        BrowserAnimationsModule,
     ],
     providers: [
         AngularFireAuth,
