@@ -56,16 +56,16 @@
     <div class="row">
         <table class="table col-sm-12">
             <tbody>
-            <tr *ngFor="let field of fieldArray; let i = index">
+            <tr *ngFor="let variable of variableArray; let i = index">
                 <td class='col-lg-12'>
-                    <input [(ngModel)]="field.name" class="form-control" style="box-shadow:none" type="text"
-                           name="{{field.name}}"
+                    <input [(ngModel)]="variable.name" class="form-control" style="box-shadow:none" type="text"
+                           name="{{variable.name}}"
                            placeholder="Item Name">
                 </td>
                 <td class='col-lg-1'>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            <button (click)="deleteFieldValue(i)" class="btn btn-primary btn-sm" type="button">Delete
+                            <button (click)="deleteVariableValue(i)" class="btn btn-primary btn-sm" type="button">Delete
                             </button>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
             <tfoot>
             <tr>
                 <td colspan="5" style="text-align: center;">
-                    <button class="btn btn-success btn-sm" type="button" (click)="addFieldValue()"
+                    <button class="btn btn-success btn-sm" type="button" (click)="addVariableValue()"
                             style="margin-right:10px">Add Item
                     </button>
                 </td>

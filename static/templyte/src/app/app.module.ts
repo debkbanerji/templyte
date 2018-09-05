@@ -17,6 +17,7 @@ import {MatButtonModule, MatCardModule, MatDialogModule} from '@angular/material
 import {FormsModule} from '@angular/forms';
 import {UploadService} from './upload/upload.service';
 import { InputValidateDialogComponent } from './input-validate-dialog/input-validate-dialog.component';
+import { UploadSuccessDialogComponent } from './upload-success-dialog/upload-success-dialog.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
@@ -31,7 +32,8 @@ const routes: Routes = [
         HomeComponent,
         LoginComponent,
         CreateTemplateComponent,
-        InputValidateDialogComponent
+        InputValidateDialogComponent,
+        UploadSuccessDialogComponent
     ],
     imports: [
         AngularFireModule.initializeApp(config),
@@ -53,7 +55,8 @@ const routes: Routes = [
     ],
     bootstrap: [
         AppComponent,
-        InputValidateDialogComponent
+        InputValidateDialogComponent,
+        UploadSuccessDialogComponent
     ]
 })
 export class AppModule {

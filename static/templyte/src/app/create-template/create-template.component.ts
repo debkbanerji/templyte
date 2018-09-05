@@ -8,6 +8,7 @@ import {UploadService, Upload} from '../upload/upload.service';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {MatDialog} from '@angular/material/dialog';
 import { InputValidateDialogComponent } from '../input-validate-dialog/input-validate-dialog.component';
+import { UploadSuccessDialogComponent } from '../upload-success-dialog/upload-success-dialog.component';
 
 @Component({
     selector: 'create-template',
@@ -24,7 +25,7 @@ export class CreateTemplateComponent implements OnInit {
 
 
     templateName: String = null;
-    fieldArray: Array<any> = [];
+    variableArray: Array<any> = [];
     tagArray: Array<any> = [];
     fileEndingsArray: Array<any> = [];
 
@@ -50,13 +51,13 @@ export class CreateTemplateComponent implements OnInit {
         });
     }
 
-    addFieldValue() {
-        this.fieldArray.push(this.newAttribute);
+    addVariableValue() {
+        this.variableArray.push(this.newAttribute);
         this.newAttribute = {};
     }
 
-    deleteFieldValue(index) {
-        this.fieldArray.splice(index, 1);
+    deleteVariableValue(index) {
+        this.variableArray.splice(index, 1);
     }
 
     goHome() {
@@ -92,7 +93,7 @@ export class CreateTemplateComponent implements OnInit {
                     const directoryObject = component.db.object('template-directory/'+targetKey);
                     directoryObject.set({
                         'templateName' : component.templateName,
-                        'variables' : component.fieldArray,
+                        'variables' : component.variableArray,
                         'tags' : component.tagArray,
                         'fileEndings' : component.fileEndingsArray,
                         'authorName' : component.user.displayName,
@@ -101,12 +102,14 @@ export class CreateTemplateComponent implements OnInit {
                     }).then(()=>{console.log('TODO: Handle potential errors')});
                 });
             });
+            this.dialog.open(UploadSuccessDialogComponent, {
+                width: '250px'
+              });
+            component.router.navigate(['home']);
         }
     }
 
     validateInput() {
-        //TODO: check to make sure name, file, and at least one variable has been filled out before upload
-        //If not, make a popup with a specific message saying which thing is missing
         let returnVal: Boolean = true;
         if (!this.templateName) { //will evaluate to true if templateName is an empty string, for more info google 'typescript truthiness'
             returnVal = false;
@@ -115,7 +118,7 @@ export class CreateTemplateComponent implements OnInit {
                 data: {message: "Please enter a name for your template."}
               });
         }
-        if (this.fieldArray.length == 0) {
+        if (this.variableArray.length == 0) {
             returnVal = false;
             this.dialog.open(InputValidateDialogComponent, {
                 width: '250px',
