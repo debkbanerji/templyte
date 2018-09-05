@@ -1,21 +1,16 @@
 import {Injectable} from '@angular/core';
-import {AngularFireAuth} from 'angularfire2/auth';
 import * as firebase from 'firebase';
-import {NgForm} from '@angular/forms';
 import {AngularFireDatabase} from 'angularfire2/database';
-import { AngularFireModule } from 'angularfire2';
-import {FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database-deprecated';
+import {AngularFireModule} from 'angularfire2';
 
 export class Upload {
 
-    $key: string;
-    file:File;
-    name:string;
+    file: File;
+    name: string;
     userUID: string;
-    progress:number;
-    createdAt: Date = new Date();
+    progress: number;
 
-    constructor(file:File) {
+    constructor(file: File) {
         this.file = file;
     }
 }
@@ -23,37 +18,36 @@ export class Upload {
 @Injectable()
 export class UploadService {
 
-    constructor(private af: AngularFireModule, private db: AngularFireDatabase) { }
+    constructor(private af: AngularFireModule, private db: AngularFireDatabase) {
+    }
 
-    private basePath:string = '/uploads';
-    uploads: FirebaseListObservable<Upload[]>;
+    private basePath = '/uploads';
 
     pushUpload(upload: Upload) {
-        let storageRef = firebase.storage().ref();
-        let uploadTask = storageRef.child(`${this.basePath}/users/${upload.userUID}/${upload.file.name}`).put(upload.file);
+        const storageRef = firebase.storage().ref();
+        const uploadTask = storageRef.child(`${this.basePath}/users/${upload.userUID}/${upload.file.name}`).put(upload.file);
 
         uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-        (snapshot) =>  {
-            // upload in progress
-            var snapshotRef = snapshot as firebase.storage.UploadTaskSnapshot;
-            var bytesTransferred = (snapshotRef).bytesTransferred;
-            var totalBytes = (snapshotRef).totalBytes;
-            upload.progress = (bytesTransferred / totalBytes) * 100
-        },
-        (error) => {
-            // upload failed
-            console.log(error)
-        },
-        () => {
-            // upload success
-            upload.name = upload.file.name
-            this.saveFileData(upload)
-        }
+            (snapshot) => {
+                // upload in progress
+                const snapshotRef = snapshot as firebase.storage.UploadTaskSnapshot;
+                const bytesTransferred = (snapshotRef).bytesTransferred;
+                const totalBytes = (snapshotRef).totalBytes;
+                upload.progress = (bytesTransferred / totalBytes) * 100;
+            },
+            (error) => {
+                // upload failed
+                console.log(error);
+            },
+            () => {
+                // upload success
+                upload.name = upload.file.name;
+                this.saveFileData(upload);
+            }
         );
     }
-  
-  
-  
+
+
     // Writes the file details to the realtime db
     private saveFileData(upload: Upload) {
         this.db.list(`${this.basePath}/`).push(upload);

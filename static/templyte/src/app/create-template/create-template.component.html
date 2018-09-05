@@ -2,7 +2,11 @@
     <ul class="nav navbar-right">
         <li><a href="/">Home</a></li>
         <li><a href="/create">Create Template</a></li>
-        <li><button mat-raised-button (click)="logout()" class="btn btn-primary btn-sm" type="button">Logout with github</button></li>
+        <li>
+            <button mat-raised-button (click)="logout()" class="btn btn-primary btn-sm" type="button">Logout with
+                github
+            </button>
+        </li>
     </ul>
 </nav>
 
@@ -12,8 +16,6 @@
         <div class='col-lg-12'>
             <h2 style="font-size: xx-large ;font-weight: bold; color: dodgerblue; font-family: Helvetica; align-content: left">
                 Template Name</h2>
-            <!--Blue Horizontal Header bar-->
-            <hr style="color: #f00;background-color: dodgerblue;height: 5px;">
         </div>
     </div>
     <div class="row">
@@ -24,20 +26,17 @@
         <div class='col-lg-12'>
             <h2 style="font-size: xx-large ;font-weight: bold; color: dodgerblue; font-family: Helvetica; align-content: left">
                 Select File</h2>
-            <!--Blue Horizontal Header bar-->
-            <hr style="color: #f00;background-color: dodgerblue;height: 5px;">
         </div>
     </div>
 
     <div *ngIf="currentUpload">
         <div class="progress">
-          <div class="progress-bar progress-bar-animated" [ngStyle]="{ 'width': currentUpload?.progress + '%' }"></div>
+            <div class="progress-bar progress-bar-animated"
+                 [ngStyle]="{ 'width': currentUpload?.progress + '%' }"></div>
         </div>
         Progress: {{currentUpload?.name}} | {{currentUpload?.progress}}% Complete
-      </div>
+    </div>
 
-    <!--File Selection Form widget-->
-    <!--TODO: V what happens to file selected info after selection?-->
     <form style="color: #f00;" id="uploadbanner" enctype="multipart/form-data" method="post" action="#">
         <div class="input-group">
             <input type="file" (change)="detectFiles($event)"/>
@@ -47,18 +46,11 @@
     <br/>
     <br/>
 
-    <!--Template Descriptor Items section begins-->
     <div class='row'>
         <div class='col-lg-10'>
             <h2 style="font-size: xx-large ;font-weight: bold; color: dodgerblue; font-family: Helvetica; align-content: left">
                 Template Variables</h2>
         </div>
-        <!--2 Buttons
-        <td align="right">
-            <button (click)="onEditCloseItems()" class="btn btn-primary btn-sm" type="button">Save All Items</button>
-        </td>-->
-        <!--Blue Horizontal Header bar
-        <hr style="color: #f00;background-color: dodgerblue;height: 5px;"> -->
     </div>
 
     <div class="row">
@@ -66,17 +58,19 @@
             <tbody>
             <tr *ngFor="let field of fieldArray; let i = index">
                 <td class='col-lg-12'>
-                    <input [(ngModel)]="field.name" class="form-control" style="box-shadow:none" type="text" name="{{field.name}}"
+                    <input [(ngModel)]="field.name" class="form-control" style="box-shadow:none" type="text"
+                           name="{{field.name}}"
                            placeholder="Item Name">
                 </td>
                 <td class='col-lg-1'>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            <button (click)="deleteFieldValue(i)" class="btn btn-primary btn-sm" type="button">Delete</button>
+                            <button (click)="deleteFieldValue(i)" class="btn btn-primary btn-sm" type="button">Delete
+                            </button>
                         </div>
                     </div>
                 </td>
-                
+
             </tr>
             </tbody>
             <tfoot>
@@ -92,24 +86,20 @@
             </tfoot>
         </table>
 
-        <!--Template tags section begins-->
-    <div class='row'>
-        <div class='col-lg-12'>
-            <h2 style="font-size: xx-large ;font-weight: bold; color: dodgerblue; font-family: Helvetica; align-content: left">
-                Template Tags</h2>
-            <!--Blue Horizontal Header bar-->
-            <hr style="color: #f00;background-color: dodgerblue;height: 5px;">
+        <div class='row'>
+            <div class='col-lg-12'>
+                <h2 style="font-size: xx-large ;font-weight: bold; color: dodgerblue; font-family: Helvetica; align-content: left">
+                    Template Tags</h2>
+            </div>
         </div>
-    </div>
-    <div class="row" *ngFor="let tag of tagArray; let i = index">
-        <!--TODO: Figure out why the tag inputs render next to each other rater than under each other-->
-        <br/>
-        <input placeholder="Tag name">
-        <button (click)="deleteTag(i)">Delete</button>
-    </div>
-    <div>
-        <button (click)="onAddTag()">Add Tag</button>            
-    </div>
+        <div class="row" *ngFor="let tag of tagArray; let i = index">
+            <br/>
+            <input placeholder="Tag name">
+            <button (click)="deleteTag(i)">Delete</button>
+        </div>
+        <div>
+            <button (click)="onAddTag()">Add Tag</button>
+        </div>
 
         <div class="row">
             <h2>Rendered File Endings</h2>
@@ -120,18 +110,13 @@
 
     </div>
     <br/>
-    <!--Blue Horizontal Header bar-->
-    <hr style="color: #f00;background-color: dodgerblue;height: 5px;">
     <br/>
 
     <div class="input-group-btn">
-        <!--TODO: Figure out best way to get tag values over to the upload service-
-        because we don't know how many tags there are I don't know how to call the saveMetadata() function -->
-        <!--TODO: Move the submit button to the bottom of he page rather than halfway through-->
-        <button 
-            [disabled]="!selectedFiles" 
-            (click)="upload(); saveMetadata(name.value, fileEndings.value)" 
-            class="btn btn-success btn-lg" 
+        <button
+            [disabled]="!selectedFiles"
+            (click)="upload(); saveMetadata(name.value, fileEndings.value)"
+            class="btn btn-success btn-lg"
             value="Submit">Submit
         </button>
     </div>

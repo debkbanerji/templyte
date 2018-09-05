@@ -1,23 +1,11 @@
-<!--<p>
-    {{apiTestMessage}}
-</p>
-<p>
-    {{(firebaseTestObject | async) || 'Database connection not established'}}
-</p>-->
-
 <nav class="navbar">
-            <ul class="nav navbar-right">
-                <li><a href="/">Home</a></li>
-                <li><a href="/create">Create Template</a></li>
-                <li><button mat-raised-button (click)="logout()" class="btn btn-primary btn-sm" type="button">Logout with github</button></li>
-            </ul>
+    <ul class="nav navbar-right">
+        <li><a href="/">Home</a></li>
+        <li><a href="/create">Create Template</a></li>
+        <li>
+            <button mat-raised-button (click)="logout()" class="btn btn-primary btn-sm" type="button">Logout with
+                github
+            </button>
+        </li>
+    </ul>
 </nav>
-
-<!--<h6>Home component loaded</h6>-->
-<!--<h6>API Test message: -&#45;&#45; {{apiTestMessage}} </h6>-->
-<!--<h6>Database Connection Test message: -&#45;&#45;  {{(firebaseTestObject | async) || 'Database connection not established'}} </h6>-->
-<!--<create-template></create-template>-->
-
-<!--<button (click)="logout()" class="btn btn-primary btn-sm" type="button">Logout with github</button>-->
-<!--TODO:  need to link routes to the home, and create template links in nav bar-->
-
