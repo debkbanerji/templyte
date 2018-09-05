@@ -5,6 +5,7 @@ import {User} from 'firebase';
 import {Component, OnInit} from '@angular/core';
 
 import {UploadService, Upload} from '../upload/upload.service';
+import {AngularFireDatabase} from 'angularfire2/database';
 
 @Component({
     selector: 'create-template',
@@ -12,18 +13,24 @@ import {UploadService, Upload} from '../upload/upload.service';
     styleUrls: ['./create-template.component.css']
 })
 export class CreateTemplateComponent implements OnInit {
-    templateName: String = null;
-    fieldArray: Array<any> = [];
-    tagArray: Array<String> = [];
-    newAttribute: any = {};
     user: User = null;
     selectedFiles: FileList;
     currentUpload: Upload;
 
+    // TODO: Figure out if we need this
+    newAttribute: any = {};
+
+
+    templateName: String = null;
+    fieldArray: Array<any> = [];
+    tagArray: Array<any> = [];
+    fileEndingsArray: Array<any> = [];
+
     constructor(
         private authService: AuthService,
-        private upSvc: UploadService,
-        private router: Router
+        private db: AngularFireDatabase,
+        private router: Router,
+        private upSvc: UploadService
     ) {
     }
 
@@ -73,10 +80,18 @@ export class CreateTemplateComponent implements OnInit {
 
 
     createTemplate() {
-        // TODO: Implement
         const component = this;
-        this.upload(function(uploadURL) {
-            console.log(uploadURL);
+        this.upload(function(templateUrl) {
+            console.log(templateUrl);
+            const targetTemplateUrl = templateUrl;
+            const renderInfoObject = component.db.list('template-render-info');
+            renderInfoObject.push({
+                'template-url': targetTemplateUrl
+            }).then((renderInfoResult) => {
+                const targetKey = renderInfoResult.key;
+                const directoryObject = component.db.object('template-directory/'+targetKey);
+                directoryObject.set({'junk':'junk'}).then(()=>{console.log('TODO: Handle potential errors')});
+            });
         });
     }
 }

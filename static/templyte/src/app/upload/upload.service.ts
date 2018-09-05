@@ -43,7 +43,6 @@ export class UploadService {
                 // upload success
                 upload.name = upload.file.name;
                 uploadTask.snapshot.ref.getDownloadURL().then((url)=>{callback(url)});
-                // callback();
             }
         );
     }
