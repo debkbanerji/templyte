@@ -13,9 +13,10 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {CreateTemplateComponent} from './create-template/create-template.component';
 import {AngularFireStorage} from 'angularfire2/storage';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCardModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatDialogModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
 import {UploadService} from './upload/upload.service';
+import { InputValidateDialogComponent } from './input-validate-dialog/input-validate-dialog.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
@@ -30,6 +31,7 @@ const routes: Routes = [
         HomeComponent,
         LoginComponent,
         CreateTemplateComponent,
+        InputValidateDialogComponent
     ],
     imports: [
         AngularFireModule.initializeApp(config),
@@ -38,6 +40,7 @@ const routes: Routes = [
         HttpClientModule,
         MatButtonModule,
         MatCardModule,
+        MatDialogModule,
         RouterModule.forRoot(routes),
         FormsModule
     ],
@@ -49,7 +52,8 @@ const routes: Routes = [
         UploadService
     ],
     bootstrap: [
-        AppComponent
+        AppComponent,
+        InputValidateDialogComponent
     ]
 })
 export class AppModule {
