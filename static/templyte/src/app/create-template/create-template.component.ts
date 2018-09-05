@@ -70,7 +70,7 @@ export class CreateTemplateComponent implements OnInit {
     upload(callback) {
         const component = this;
         const file = component.selectedFiles.item(0);
-        component.currentUpload = new Upload(file);
+        component.currentUpload = new Upload(file, component.user.uid);
         component.upSvc.pushUpload(component.currentUpload, callback);
     }
 
@@ -93,5 +93,5 @@ export class CreateTemplateComponent implements OnInit {
                 directoryObject.set({'junk':'junk'}).then(()=>{console.log('TODO: Handle potential errors')});
             });
         });
-    }
-}
+    }   
+} 
