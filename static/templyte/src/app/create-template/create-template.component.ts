@@ -12,13 +12,11 @@ import {UploadService, Upload} from '../upload/upload.service';
     styleUrls: ['./create-template.component.css']
 })
 export class CreateTemplateComponent implements OnInit {
-    templateName: String = 'A Template';
+    templateName: String = null;
     fieldArray: Array<any> = [];
     tagArray: Array<String> = [];
-    fileEndings: String = '';
     newAttribute: any = {};
     user: User = null;
-    isEditItems = true;
     selectedFiles: FileList;
     currentUpload: Upload;
 
@@ -49,15 +47,6 @@ export class CreateTemplateComponent implements OnInit {
         this.fieldArray.splice(index, 1);
     }
 
-    onEditCloseItems() {
-        this.isEditItems = !this.isEditItems;
-    }
-
-    createTemplate() {
-        // TODO: Implement
-        console.log('TODO: Upload template');
-    }
-
     goHome() {
         this.router.navigate(['']);
     }
@@ -71,19 +60,21 @@ export class CreateTemplateComponent implements OnInit {
         this.selectedFiles = event.target.files;
     }
 
-    saveMetadata(templateName: String, fileEndings: String, ...restOfTags: String[]) {
-        this.templateName = templateName;
-        this.fileEndings = fileEndings;
-        this.tagArray = restOfTags;
-    }
-
     upload() {
-        const file = this.selectedFiles.item(0);
-        this.currentUpload = new Upload(file);
-        this.upSvc.pushUpload(this.currentUpload);
+        const component = this;
+        const file = component.selectedFiles.item(0);
+        component.currentUpload = new Upload(file);
+        component.upSvc.pushUpload(component.currentUpload);
     }
 
     onAddTag() {
         this.tagArray.push('');
+    }
+
+
+    createTemplate() {
+        // TODO: Implement
+        const component = this;
+        this.upload();
     }
 }

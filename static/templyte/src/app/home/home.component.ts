@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ApiInterfaceService} from '../providers/api-interface.service';
 import {AngularFireDatabase} from 'angularfire2/database';
-import {Observable} from 'rxjs';
 import {AuthService} from '../providers/auth.service';
 import {Router} from '@angular/router';
 import {User} from 'firebase';

@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="row">
-        <input #name placeholder="My Awesome Template!">
+        <input [(ngModel)]="templateName" placeholder="My Awesome Template!">
     </div>
 
     <div class='row'>
@@ -79,8 +79,6 @@
                     <button class="btn btn-success btn-sm" type="button" (click)="addFieldValue()"
                             style="margin-right:10px">Add Item
                     </button>
-                    <button (click)="onEditCloseItems()" class="btn btn-primary btn-sm" type="button">Save All Items
-                    </button>
                 </td>
             </tr>
             </tfoot>
@@ -92,6 +90,7 @@
                     Template Tags</h2>
             </div>
         </div>
+        <!--TODO: Replace with variable list logic-->
         <div class="row" *ngFor="let tag of tagArray; let i = index">
             <br/>
             <input placeholder="Tag name">
@@ -115,7 +114,7 @@
     <div class="input-group-btn">
         <button
             [disabled]="!selectedFiles"
-            (click)="upload(); saveMetadata(name.value, fileEndings.value)"
+            (click)="createTemplate()"
             class="btn btn-success btn-lg"
             value="Submit">Submit
         </button>
