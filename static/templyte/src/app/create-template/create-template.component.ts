@@ -67,6 +67,16 @@ export class CreateTemplateComponent implements OnInit {
         this.selectedFiles = event.target.files;
     }
 
+<<<<<<< HEAD
+=======
+    upload(callback) {
+        const component = this;
+        const file = component.selectedFiles.item(0);
+        component.currentUpload = new Upload(file, component.user.uid);
+        component.upSvc.pushUpload(component.currentUpload, callback);
+    }
+
+>>>>>>> create-template
     onAddTag() {
         this.tagArray.push('');
     }
@@ -95,6 +105,7 @@ export class CreateTemplateComponent implements OnInit {
                 }).then(()=>{console.log('TODO: Handle potential errors')});
             });
         });
+<<<<<<< HEAD
     }
 
     validateInput() {
@@ -109,3 +120,7 @@ export class CreateTemplateComponent implements OnInit {
         component.upSvc.pushUpload(component.currentUpload, callback);
     }
 }
+=======
+    }   
+} 
+>>>>>>> create-template

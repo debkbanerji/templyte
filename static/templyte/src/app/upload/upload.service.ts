@@ -10,8 +10,9 @@ export class Upload {
     userUID: string;
     progress: number;
 
-    constructor(file: File) {
+    constructor(file: File, userUID: string) {
         this.file = file;
+        this.userUID = userUID;
     }
 }
 
