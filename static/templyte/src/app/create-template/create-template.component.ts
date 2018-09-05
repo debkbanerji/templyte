@@ -67,21 +67,15 @@ export class CreateTemplateComponent implements OnInit {
         this.selectedFiles = event.target.files;
     }
 
-    upload(callback) {
-        const component = this;
-        const file = component.selectedFiles.item(0);
-        component.currentUpload = new Upload(file);
-        component.upSvc.pushUpload(component.currentUpload, callback);
-    }
-
     onAddTag() {
         this.tagArray.push('');
     }
 
 
-    createTemplate() {
-        const component = this;
-        this.upload(function(templateUrl) {
+    uploadTemplate() {
+        const component = this; /*reference data from the current typescript component as 'component'
+            from within the upload function callbacks because 'this' will refer to the current function being executed*/
+        this.uploadFile(function(templateUrl) {
             console.log(templateUrl);
             const targetTemplateUrl = templateUrl;
             const renderInfoObject = component.db.list('template-render-info');
@@ -90,8 +84,28 @@ export class CreateTemplateComponent implements OnInit {
             }).then((renderInfoResult) => {
                 const targetKey = renderInfoResult.key;
                 const directoryObject = component.db.object('template-directory/'+targetKey);
-                directoryObject.set({'junk':'junk'}).then(()=>{console.log('TODO: Handle potential errors')});
+                directoryObject.set({
+                    'templateName' : component.templateName,
+                    'variables' : component.fieldArray,
+                    'tags' : component.tagArray,
+                    'fileEndings' : component.fileEndingsArray,
+                    'authorName' : component.user.displayName,
+                    'authorUID' : component.user.uid,
+                    'authorPhotoUrl' : component.user.photoURL
+                }).then(()=>{console.log('TODO: Handle potential errors')});
             });
         });
+    }
+
+    validateInput() {
+        //TODO: check to make sure name, file, and at least one variable has been filled out before upload
+        //If not, make a popup with a specific message saying which thing is missing
+    }
+
+    uploadFile(callback) {
+        const component = this;
+        const file = component.selectedFiles.item(0);
+        component.currentUpload = new Upload(file);
+        component.upSvc.pushUpload(component.currentUpload, callback);
     }
 }
