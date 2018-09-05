@@ -23,7 +23,7 @@ export class UploadService {
 
     private basePath = '/uploads';
 
-    pushUpload(upload: Upload) {
+    pushUpload(upload: Upload, callback) {
         const storageRef = firebase.storage().ref();
         const uploadTask = storageRef.child(`${this.basePath}/users/${upload.userUID}/${upload.file.name}`).put(upload.file);
 
@@ -42,14 +42,9 @@ export class UploadService {
             () => {
                 // upload success
                 upload.name = upload.file.name;
-                this.saveFileData(upload);
+                uploadTask.snapshot.ref.getDownloadURL().then((url)=>{callback(url)});
+                // callback();
             }
         );
-    }
-
-
-    // Writes the file details to the realtime db
-    private saveFileData(upload: Upload) {
-        this.db.list(`${this.basePath}/`).push(upload);
     }
 }

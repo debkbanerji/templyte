@@ -60,11 +60,11 @@ export class CreateTemplateComponent implements OnInit {
         this.selectedFiles = event.target.files;
     }
 
-    upload() {
+    upload(callback) {
         const component = this;
         const file = component.selectedFiles.item(0);
         component.currentUpload = new Upload(file);
-        component.upSvc.pushUpload(component.currentUpload);
+        component.upSvc.pushUpload(component.currentUpload, callback);
     }
 
     onAddTag() {
@@ -75,6 +75,8 @@ export class CreateTemplateComponent implements OnInit {
     createTemplate() {
         // TODO: Implement
         const component = this;
-        this.upload();
+        this.upload(function(uploadURL) {
+            console.log(uploadURL);
+        });
     }
 }
