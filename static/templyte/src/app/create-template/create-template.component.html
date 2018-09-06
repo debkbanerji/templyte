@@ -61,6 +61,9 @@
                     <input [(ngModel)]="variable.name" class="form-control" style="box-shadow:none" type="text"
                            name="{{variable.name}}"
                            placeholder="Item Name">
+                    <input [(ngModel)]="variable.description" class="form-control" style="box-shadow:none" type="text"
+                           name="{{variable.description}}"
+                           placeholder="Item Description">
                 </td>
                 <td class='col-lg-1'>
                     <div class="input-group">
@@ -90,7 +93,74 @@
                     Template Tags</h2>
             </div>
         </div>
-        <!--TODO: Replace with variable list logic-->
+        <!-- tag form widget here -->
+        <table class="table col-sm-12">
+            <tbody>
+            <tr *ngFor="let variable of tagArray; let i = index">
+                <td class='col-lg-12'>
+                    <input [(ngModel)]="tag.name" class="form-control" style="box-shadow:none" type="text"
+                           name="{{tag.name}}"
+                           placeholder="insert tag here">
+                </td>
+                <td class='col-lg-1'>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <button (click)="deleteTagValue(i)" class="btn btn-primary btn-sm" type="button">Delete
+                            </button>
+                        </div>
+                    </div>
+                </td>
+
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="5" style="text-align: center;">
+                    <button class="btn btn-success btn-sm" type="button" (click)="addTagValue()"
+                            style="margin-right:10px">NewTags
+                    </button>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+
+        <!-- tag file endings widget here -->
+        <div class='row'>
+            <div class='col-lg-12'>
+                <h2 style="font-size: xx-large ;font-weight: bold; color: dodgerblue; font-family: Helvetica; align-content: left">
+                    File Endings</h2>
+            </div>
+        </div>
+        <table class="table col-sm-12">
+            <tbody>
+            <tr *ngFor="let variable of fileEndingsArray; let i = index">
+                <td class='col-lg-12'>
+                    <input [(ngModel)]="fileEndings.name" class="form-control" style="box-shadow:none" type="text"
+                           name="{{fileEndings.name}}"
+                           placeholder="insert file ending here">
+                </td>
+                <td class='col-lg-1'>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <button (click)="deleteFileEndingsValue(i)" class="btn btn-primary btn-sm" type="button">Delete
+                            </button>
+                        </div>
+                    </div>
+                </td>
+
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="5" style="text-align: center;">
+                    <button class="btn btn-success btn-sm" type="button" (click)="addFileEndingsValue()"
+                            style="margin-right:10px">NewFileEndings
+                    </button>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+        <!--TODO: Replace with variable list logic
         <div class="row" *ngFor="let tag of tagArray; let i = index">
             <br/>
             <input placeholder="Tag name">
@@ -106,6 +176,7 @@
             <br/>
             <input #fileEndings value=".txt, .ts, .java, etc.">
         </div>
+        -->
 
     </div>
     <br/>

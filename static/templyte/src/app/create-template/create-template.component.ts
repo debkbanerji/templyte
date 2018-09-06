@@ -60,6 +60,24 @@ export class CreateTemplateComponent implements OnInit {
         this.variableArray.splice(index, 1);
     }
 
+    deleteTagValue(index) {
+        this.tagArray.splice(index, 1);
+    }
+
+    addTagValue() {
+        this.tagArray.push(this.newAttribute);
+        this.newAttribute = {};
+    }
+
+    deleteFileEndingsValue(index) {
+        this.fileEndingsArray.splice(index, 1);
+    }
+
+    addFileEndingsValue() {
+        this.fileEndingsArray.push(this.newAttribute);
+        this.newAttribute = {};
+    }
+
     goHome() {
         this.router.navigate(['']);
     }
