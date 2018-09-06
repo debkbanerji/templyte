@@ -1,32 +1,22 @@
 <nav class="navbar">
     <ul class="nav navbar-right">
-        <li><a (click)="goHome()">Home</a></li>
-        <li>
-            <button mat-raised-button (click)="logout()">Logout
-            </button>
-        </li>
+        <li><button mat-raised-button (click)="goHome()">Home</button></li>
+        <li><button mat-raised-button>Create Template</button> </li>
+        <li><button mat-raised-button (click)="logout()">Logout</button></li>
     </ul>
 </nav>
 
+<mat-card class="card-upload">
+    <mat-card-header>
+        <mat-card-title>
+            <h1>Upload a Template</h1>
+        </mat-card-title>
+    </mat-card-header>
 <div class="container">
+    <input class="form-control" id="template-name-input" matInput [(ngModel)]="templateName"  placeholder="What is the name of your template?" value="My Awesome Template!">
 
-    <div class='row'>
-        <div class='col-lg-12'>
-            <h2>
-                Template Name</h2>
-        </div>
-    </div>
-    <div class="row">
-        <input [(ngModel)]="templateName" placeholder="My Awesome Template!">
-    </div>
 
-    <div class='row'>
-        <div class='col-lg-12'>
-            <h2>
-                Select File</h2>
-        </div>
-    </div>
-
+    <h6>Select File</h6>
     <div *ngIf="currentUpload">
         <div class="progress">
             <div class="progress-bar progress-bar-animated"
@@ -36,22 +26,12 @@
     </div>
 
     <form>
-        <div class="input-group">
+        <div class="input-group" id="input-file">
             <input type="file" (change)="detectFiles($event)"/>
         </div>
     </form>
+    <h6>Template Variables</h6>
 
-    <br/>
-    <br/>
-
-    <div class='row'>
-        <div class='col-lg-10'>
-            <h2>
-                Template Variables</h2>
-        </div>
-    </div>
-
-    <div class="row">
         <table class="table col-sm-12">
             <tbody>
             <tr *ngFor="let variable of variableArray; let i = index">
@@ -66,7 +46,7 @@
                 <td class='col-lg-1'>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            <button (click)="deleteVariableValue(i)">Delete
+                            <button mat-flat-button color="accent" (click)="deleteVariableValue(i)">Delete
                             </button>
                         </div>
                     </div>
@@ -77,7 +57,7 @@
             <tfoot>
             <tr>
                 <td colspan="5">
-                    <button (click)="addVariableValue()"
+                    <button mat-flat-button color="primary"(click)="addVariableValue()"
                     >Add Item
                     </button>
                 </td>
@@ -85,12 +65,7 @@
             </tfoot>
         </table>
 
-        <div class='row'>
-            <div class='col-lg-12'>
-                <h2>
-                    Template Tags</h2>
-            </div>
-        </div>
+        <h6>Template Tags</h6>
         <!-- tag form widget here -->
         <table class="table col-sm-12">
             <tbody>
@@ -103,7 +78,7 @@
                 <td class='col-lg-1'>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            <button (click)="deleteTagValue(i)">Delete
+                            <button mat-flat-button color="accent" (click)="deleteTagValue(i)">Delete
                             </button>
                         </div>
                     </div>
@@ -114,7 +89,7 @@
             <tfoot>
             <tr>
                 <td colspan="5">
-                    <button (click)="addTagValue()">NewTags
+                    <button mat-flat-button color="primary" (click)="addTagValue()">Add Tag
                     </button>
                 </td>
             </tr>
@@ -122,12 +97,7 @@
         </table>
 
         <!-- tag file endings widget here -->
-        <div class='row'>
-            <div class='col-lg-12'>
-                <h2>
-                    File Endings</h2>
-            </div>
-        </div>
+    <h6>File Endings</h6>
         <table class="table col-sm-12">
             <tbody>
             <tr *ngFor="let fileEnding of fileEndingsArray; let i = index">
@@ -139,8 +109,8 @@
                 <td class='col-lg-1'>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            <button (click)="deleteFileEndingsValue(i)">
-                                Delete
+                            <button mat-flat-button color="accent" (click)="deleteFileEndingsValue(i)">
+                                Remove
                             </button>
                         </div>
                     </div>
@@ -151,20 +121,15 @@
             <tfoot>
             <tr>
                 <td colspan="5">
-                    <button (click)="addFileEndingsValue()">NewFileEndings
+                    <button mat-flat-button color="primary" (click)="addFileEndingsValue()">Add File Ending
                     </button>
                 </td>
             </tr>
             </tfoot>
         </table>
-    </div>
-    <br/>
-    <br/>
-
-    <div>
-        <button
-            [disabled]="!selectedFiles"
-            (click)="uploadTemplate()">Submit
-        </button>
-    </div>
+    <button mat-raised-button color="primary"
+        [disabled]="!selectedFiles"
+        (click)="uploadTemplate()">Submit
+    </button>
 </div>
+</mat-card>

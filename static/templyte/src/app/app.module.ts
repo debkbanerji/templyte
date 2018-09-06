@@ -13,7 +13,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {CreateTemplateComponent} from './create-template/create-template.component';
 import {AngularFireStorage} from 'angularfire2/storage';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCardModule, MatDialogModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatDialogModule, MatInputModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
 import {UploadService} from './upload/upload.service';
 import {InputValidateDialogComponent} from './input-validate-dialog/input-validate-dialog.component';
@@ -43,6 +43,7 @@ const routes: Routes = [
         MatButtonModule,
         MatCardModule,
         MatDialogModule,
+        MatInputModule,
         RouterModule.forRoot(routes),
         FormsModule
     ],
