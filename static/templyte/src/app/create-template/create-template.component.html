@@ -3,7 +3,7 @@
         <li><a href="/">Home</a></li>
         <li><a href="/create">Create Template</a></li>
         <li>
-            <button mat-raised-button (click)="logout()" class="btn btn-primary btn-sm" type="button">Logout with
+            <button mat-raised-button (click)="logout()">Logout with
                 github
             </button>
         </li>
@@ -14,7 +14,7 @@
 
     <div class='row'>
         <div class='col-lg-12'>
-            <h2 style="font-size: xx-large ;font-weight: bold; color: dodgerblue; font-family: Helvetica; align-content: left">
+            <h2>
                 Template Name</h2>
         </div>
     </div>
@@ -24,7 +24,7 @@
 
     <div class='row'>
         <div class='col-lg-12'>
-            <h2 style="font-size: xx-large ;font-weight: bold; color: dodgerblue; font-family: Helvetica; align-content: left">
+            <h2>
                 Select File</h2>
         </div>
     </div>
@@ -37,7 +37,7 @@
         Progress: {{currentUpload?.name}} | {{currentUpload?.progress}}% Complete
     </div>
 
-    <form style="color: #f00;" id="uploadbanner" enctype="multipart/form-data" method="post" action="#">
+    <form>
         <div class="input-group">
             <input type="file" (change)="detectFiles($event)"/>
         </div>
@@ -48,7 +48,7 @@
 
     <div class='row'>
         <div class='col-lg-10'>
-            <h2 style="font-size: xx-large ;font-weight: bold; color: dodgerblue; font-family: Helvetica; align-content: left">
+            <h2>
                 Template Variables</h2>
         </div>
     </div>
@@ -58,17 +58,17 @@
             <tbody>
             <tr *ngFor="let variable of variableArray; let i = index">
                 <td class='col-lg-12'>
-                    <input [(ngModel)]="variable.name" class="form-control" style="box-shadow:none" type="text"
+                    <input [(ngModel)]="variable.name" class="form-control"
                            name="{{variable.name}}"
                            placeholder="Item Name">
-                    <input [(ngModel)]="variable.description" class="form-control" style="box-shadow:none" type="text"
+                    <input [(ngModel)]="variable.description" class="form-control"
                            name="{{variable.description}}"
                            placeholder="Item Description">
                 </td>
                 <td class='col-lg-1'>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            <button (click)="deleteVariableValue(i)" class="btn btn-primary btn-sm" type="button">Delete
+                            <button (click)="deleteVariableValue(i)">Delete
                             </button>
                         </div>
                     </div>
@@ -78,9 +78,9 @@
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="5" style="text-align: center;">
-                    <button class="btn btn-success btn-sm" type="button" (click)="addVariableValue()"
-                            style="margin-right:10px">Add Item
+                <td colspan="5">
+                    <button (click)="addVariableValue()"
+                    >Add Item
                     </button>
                 </td>
             </tr>
@@ -89,7 +89,7 @@
 
         <div class='row'>
             <div class='col-lg-12'>
-                <h2 style="font-size: xx-large ;font-weight: bold; color: dodgerblue; font-family: Helvetica; align-content: left">
+                <h2>
                     Template Tags</h2>
             </div>
         </div>
@@ -98,14 +98,14 @@
             <tbody>
             <tr *ngFor="let tag of tagArray; let i = index">
                 <td class='col-lg-12'>
-                    <input [(ngModel)]="tag.name" class="form-control" style="box-shadow:none" type="text"
+                    <input [(ngModel)]="tag.name" class="form-control"
                            name="{{tag.name}}"
                            placeholder="insert tag here">
                 </td>
                 <td class='col-lg-1'>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            <button (click)="deleteTagValue(i)" class="btn btn-primary btn-sm" type="button">Delete
+                            <button (click)="deleteTagValue(i)">Delete
                             </button>
                         </div>
                     </div>
@@ -115,9 +115,8 @@
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="5" style="text-align: center;">
-                    <button class="btn btn-success btn-sm" type="button" (click)="addTagValue()"
-                            style="margin-right:10px">NewTags
+                <td colspan="5">
+                    <button (click)="addTagValue()">NewTags
                     </button>
                 </td>
             </tr>
@@ -127,7 +126,7 @@
         <!-- tag file endings widget here -->
         <div class='row'>
             <div class='col-lg-12'>
-                <h2 style="font-size: xx-large ;font-weight: bold; color: dodgerblue; font-family: Helvetica; align-content: left">
+                <h2>
                     File Endings</h2>
             </div>
         </div>
@@ -135,14 +134,14 @@
             <tbody>
             <tr *ngFor="let fileEnding of fileEndingsArray; let i = index">
                 <td class='col-lg-12'>
-                    <input [(ngModel)]="fileEnding.name" class="form-control" style="box-shadow:none" type="text"
+                    <input [(ngModel)]="fileEnding.name" class="form-control"
                            name="{{fileEnding.name}}"
                            placeholder="insert file ending here">
                 </td>
                 <td class='col-lg-1'>
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            <button (click)="deleteFileEndingsValue(i)" class="btn btn-primary btn-sm" type="button">
+                            <button (click)="deleteFileEndingsValue(i)">
                                 Delete
                             </button>
                         </div>
@@ -153,9 +152,8 @@
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="5" style="text-align: center;">
-                    <button class="btn btn-success btn-sm" type="button" (click)="addFileEndingsValue()"
-                            style="margin-right:10px">NewFileEndings
+                <td colspan="5">
+                    <button (click)="addFileEndingsValue()">NewFileEndings
                     </button>
                 </td>
             </tr>
@@ -165,12 +163,10 @@
     <br/>
     <br/>
 
-    <div class="input-group-btn">
+    <div>
         <button
             [disabled]="!selectedFiles"
-            (click)="uploadTemplate()"
-            class="btn btn-success btn-lg"
-            value="Submit">Submit
+            (click)="uploadTemplate()">Submit
         </button>
     </div>
 </div>
