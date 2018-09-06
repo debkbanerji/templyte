@@ -7,8 +7,8 @@ import {Component, OnInit} from '@angular/core';
 import {UploadService, Upload} from '../upload/upload.service';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {MatDialog} from '@angular/material/dialog';
-import { InputValidateDialogComponent } from '../input-validate-dialog/input-validate-dialog.component';
-import { UploadSuccessDialogComponent } from '../upload-success-dialog/upload-success-dialog.component';
+import {InputValidateDialogComponent} from '../input-validate-dialog/input-validate-dialog.component';
+import {UploadSuccessDialogComponent} from '../upload-success-dialog/upload-success-dialog.component';
 
 @Component({
     selector: 'create-template',
@@ -29,16 +29,14 @@ export class CreateTemplateComponent implements OnInit {
     tagArray: Array<any> = [];
     fileEndingsArray: Array<any> = [];
 
-    isInputValid: Boolean = true;
-    invalidInputMessage: String;
-
     constructor(
         private authService: AuthService,
         private db: AngularFireDatabase,
         private router: Router,
         private upSvc: UploadService,
         private dialog: MatDialog
-    ) {}
+    ) {
+    }
 
     ngOnInit() {
         const component = this;
@@ -98,9 +96,10 @@ export class CreateTemplateComponent implements OnInit {
 
     uploadTemplate() {
         if (this.validateInput()) {
-            const component = this; /*store data from the current typescript component in its own variable
-                because from within the upload function callbacks 'this' will refer to the current function being executed*/
-            this.uploadFile(function(templateUrl) {
+            const component = this;
+            /*store data from the current typescript component in its own variable
+                           because from within the upload function callbacks 'this' will refer to the current function being executed*/
+            this.uploadFile(function (templateUrl) {
                 console.log(templateUrl);
                 const targetTemplateUrl = templateUrl;
                 const renderInfoObject = component.db.list('template-render-info');
@@ -108,47 +107,49 @@ export class CreateTemplateComponent implements OnInit {
                     'template-url': targetTemplateUrl
                 }).then((renderInfoResult) => {
                     const targetKey = renderInfoResult.key;
-                    const directoryObject = component.db.object('template-directory/'+targetKey);
+                    const directoryObject = component.db.object('template-directory/' + targetKey);
                     directoryObject.set({
-                        'templateName' : component.templateName,
-                        'variables' : component.variableArray,
-                        'tags' : component.tagArray,
-                        'fileEndings' : component.fileEndingsArray,
-                        'authorName' : component.user.displayName,
-                        'authorUID' : component.user.uid,
-                        'authorPhotoUrl' : component.user.photoURL
-                    }).then(()=>{console.log('TODO: Handle potential errors')});
+                        'templateName': component.templateName,
+                        'variables': component.variableArray,
+                        'tags': component.tagArray,
+                        'fileEndings': component.fileEndingsArray,
+                        'authorName': component.user.displayName,
+                        'authorUID': component.user.uid,
+                        'authorPhotoUrl': component.user.photoURL
+                    }).then(() => {
+                        console.log('TODO: Handle potential errors');
+                    });
                 });
             });
             this.dialog.open(UploadSuccessDialogComponent, {
                 width: '250px'
-              });
+            });
             component.router.navigate(['home']);
         }
     }
 
     validateInput() {
         let returnVal: Boolean = true;
-        if (!this.templateName) { //will evaluate to true if templateName is an empty string, for more info google 'typescript truthiness'
+        if (!this.templateName) { // will evaluate to true if templateName is an empty string, for more info google 'typescript truthiness'
             returnVal = false;
             this.dialog.open(InputValidateDialogComponent, {
                 width: '250px',
-                data: {message: "Please enter a name for your template."}
-              });
+                data: {message: 'Please enter a name for your template.'}
+            });
         }
-        if (this.variableArray.length == 0) {
+        if (this.variableArray.length === 0) {
             returnVal = false;
             this.dialog.open(InputValidateDialogComponent, {
                 width: '250px',
-                data: {message: "Please enter at least one variable name for your template."}
-              });
+                data: {message: 'Please enter at least one variable name for your template.'}
+            });
         }
-        if (this.fileEndingsArray.length == 0) {
+        if (this.fileEndingsArray.length === 0) {
             returnVal = false;
             this.dialog.open(InputValidateDialogComponent, {
                 width: '250px',
-                data: {message: "Please enter at least one file ending that includes variables for your template."}
-              });
+                data: {message: 'Please enter at least one file ending that includes variables for your template.'}
+            });
         }
         return returnVal;
     }
