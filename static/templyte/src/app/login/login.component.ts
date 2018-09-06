@@ -1,6 +1,6 @@
 import {Component, NgZone, OnInit} from '@angular/core';
-import {AuthService} from "../providers/auth.service";
-import {Router} from "@angular/router";
+import {AuthService} from '../providers/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-login',
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
             if (auth !== null) {
                 component.goHome();
             }
-        })
+        });
     }
 
     login(): void {

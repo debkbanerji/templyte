@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import { MAT_DIALOG_DATA,  } from '@angular/material';
 
 @Component({
@@ -6,10 +6,9 @@ import { MAT_DIALOG_DATA,  } from '@angular/material';
     templateUrl: './input-validate-dialog.component.html',
     styleUrls: ['./input-validate-dialog.component.css']
 })
-export class InputValidateDialogComponent {
+export class InputValidateDialogComponent implements OnInit {
     constructor( @Inject(MAT_DIALOG_DATA) public data) {}
 
     ngOnInit() {
-        console.log(this.data);
     }
 }

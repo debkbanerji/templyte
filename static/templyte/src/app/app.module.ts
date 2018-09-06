@@ -16,8 +16,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule, MatCardModule, MatDialogModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
 import {UploadService} from './upload/upload.service';
-import { InputValidateDialogComponent } from './input-validate-dialog/input-validate-dialog.component';
-import { UploadSuccessDialogComponent } from './upload-success-dialog/upload-success-dialog.component';
+import {InputValidateDialogComponent} from './input-validate-dialog/input-validate-dialog.component';
+import {UploadSuccessDialogComponent} from './upload-success-dialog/upload-success-dialog.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
@@ -46,6 +46,10 @@ const routes: Routes = [
         RouterModule.forRoot(routes),
         FormsModule
     ],
+    entryComponents: [
+        InputValidateDialogComponent,
+        UploadSuccessDialogComponent
+    ],
     providers: [
         AngularFireAuth,
         AngularFireDatabase,
@@ -54,9 +58,7 @@ const routes: Routes = [
         UploadService
     ],
     bootstrap: [
-        AppComponent,
-        InputValidateDialogComponent,
-        UploadSuccessDialogComponent
+        AppComponent
     ]
 })
 export class AppModule {
