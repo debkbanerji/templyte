@@ -20,6 +20,8 @@ import {UploadService} from './upload/upload.service';
 import {InputValidateDialogComponent} from './input-validate-dialog/input-validate-dialog.component';
 import {UploadSuccessDialogComponent} from './upload-success-dialog/upload-success-dialog.component';
 import { MyTemplatesComponent } from './my-templates/my-templates.component';
+import {MatChipsModule} from '@angular/material/chips';
+
 
 const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
@@ -50,7 +52,8 @@ const routes: Routes = [
         MatToolbarModule,
         MatInputModule,
         RouterModule.forRoot(routes),
-        FormsModule
+        FormsModule,
+        MatChipsModule
     ],
     entryComponents: [
         InputValidateDialogComponent,

@@ -25,8 +25,11 @@
     <div *ngFor="let template of templateList | async">
         <h3>{{template.templateName}}</h3>
         by<h6>{{template.authorName}}</h6>
-    </div>
-    <div *ngFor="let attribute of attributeList | async">
-        {{attribute}}
+        <mat-chip-list>
+            <mat-chip *ngFor="let tag of template.tags">
+                {{tag.name}}
+            </mat-chip>
+        </mat-chip-list>
+
     </div>
 </mat-card>
