@@ -1,11 +1,32 @@
-<div>
-    <div *ngFor="let template of templateList| async">
-        {{template | json}}
-        {{template.name}}
-        {{template.authorName}}
-        <img src="{{template.authorPhotoUrl}}">
-        <div *ngFor="let tag of template.tags">
-            {{tag}}
-        </div>
+<mat-toolbar color="accent">
+    <nav class="navbar">
+        <ul class="nav navbar-right">
+            <li>
+                <button mat-button (click)="goHome()">Home</button>
+            </li>
+            <li>
+                <button mat-button (click)="createTemplate()">Create Template</button>
+            </li>
+            <li>
+                <button mat-button disabled (click)="myTemplates()">My Templates</button>
+            </li>
+            <li>
+                <button mat-button (click)="logout()">Logout</button>
+            </li>
+        </ul>
+    </nav>
+</mat-toolbar>
+
+    <mat-card class="title">
+        <h2 class="text-center">My Templates</h2>
+    </mat-card>
+
+<mat-card id="card-template">
+    <div *ngFor="let template of templateList | async">
+        <h3>{{template.templateName}}</h3>
+        by<h6>{{template.authorName}}</h6>
     </div>
-</div>
+    <div *ngFor="let attribute of attributeList | async">
+        {{attribute}}
+    </div>
+</mat-card>
