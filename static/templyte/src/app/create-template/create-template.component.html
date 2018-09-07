@@ -1,7 +1,7 @@
 <nav class="navbar">
     <ul class="nav navbar-right">
         <li><button mat-raised-button (click)="goHome()">Home</button></li>
-        <li><button mat-raised-button>Create Template</button> </li>
+        <li><button mat-raised-button disabled>Create Template</button> </li>
         <li><button mat-raised-button (click)="logout()">Logout</button></li>
     </ul>
 </nav>
@@ -24,14 +24,13 @@
         </div>
         Progress: {{currentUpload?.name}} | {{currentUpload?.progress}}% Complete
     </div>
-
     <form>
         <div class="input-group" id="input-file">
-            <input type="file" (change)="detectFiles($event)"/>
+            <input type="file" id="button-file"(change)="detectFiles($event)"/>
         </div>
     </form>
-    <h6>Template Variables</h6>
 
+    <h6>Template Variables</h6>
         <table class="table col-sm-12">
             <tbody>
             <tr *ngFor="let variable of variableArray; let i = index">
@@ -110,7 +109,7 @@
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <button mat-flat-button color="accent" (click)="deleteFileEndingsValue(i)">
-                                Remove
+                                Delete
                             </button>
                         </div>
                     </div>
@@ -127,7 +126,7 @@
             </tr>
             </tfoot>
         </table>
-    <button mat-raised-button color="primary"
+    <button mat-raised-button color="secondary"
         [disabled]="!selectedFiles"
         (click)="uploadTemplate()">Submit
     </button>
