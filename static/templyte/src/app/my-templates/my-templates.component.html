@@ -1,0 +1,11 @@
+<div>
+    <div *ngFor="let template of templateList| async">
+        {{template | json}}
+        {{template.name}}
+        {{template.authorName}}
+        <img src="{{template.authorPhotoUrl}}">
+        <div *ngFor="let tag of template.tags">
+            {{tag}}
+        </div>
+    </div>
+</div>
