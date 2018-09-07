@@ -1,8 +1,14 @@
 <nav class="navbar">
     <ul class="nav navbar-right">
-        <li><button mat-raised-button (click)="goHome()">Home</button></li>
-        <li><button mat-raised-button>Create Template</button> </li>
-        <li><button mat-raised-button (click)="logout()">Logout</button></li>
+        <li>
+            <button mat-raised-button (click)="goHome()">Home</button>
+        </li>
+        <li>
+            <button mat-raised-button>Create Template</button>
+        </li>
+        <li>
+            <button mat-raised-button (click)="logout()">Logout</button>
+        </li>
     </ul>
 </nav>
 
@@ -12,26 +18,27 @@
             <h1>Upload a Template</h1>
         </mat-card-title>
     </mat-card-header>
-<div class="container">
-    <input class="form-control" id="template-name-input" matInput [(ngModel)]="templateName"  placeholder="What is the name of your template?" value="My Awesome Template!">
+    <div class="container">
+        <input class="form-control" id="template-name-input" matInput [(ngModel)]="templateName"
+               placeholder="What is the name of your template?" value="My Awesome Template!">
 
 
-    <h6>Select File</h6>
-    <div *ngIf="currentUpload">
-        <div class="progress">
-            <div class="progress-bar progress-bar-animated"
-                 [ngStyle]="{ 'width': currentUpload?.progress + '%' }"></div>
+        <h6>Select File</h6>
+        <div *ngIf="currentUpload">
+            <div class="progress">
+                <div class="progress-bar progress-bar-animated"
+                     [ngStyle]="{'width': currentUpload?.progress + '%'}"></div>
+            </div>
+            Progress: {{currentUpload?.name}} | {{currentUpload?.progress}}% Complete
         </div>
-        Progress: {{currentUpload?.name}} | {{currentUpload?.progress}}% Complete
-    </div>
 
-    <form>
-        <div class="input-group" id="input-file">
-            <input type="file" (change)="detectFiles($event)"/>
-        </div>
-    </form>
+        <form>
+            <div class="input-group" id="input-file">
+                <input type="file" (change)="detectFiles($event)"/>
+            </div>
+        </form>
+
     <h6>Template Variables</h6>
-
         <table class="table col-sm-12">
             <tbody>
             <tr *ngFor="let variable of variableArray; let i = index">
@@ -57,7 +64,7 @@
             <tfoot>
             <tr>
                 <td colspan="5">
-                    <button mat-flat-button color="primary"(click)="addVariableValue()"
+                    <button mat-flat-button color="primary" (click)="addVariableValue()"
                     >Add Item
                     </button>
                 </td>
@@ -66,7 +73,6 @@
         </table>
 
         <h6>Template Tags</h6>
-        <!-- tag form widget here -->
         <table class="table col-sm-12">
             <tbody>
             <tr *ngFor="let tag of tagArray; let i = index">
@@ -96,8 +102,7 @@
             </tfoot>
         </table>
 
-        <!-- tag file endings widget here -->
-    <h6>File Endings</h6>
+        <h6>File Endings</h6>
         <table class="table col-sm-12">
             <tbody>
             <tr *ngFor="let fileEnding of fileEndingsArray; let i = index">
@@ -110,7 +115,7 @@
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <button mat-flat-button color="accent" (click)="deleteFileEndingsValue(i)">
-                                Remove
+                                Delete
                             </button>
                         </div>
                     </div>
@@ -127,9 +132,9 @@
             </tr>
             </tfoot>
         </table>
-    <button mat-raised-button color="primary"
-        [disabled]="!selectedFiles"
-        (click)="uploadTemplate()">Submit
-    </button>
-</div>
+        <button mat-raised-button color="primary"
+                [disabled]="!selectedFiles"
+                (click)="uploadTemplate()">Submit
+        </button>
+    </div>
 </mat-card>

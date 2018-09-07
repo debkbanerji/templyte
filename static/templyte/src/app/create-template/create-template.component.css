@@ -8,3 +8,10 @@
     margin:auto;
     max-width: 800px;
 }
+#button-file {
+    color:lightslategrey;
+}
+
+.table td {
+    padding: .75rem 0rem;
+}

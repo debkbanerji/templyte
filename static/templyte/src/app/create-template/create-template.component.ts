@@ -19,11 +19,6 @@ export class CreateTemplateComponent implements OnInit {
     user: User = null;
     selectedFiles: FileList;
     currentUpload: Upload;
-
-    // TODO: Figure out if we need this
-    newAttribute: any = {};
-
-
     templateName: String = null;
     variableArray: Array<any> = [];
     tagArray: Array<any> = [];
@@ -50,8 +45,7 @@ export class CreateTemplateComponent implements OnInit {
     }
 
     addVariableValue() {
-        this.variableArray.push(this.newAttribute);
-        this.newAttribute = {};
+        this.variableArray.push({});
     }
 
     deleteVariableValue(index) {
@@ -63,8 +57,7 @@ export class CreateTemplateComponent implements OnInit {
     }
 
     addTagValue() {
-        this.tagArray.push(this.newAttribute);
-        this.newAttribute = {};
+        this.tagArray.push({});
     }
 
     deleteFileEndingsValue(index) {
@@ -72,8 +65,7 @@ export class CreateTemplateComponent implements OnInit {
     }
 
     addFileEndingsValue() {
-        this.fileEndingsArray.push(this.newAttribute);
-        this.newAttribute = {};
+        this.fileEndingsArray.push({});
     }
 
     goHome() {
@@ -89,18 +81,12 @@ export class CreateTemplateComponent implements OnInit {
         this.selectedFiles = event.target.files;
     }
 
-    onAddTag() {
-        this.tagArray.push('');
-    }
-
-
     uploadTemplate() {
         if (this.validateInput()) {
             const component = this;
             /*store data from the current typescript component in its own variable
                            because from within the upload function callbacks 'this' will refer to the current function being executed*/
             this.uploadFile(function (templateUrl) {
-                console.log(templateUrl);
                 const targetTemplateUrl = templateUrl;
                 const renderInfoObject = component.db.list('template-render-info');
                 renderInfoObject.push({
