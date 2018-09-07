@@ -96,7 +96,7 @@ export class CreateTemplateComponent implements OnInit {
                     'fileEndings' : component.fileEndingsArray
                 }).then((renderInfoResult) => {
                     const targetKey = renderInfoResult.key;
-                    const directoryObject = component.db.object('template-directory_/' + targetKey);
+                    const directoryObject = component.db.object('template-directory/' + targetKey);
                     directoryObject.set({
                         'templateName' : component.templateName,
                         'tags' : component.tagArray,
