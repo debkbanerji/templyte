@@ -87,7 +87,6 @@ export class CreateTemplateComponent implements OnInit {
             /*store data from the current typescript component in its own variable
                            because from within the upload function callbacks 'this' will refer to the current function being executed*/
             this.uploadFile(function (templateUrl) {
-                console.log(templateUrl);
                 const targetTemplateUrl = templateUrl;
                 const renderInfoObject = component.db.list('template-render-info');
                 renderInfoObject.push({
