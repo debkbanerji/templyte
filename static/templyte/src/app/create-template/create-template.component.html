@@ -1,16 +1,18 @@
-<nav class="navbar">
-    <ul class="nav navbar-right">
-        <li>
-            <button mat-raised-button (click)="goHome()">Home</button>
-        </li>
-        <li>
-            <button mat-raised-button>Create Template</button>
-        </li>
-        <li>
-            <button mat-raised-button (click)="logout()">Logout</button>
-        </li>
-    </ul>
-</nav>
+<mat-toolbar color="accent">
+    <nav class="navbar">
+        <ul class="nav navbar-right">
+            <li>
+                <button mat-button (click)="goHome()">Home</button>
+            </li>
+            <li>
+                <button mat-button disabled>Create Template</button>
+            </li>
+            <li>
+                <button mat-button (click)="logout()">Logout</button>
+            </li>
+        </ul>
+    </nav>
+</mat-toolbar>
 
 <mat-card class="card-upload">
     <mat-card-header>
