@@ -87,28 +87,30 @@ export class CreateTemplateComponent implements OnInit {
             /*store data from the current typescript component in its own variable
                            because from within the upload function callbacks 'this' will refer to the current function being executed*/
             this.uploadFile(function (templateUrl) {
-                const targetTemplateUrl = templateUrl;
-                const renderInfoObject = component.db.list('template-render-info');
-                renderInfoObject.push({
-                    'template-url': targetTemplateUrl
-                }).then((renderInfoResult) => {
-                    const targetKey = renderInfoResult.key;
-                    const directoryObject = component.db.object('template-directory/' + targetKey);
-                    directoryObject.set({
-                        'templateName': component.templateName,
-                        'variables': component.variableArray,
-                        'tags': component.tagArray,
-                        'fileEndings': component.fileEndingsArray,
-                        'authorName': component.user.displayName,
-                        'authorUID': component.user.uid,
-                        'authorPhotoUrl': component.user.photoURL
-                    }).then(() => {
-                        console.log('TODO: Handle potential errors');
-                    });
-                });
-            });
-            this.dialog.open(UploadSuccessDialogComponent, {
+            console.log(templateUrl);
+            const targetTemplateUrl = templateUrl;
+            const renderInfoObject = component.db.list('template-render-info');
+            renderInfoObject.push({
+                'template-url': targetTemplateUrl,
+                'variables' : component.variableArray,
+                'fileEndings' : component.fileEndingsArray
+            }).then((renderInfoResult) => {
+                const targetKey = renderInfoResult.key;
+                const directoryObject = component.db.object('template-directory_/' + targetKey);
+                directoryObject.set({
+                    'templateName' : component.templateName,
+                    'tags' : component.tagArray,
+                    'authorName' : component.user.displayName,
+                    'authorUID' : component.user.uid,
+                    'authorPhotoUrl' : component.user.photoURL
+                })
+            }).then(() => {
+                this.dialog.open(UploadSuccessDialogComponent, {
                 width: '250px'
+            });}, (error) => { //TODO: Figure out why this won't work
+                console.log(error);
+                component.dialog.open(InputValidateDialogComponent);
+                });
             });
             component.router.navigate(['home']);
         }
