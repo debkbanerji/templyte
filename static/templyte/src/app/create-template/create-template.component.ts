@@ -135,6 +135,39 @@ export class CreateTemplateComponent implements OnInit {
                 data: {message: 'Please enter at least one file ending that includes variables for your template.'}
             });
         }
+        this.variableArray.forEach(element1 => {
+            this.variableArray.forEach(element2 => {
+                if (element1 == element2) {
+                    returnVal = false;
+                    this.dialog.open(InputValidateDialogComponent, {
+                        width: '250px',
+                        data: {message: 'Please do not enter duplicate variable names.'}
+                    });
+                }
+            })
+        });
+        this.tagArray.forEach(element1 => {
+            this.tagArray.forEach(element2 => {
+                if (element1 == element2) {
+                    returnVal = false;
+                    this.dialog.open(InputValidateDialogComponent, {
+                        width: '250px',
+                        data: {message: 'Please do not enter duplicate tags.'}
+                    });
+                }
+            })
+        });
+        this.fileEndingsArray.forEach(element1 => {
+            this.fileEndingsArray.forEach(element2 => {
+                if (element1 == element2) {
+                    returnVal = false;
+                    this.dialog.open(InputValidateDialogComponent, {
+                        width: '250px',
+                        data: {message: 'Please do not enter duplicate file endings.'}
+                    });
+                }
+            })
+        });
         return returnVal;
     }
 
