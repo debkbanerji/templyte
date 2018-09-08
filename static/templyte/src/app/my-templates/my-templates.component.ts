@@ -13,7 +13,6 @@ export class MyTemplatesComponent implements OnInit {
 
     user: User = null;
     templateList: any = null;
-    attributeList: any = null;
 
     constructor(
         private authService: AuthService,
@@ -34,7 +33,6 @@ export class MyTemplatesComponent implements OnInit {
 
                 component.ngZone.run(() => {
                     component.createTemplateList();
-                    component.createAttributeList();
                 });
             }
         });
@@ -44,15 +42,6 @@ export class MyTemplatesComponent implements OnInit {
     private createTemplateList() {
         const component = this;
         component.templateList = component.db.list('/template-directory',
-            ref =>
-                ref.orderByChild('authorUID')
-                    .equalTo(component.user.uid)
-        ).valueChanges();
-    }
-
-    private createAttributeList() {
-        const component = this;
-        component.attributeList = component.db.list('/template-render-info',
             ref =>
                 ref.orderByChild('authorUID')
                     .equalTo(component.user.uid)
