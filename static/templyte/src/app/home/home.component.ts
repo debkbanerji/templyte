@@ -38,6 +38,10 @@ export class HomeComponent implements OnInit {
         this.router.navigate(['create']);
     }
 
+    myTemplates() {
+        this.router.navigate(['my-templates']);
+    }
+
     logout(): void {
         this.authService.logout(null);
     }

@@ -19,11 +19,15 @@ import {FormsModule} from '@angular/forms';
 import {UploadService} from './upload/upload.service';
 import {InputValidateDialogComponent} from './input-validate-dialog/input-validate-dialog.component';
 import {UploadSuccessDialogComponent} from './upload-success-dialog/upload-success-dialog.component';
+import { MyTemplatesComponent } from './my-templates/my-templates.component';
+import {MatChipsModule} from '@angular/material/chips';
+
 
 const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
     {path: 'login', component: LoginComponent, pathMatch: 'full'},
     {path: 'create', component: CreateTemplateComponent, pathMatch: 'full'},
+    {path: 'my-templates', component: MyTemplatesComponent, pathMatch: 'full'},
     {path: '**', redirectTo: '', pathMatch: 'full'} // Redirect everything else to the home page
 ];
 
@@ -34,7 +38,8 @@ const routes: Routes = [
         LoginComponent,
         CreateTemplateComponent,
         InputValidateDialogComponent,
-        UploadSuccessDialogComponent
+        UploadSuccessDialogComponent,
+        MyTemplatesComponent
     ],
     imports: [
         AngularFireModule.initializeApp(config),
@@ -47,7 +52,8 @@ const routes: Routes = [
         MatToolbarModule,
         MatInputModule,
         RouterModule.forRoot(routes),
-        FormsModule
+        FormsModule,
+        MatChipsModule
     ],
     entryComponents: [
         InputValidateDialogComponent,

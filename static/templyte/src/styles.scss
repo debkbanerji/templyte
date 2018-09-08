@@ -9,3 +9,7 @@ $app-warn: mat-palette($mat-red);
 $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 
 @include angular-material-theme($app-theme);
+
+.title {
+    margin:auto auto 3em;
+}
