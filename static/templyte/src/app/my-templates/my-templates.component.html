@@ -24,7 +24,7 @@
 <mat-card id="card-template">
     <div *ngFor="let template of templateList | async">
         <h3>{{template.templateName}}</h3>
-        by<h6>{{template.authorName}}</h6>
+        <h6>by {{template.authorName}}</h6>
         <mat-chip-list>
             <mat-chip *ngFor="let tag of template.tags">
                 {{tag.name}}
