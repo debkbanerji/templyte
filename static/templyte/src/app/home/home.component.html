@@ -1,10 +1,15 @@
-<p>
-    Home component loaded
-</p>
-<p>
-    {{apiTestMessage}}
-</p>
-<p>
-    {{(firebaseTestObject | async) || 'Database connection not established'}}
-</p>
-<button (click)="logout()">Logout</button>
+<mat-toolbar color="accent">
+    <nav class="navbar">
+        <ul class="nav navbar-right">
+            <li>
+                <button mat-button disabled>Home</button>
+            </li>
+            <li>
+                <button mat-button (click)="createTemplate()">Create Template</button>
+            </li>
+            <li>
+                <button mat-button (click)="logout()">Logout</button>
+            </li>
+        </ul>
+    </nav>
+</mat-toolbar>
