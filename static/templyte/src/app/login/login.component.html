@@ -1,11 +1,15 @@
-<mat-toolbar color="accent">
+<mat-card class="top-nav mat-elevation-z1">
+    <img src="assets/img/favicon.png">
+    <h5>Templyte</h5>
+</mat-card>
+<mat-toolbar class="mat-elevation-z3">
     <nav class="navbar">
         <ul class="nav navbar-right">
             <li>
                 <button mat-button (click)="goHome()">Home</button>
             </li>
             <li>
-                <button mat-button disabled >Create Template</button>
+                <button mat-button (click)="createTemplate()">Create Template</button>
             </li>
             <li>
                 <button mat-button (click)="login()">Login</button>

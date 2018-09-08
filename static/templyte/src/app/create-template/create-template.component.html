@@ -1,4 +1,8 @@
-<mat-toolbar color="accent">
+<mat-card class="top-nav mat-elevation-z1">
+    <img src="assets/img/favicon.png">
+    <h5>Templyte</h5>
+</mat-card>
+<mat-toolbar class="mat-elevation-z3">
     <nav class="navbar">
         <ul class="nav navbar-right">
             <li>
@@ -17,7 +21,7 @@
 <mat-card class="card-upload">
     <mat-card-header>
         <mat-card-title>
-            <h1>Upload a Template</h1>
+            <h2>Upload a Template</h2>
         </mat-card-title>
     </mat-card-header>
     <div class="container">
@@ -25,7 +29,7 @@
                placeholder="What is the name of your template?" value="My Awesome Template!">
 
 
-        <h6>Select File</h6>
+        <h5>Select File</h5>
         <div *ngIf="currentUpload">
             <div class="progress">
                 <div class="progress-bar progress-bar-animated"
@@ -40,7 +44,7 @@
             </div>
         </form>
 
-    <h6>Template Variables</h6>
+    <h5>Template Variables</h5>
         <table class="table col-sm-12">
             <tbody>
             <tr *ngFor="let variable of variableArray; let i = index">
@@ -74,7 +78,7 @@
             </tfoot>
         </table>
 
-        <h6>Template Tags</h6>
+        <h5>Template Tags</h5>
         <table class="table col-sm-12">
             <tbody>
             <tr *ngFor="let tag of tagArray; let i = index">
@@ -104,7 +108,7 @@
             </tfoot>
         </table>
 
-        <h6>File Endings</h6>
+        <h5>File Endings</h5>
         <table class="table col-sm-12">
             <tbody>
             <tr *ngFor="let fileEnding of fileEndingsArray; let i = index">
