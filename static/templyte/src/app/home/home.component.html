@@ -1,12 +1,18 @@
-<!--<p>-->
-    <!--{{(firebaseTestObject | async) || 'Database connection not established'}}-->
-<!--</p>-->
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
-    <a class="navbar-brand" href="#">
-        <img src="assets/img/templyte_favicon.png" alt="Logo" style="width:40px;">
-    </a>
-    <button (click)="logout()">Logout</button>
-</nav>
+<mat-toolbar color="accent">
+    <nav class="navbar">
+        <ul class="nav navbar-right">
+            <li>
+                <button mat-button disabled>Home</button>
+            </li>
+            <li>
+                <button mat-button (click)="createTemplate()">Create Template</button>
+            </li>
+            <li>
+                <button mat-button (click)="logout()">Logout</button>
+            </li>
+        </ul>
+    </nav>
+</mat-toolbar>
 
 <header>
     <div class="jumbotron jumbotron-fluid">

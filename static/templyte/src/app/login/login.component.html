@@ -1,1 +1,15 @@
-<button mat-raised-button color="primary" (click)="login()">Login with GitHub</button>
+<mat-toolbar color="accent">
+    <nav class="navbar">
+        <ul class="nav navbar-right">
+            <li>
+                <button mat-button (click)="goHome()">Home</button>
+            </li>
+            <li>
+                <button mat-button disabled >Create Template</button>
+            </li>
+            <li>
+                <button mat-button (click)="login()">Login</button>
+            </li>
+        </ul>
+    </nav>
+</mat-toolbar>

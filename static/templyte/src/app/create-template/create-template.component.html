@@ -1,0 +1,142 @@
+<mat-toolbar color="accent">
+    <nav class="navbar">
+        <ul class="nav navbar-right">
+            <li>
+                <button mat-button (click)="goHome()">Home</button>
+            </li>
+            <li>
+                <button mat-button disabled>Create Template</button>
+            </li>
+            <li>
+                <button mat-button (click)="logout()">Logout</button>
+            </li>
+        </ul>
+    </nav>
+</mat-toolbar>
+
+<mat-card class="card-upload">
+    <mat-card-header>
+        <mat-card-title>
+            <h1>Upload a Template</h1>
+        </mat-card-title>
+    </mat-card-header>
+    <div class="container">
+        <input class="form-control" id="template-name-input" matInput [(ngModel)]="templateName"
+               placeholder="What is the name of your template?" value="My Awesome Template!">
+
+
+        <h6>Select File</h6>
+        <div *ngIf="currentUpload">
+            <div class="progress">
+                <div class="progress-bar progress-bar-animated"
+                     [ngStyle]="{'width': currentUpload?.progress + '%'}"></div>
+            </div>
+            Progress: {{currentUpload?.name}} | {{currentUpload?.progress}}% Complete
+        </div>
+
+        <form>
+            <div class="input-group" id="input-file">
+                <input type="file" (change)="detectFiles($event)"/>
+            </div>
+        </form>
+
+    <h6>Template Variables</h6>
+        <table class="table col-sm-12">
+            <tbody>
+            <tr *ngFor="let variable of variableArray; let i = index">
+                <td class='col-lg-12'>
+                    <input [(ngModel)]="variable.name" class="form-control"
+                           name="{{variable.name}}"
+                           placeholder="Item Name">
+                    <input [(ngModel)]="variable.description" class="form-control"
+                           name="{{variable.description}}"
+                           placeholder="Item Description">
+                </td>
+                <td class='col-lg-1'>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <button mat-flat-button color="accent" (click)="deleteVariableValue(i)">Delete
+                            </button>
+                        </div>
+                    </div>
+                </td>
+
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="5">
+                    <button mat-flat-button color="primary" (click)="addVariableValue()"
+                    >Add Item
+                    </button>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+
+        <h6>Template Tags</h6>
+        <table class="table col-sm-12">
+            <tbody>
+            <tr *ngFor="let tag of tagArray; let i = index">
+                <td class='col-lg-12'>
+                    <input [(ngModel)]="tag.name" class="form-control"
+                           name="{{tag.name}}"
+                           placeholder="insert tag here">
+                </td>
+                <td class='col-lg-1'>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <button mat-flat-button color="accent" (click)="deleteTagValue(i)">Delete
+                            </button>
+                        </div>
+                    </div>
+                </td>
+
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="5">
+                    <button mat-flat-button color="primary" (click)="addTagValue()">Add Tag
+                    </button>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+
+        <h6>File Endings</h6>
+        <table class="table col-sm-12">
+            <tbody>
+            <tr *ngFor="let fileEnding of fileEndingsArray; let i = index">
+                <td class='col-lg-12'>
+                    <input [(ngModel)]="fileEnding.name" class="form-control"
+                           name="{{fileEnding.name}}"
+                           placeholder="insert file ending here">
+                </td>
+                <td class='col-lg-1'>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <button mat-flat-button color="accent" (click)="deleteFileEndingsValue(i)">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </td>
+
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="5">
+                    <button mat-flat-button color="primary" (click)="addFileEndingsValue()">Add File Ending
+                    </button>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+        <button mat-raised-button color="primary"
+                [disabled]="!selectedFiles"
+                (click)="uploadTemplate()">Submit
+        </button>
+    </div>
+</mat-card>

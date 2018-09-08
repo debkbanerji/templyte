@@ -1,8 +1,16 @@
 {
     "rules": {
-        "test": {
+        "template-directory": {
             ".read": "auth !== null",
-            ".write": "auth !== null"
+            "$uid":{
+                ".write": "auth !== null && !data.exists()"
+            }
+        },
+        "template-render-info": {
+            ".read": "auth !== null",
+            "$uid":{
+                ".write": "auth !== null && !data.exists()"
+            }
         }
     }
 }
