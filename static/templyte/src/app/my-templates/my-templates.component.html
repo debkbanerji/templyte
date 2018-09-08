@@ -1,6 +1,8 @@
 <mat-card class="top-nav mat-elevation-z1">
-    <img src="assets/img/favicon.png">
-    <h5>Templyte</h5>
+    <div (click)="goHome()">
+        <img src="assets/img/logo.png">
+        <p class="nav-title">Templyte</p>
+    </div>
 </mat-card>
 <mat-toolbar class="mat-elevation-z3">
     <nav class="navbar">
@@ -21,13 +23,13 @@
     </nav>
 </mat-toolbar>
 
-<div class="title">
-    <h2 class="text-center">My Templates</h2>
+<div>
+    <p class="title large">My Templates</p>
 </div>
 
 <div *ngFor="let template of templateList | async">
     <mat-card id="card-template">
-        <h3>{{template.templateName}}</h3>
+        <p class="card-title">{{template.templateName}}</p>
         <p>by {{template.authorName}}</p>
         <mat-chip-list>
             <mat-chip *ngFor="let tag of template.tags">

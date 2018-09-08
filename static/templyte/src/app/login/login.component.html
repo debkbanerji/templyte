@@ -1,22 +1,9 @@
 <mat-card class="top-nav mat-elevation-z1">
-    <img src="assets/img/favicon.png">
-    <h5>Templyte</h5>
+    <div (click)="goHome()">
+        <img src="assets/img/logo.png">
+        <p class="nav-title">Templyte</p>
+    </div>
 </mat-card>
-<mat-toolbar class="mat-elevation-z3">
-    <nav class="navbar">
-        <ul class="nav navbar-right">
-            <li>
-                <button mat-button (click)="goHome()">Home</button>
-            </li>
-            <li>
-                <button mat-button (click)="createTemplate()">Create Template</button>
-            </li>
-            <li>
-                <button mat-button (click)="login()">Login</button>
-            </li>
-        </ul>
-    </nav>
-</mat-toolbar>
 
 <header>
     <div class="container-fluid">
@@ -35,8 +22,9 @@
                         <path stroke="#313131" stroke-width="3.6" d="M66.5403226 63.1360691L106.104839 63.1360691M66.5403226 77.5671706L80.9274194 77.5671706M66.5403226 64.9399568L66.5403226 1.80388769M66.5403226 75.7632829L66.5403226 227.289849C97.1129032 227.289849 104.306452 198.427646 104.306452 191.212095"/>
                     </g>
                 </svg>
-                <h1>Templyte</h1>
+                <p title="title xlarge">Templyte</p>
                 <p class="subtitle">The place to find ready-to-code repositories</p>
+                <button mat-raised-button (click)="login()">Login</button>
             </div>
         </div>
     </div>

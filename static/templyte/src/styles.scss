@@ -1,7 +1,6 @@
 @import '~@angular/material/theming';
 @import url('https://fonts.googleapis.com/css?family=Playfair+Display:900i');
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans:400, 600');
-
 @include mat-core();
 
 $app-primary: mat-palette($mat-cyan, 100);
@@ -13,6 +12,7 @@ $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 $primary: #669999;
 $bg-color:#FBFBFB;
 $white: #FFFFFF;
+
 @include angular-material-theme($app-theme);
 
 * {
@@ -22,14 +22,22 @@ $white: #FFFFFF;
         background-image:url("assets/img/background-img.png");
         background-repeat: no-repeat;
         background-size: auto;
-        h1 {
-            font-size:7em;
-        }
-        h2 {
-            font-size: 3em;
-        }
-        h1, h2, h3, h4, h5, h6 {
+
+        .title {
+            text-align: center;
             font-family: 'Playfair Display', serif;
+        }
+        .sm {
+            font-size:.7em;
+        }
+        .med {
+            font-size:2em;
+        }
+        .large {
+            font-size: 5em;
+        }
+        .xlarge {
+            font-size:7em;
         }
         .mat-toolbar {
             background-color: $white;
@@ -40,9 +48,6 @@ $white: #FFFFFF;
         }
         .subtitle {
             font-size: 2em;
-        }
-        .title {
-            text-align: center;
         }
         .top-nav {
             height: 70px;
@@ -55,10 +60,8 @@ $white: #FFFFFF;
                 padding-right: 15px;
             }
         }
-        .mat-chip.mat-standard-chip {
-            background-color:$primary;
-            color:$white;
+        .nav-title {
+            font-family: "Playfair Display", serif;
         }
-
     }
 }
