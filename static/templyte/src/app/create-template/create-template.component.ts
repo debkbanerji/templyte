@@ -102,7 +102,7 @@ export class CreateTemplateComponent implements OnInit {
                         'authorName' : component.user.displayName,
                         'authorUID' : component.user.uid,
                         'authorPhotoUrl' : component.user.photoURL
-                    })
+                    });
                 }).then(() => {
                     component.dialog.open(UploadSuccessDialogComponent, {
                     width: '250px'});
@@ -127,6 +127,29 @@ export class CreateTemplateComponent implements OnInit {
                 width: '250px',
                 data: {message: 'Please enter at least one variable name for your template.'}
             });
+        } else {
+            for (let i = 0; i < this.variableArray.length - 1; i++) {
+                for (let j = i + 1; j < this.variableArray.length; j++) {
+                    if (this.variableArray[i].name === this.variableArray[j].name) {
+                        returnVal = false;
+                        this.dialog.open(InputValidateDialogComponent, {
+                            width: '250px',
+                            data: {message: 'Please do not enter duplicate variables'}
+                        });
+                    }
+                }
+            }
+        }
+        for (let i = 0; i < this.tagArray.length - 1; i++) {
+            for (let j = i + 1; j < this.tagArray.length; j++) {
+                if (this.tagArray[i].name === this.tagArray[j].name) {
+                    returnVal = false;
+                    this.dialog.open(InputValidateDialogComponent, {
+                        width: '250px',
+                        data: {message: 'Please do not enter duplicate tags'}
+                    });
+                }
+            }
         }
         if (this.fileEndingsArray.length === 0) {
             returnVal = false;
@@ -134,6 +157,18 @@ export class CreateTemplateComponent implements OnInit {
                 width: '250px',
                 data: {message: 'Please enter at least one file ending that includes variables for your template.'}
             });
+        } else {
+            for (let i = 0; i < this.fileEndingsArray.length - 1; i++) {
+                for (let j = i + 1; j < this.fileEndingsArray.length; j++) {
+                    if (this.fileEndingsArray[i].name === this.fileEndingsArray[j].name) {
+                        returnVal = false;
+                        this.dialog.open(InputValidateDialogComponent, {
+                            width: '250px',
+                            data: {message: 'Please do not enter duplicate file endings'}
+                        });
+                    }
+                }
+            }
         }
         return returnVal;
     }
