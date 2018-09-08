@@ -1,4 +1,8 @@
-<mat-toolbar color="accent">
+<mat-card class="top-nav mat-elevation-z1">
+    <img src="assets/img/favicon.png">
+    <h5>Templyte</h5>
+</mat-card>
+<mat-toolbar class="mat-elevation-z3">
     <nav class="navbar">
         <ul class="nav navbar-right">
             <li>
@@ -17,19 +21,19 @@
     </nav>
 </mat-toolbar>
 
-    <mat-card class="title">
-        <h2 class="text-center">My Templates</h2>
-    </mat-card>
+<div class="title">
+    <h2 class="text-center">My Templates</h2>
+</div>
 
-<mat-card id="card-template">
-    <div *ngFor="let template of templateList | async">
+<div *ngFor="let template of templateList | async">
+    <mat-card id="card-template">
         <h3>{{template.templateName}}</h3>
-        <h6>by {{template.authorName}}</h6>
+        <p>by {{template.authorName}}</p>
         <mat-chip-list>
             <mat-chip *ngFor="let tag of template.tags">
                 {{tag.name}}
             </mat-chip>
         </mat-chip-list>
+    </mat-card>
+</div>
 
-    </div>
-</mat-card>

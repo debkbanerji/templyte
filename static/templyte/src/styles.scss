@@ -17,20 +17,26 @@ $white: #FFFFFF;
 
 * {
     body {
+        background-color:$bg-color;
+        font-family: 'Josefin Sans', sans-serif;
+        background-image:url("assets/img/background-img.png");
+        background-repeat: no-repeat;
+        background-size: auto;
+        h1 {
+            font-size:7em;
+        }
+        h2 {
+            font-size: 3em;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+        }
         .mat-toolbar {
             background-color: $white;
             margin: 0em auto 1em auto;
             .mat-button[disabled] {
                 color: $primary;
             }
-        }
-        background-color:$bg-color;
-        font-family: 'Josefin Sans', sans-serif;
-        h1 {
-            font-size:7em;
-        }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Playfair Display', serif;
         }
         .subtitle {
             font-size: 2em;
@@ -48,6 +54,10 @@ $white: #FFFFFF;
                 vertical-align: middle;
                 padding-right: 15px;
             }
+        }
+        .mat-chip.mat-standard-chip {
+            background-color:$primary;
+            color:$white;
         }
 
     }
