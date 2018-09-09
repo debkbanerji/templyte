@@ -1,4 +1,12 @@
 #card-template{
     max-width:500px;
-    margin:auto auto 3em;
+    margin:1em auto 3em auto;
+}
+.mat-chip.mat-standard-chip {
+    background-color:#669999;
+    color:#FFFFFF;
+}
+.card-title {
+    font-family: "Playfair Display", serif;
+    font-size:2em;
 }
