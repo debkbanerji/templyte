@@ -1,0 +1,35 @@
+<mat-toolbar class="mat-elevation-z3">
+    <nav class="navbar">
+        <ul class="nav navbar-right">
+            <li>
+                <button mat-button (click)="goHome()">Home</button>
+            </li>
+            <li>
+                <button mat-button (click)="createTemplate()">Create Template</button>
+            </li>
+            <li>
+                <button mat-button disabled>My Templates</button>
+            </li>
+            <li>
+                <button mat-button (click)="logout()">Logout</button>
+            </li>
+        </ul>
+    </nav>
+</mat-toolbar>
+
+<div>
+    <p class="title large">My Templates</p>
+</div>
+
+<div *ngFor="let template of templateList | async">
+    <mat-card id="card-template">
+        <p class="card-title">{{template.templateName}}</p>
+        <p>by {{template.authorName}}</p>
+        <mat-chip-list>
+            <mat-chip *ngFor="let tag of template.tags">
+                {{tag.name}}
+            </mat-chip>
+        </mat-chip-list>
+    </mat-card>
+</div>
+

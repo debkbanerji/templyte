@@ -4,7 +4,8 @@
             ".read": "auth !== null",
             "$uid":{
                 ".write": "auth !== null && !data.exists()"
-            }
+            },
+            ".indexOn": "authorUID"
         },
         "template-render-info": {
             ".read": "auth !== null",

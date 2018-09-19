@@ -179,4 +179,8 @@ export class CreateTemplateComponent implements OnInit {
         component.currentUpload = new Upload(file, component.user.uid);
         component.upSvc.pushUpload(component.currentUpload, callback);
     }
+
+    myTemplates() {
+        this.router.navigate(['my-templates']);
+    }
 }

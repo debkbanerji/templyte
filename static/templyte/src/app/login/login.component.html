@@ -1,15 +1,24 @@
-<mat-toolbar color="accent">
-    <nav class="navbar">
-        <ul class="nav navbar-right">
-            <li>
-                <button mat-button (click)="goHome()">Home</button>
-            </li>
-            <li>
-                <button mat-button disabled >Create Template</button>
-            </li>
-            <li>
-                <button mat-button (click)="login()">Login</button>
-            </li>
-        </ul>
-    </nav>
-</mat-toolbar>
+<header>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col title">
+                <svg xmlns="http://www.w3.org/2000/svg" width="120" height="242" viewBox="0 0 120 242" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <defs>
+                        <path id="a" d="M2.48689958e-13,68.5761399 L2.48689958e-13,72.3259536 L26.1686563,72.3259536 L26.1686563,175.616279 C26.1686563,208.682818 38.9131318,223.682073 64.7419355,223.682073 C80.3751588,223.682073 92.4399289,216.86423 97.5377191,197.092485 L93.7993396,196.069808 C89.9193548,220.074298 71.9354839,220.074298 60.1539243,219.533154 C60.1539243,219.533154 60.1539243,215.841554 60.1539243,203.228544 L60.1539243,72.3259536 L94.1391923,72.3259536 L94.1391923,68.5761399 L60.1539243,68.5761399 L60.1539243,7.21555076 C52.3373127,19.8285607 42.1417323,25.9646196 32.9657099,25.9646196 C30.5867412,25.9646196 28.5476251,25.9646196 26.1686563,25.2828353 L26.1686563,68.5477322 L2.48689958e-13,68.5761399 Z"/>
+                        <mask id="b" width="97.538" height="216.467" x="0" y="0" fill="white">
+                            <use xlink:href="#a"/>
+                        </mask>
+                    </defs>
+                    <g fill="none" fill-rule="evenodd" transform="translate(0 -1)">
+                        <path fill="#A3E9EA" stroke="#A3E9EA" stroke-width="21.6" d="M24.8063495,16.1709069 C11.142103,39.0193343 20.484591,199.791083 40.4623813,221.814103 C68.3387097,252.544276 115.096774,202.035421 107.903226,191.212095 C107.903226,183.996544 46.7580645,209.250972 46.7580645,209.250972 C46.7580645,209.250972 38.4705961,-6.6775204 24.8063495,16.1709069 Z"/>
+                        <use fill="#D0D0D0" fill-opacity="0" stroke="#313131" stroke-width="7.2" mask="url(#b)" xlink:href="#a"/>
+                        <path stroke="#313131" stroke-width="3.6" d="M66.5403226 63.1360691L106.104839 63.1360691M66.5403226 77.5671706L80.9274194 77.5671706M66.5403226 64.9399568L66.5403226 1.80388769M66.5403226 75.7632829L66.5403226 227.289849C97.1129032 227.289849 104.306452 198.427646 104.306452 191.212095"/>
+                    </g>
+                </svg>
+                <p class="title xlarge">Templyte</p>
+                <p class="subtitle">The place to find ready-to-code repositories</p>
+                <button mat-raised-button color="primary" (click)="login()">Login</button>
+            </div>
+        </div>
+    </div>
+</header>
