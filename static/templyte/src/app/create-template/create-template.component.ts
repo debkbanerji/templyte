@@ -180,6 +180,11 @@ export class CreateTemplateComponent implements OnInit {
         component.upSvc.pushUpload(component.currentUpload, callback);
     }
 
+   // Ashwini -- Adding the routing redirect to Download Templates from this component when user clicks the menu option in the top nav bar
+    downloadTemplate() {
+        this.router.navigate(['download']);
+    }
+
     myTemplates() {
         this.router.navigate(['my-templates']);
     }

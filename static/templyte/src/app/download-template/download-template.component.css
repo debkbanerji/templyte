@@ -1,0 +1,26 @@
+/* Ashwini - Styling copied from the create-template.component.css*/
+#template-name-input {
+    margin:auto auto 1em;
+}
+#input-file {
+    margin:auto auto 1em;
+}
+.card-download {
+    margin:auto;
+    max-width: 800px;
+}
+#button-file {
+    color:lightslategrey;
+}
+
+.table td {
+    padding: .75rem 0rem;
+}
+h1 {
+    text-align: center;
+}
+.form-heading {
+    font-family: "Playfair Display", serif;
+    font-size:2em;
+}
+ 
