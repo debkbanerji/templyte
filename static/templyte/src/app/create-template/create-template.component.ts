@@ -87,25 +87,25 @@ export class CreateTemplateComponent implements OnInit {
             /*store data from the current typescript component in its own variable
                            because from within the upload function callbacks 'this' will refer to the current function being executed*/
             this.uploadFile(function (templateUrl) {
-                const targetTemplateUrl = templateUrl;
                 const renderInfoObject = component.db.list('template-render-info');
                 renderInfoObject.push({
-                    'templateUrl': targetTemplateUrl,
-                    'variables' : component.variableArray,
-                    'fileEndings' : component.fileEndingsArray
+                    'templateArchiveUrl': templateUrl,
+                    'variables': component.variableArray,
+                    'fileEndings': component.fileEndingsArray
                 }).then((renderInfoResult) => {
                     const targetKey = renderInfoResult.key;
                     const directoryObject = component.db.object('template-directory/' + targetKey);
                     directoryObject.set({
-                        'templateName' : component.templateName,
-                        'tags' : component.tagArray,
-                        'authorName' : component.user.displayName,
-                        'authorUID' : component.user.uid,
-                        'authorPhotoUrl' : component.user.photoURL
+                        'templateName': component.templateName,
+                        'tags': component.tagArray,
+                        'authorName': component.user.displayName,
+                        'authorUID': component.user.uid,
+                        'authorPhotoUrl': component.user.photoURL
                     });
                 }).then(() => {
                     component.dialog.open(UploadSuccessDialogComponent, {
-                    width: '250px'});
+                        width: '250px'
+                    });
                 });
             });
             component.router.navigate(['home']);
@@ -113,7 +113,7 @@ export class CreateTemplateComponent implements OnInit {
     }
 
     validateInput() {
-        //TODO: Check to see that variable names don't have spaces or special characters
+        // TODO: Check to see that variable names don't have spaces or special characters
         let returnVal: Boolean = true;
         if (!this.templateName) { // will evaluate to true if templateName is an empty string, for more info google 'typescript truthiness'
             returnVal = false;

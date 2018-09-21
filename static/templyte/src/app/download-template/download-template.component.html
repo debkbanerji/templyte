@@ -21,54 +21,22 @@
 </mat-toolbar>
 
 <mat-card class="card-download">
-    <p class="title large">Download a Template</p>
-    <div class="container">
-        <form>
-            <mat-form-field>
-                <mat-select placeholder="Templates" [(ngModel)]="selectedValue"
-                            name="downloadableTemplates" [ngStyle]="{'width': '200px'}">
-                    <mat-option *ngFor="let template of templateList | async" [value]="template">
-                        {{template.templateName}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </form>
+    <h1>Download a Template</h1>
 
-        <!--The following commented out code block helps to see the whole object being returned from the database. Used for debugging only. -->
-        <!--<div *ngFor="let template of templateList | async">-->
-            <!--{{template | json}}-->
-        <!--</div>-->
-        <div *ngIf="selectedValue">
-            <p class="form-heading">Template Tags</p>
+    <h1>{{(templateDirectoryInfo | async)?.templateName}}</h1>
+    <!--TODO: Add description-->
+
+    <div>
+        <div *ngFor="let variable of (templateRenderInfo | async)?.variables">
+            <p>{{variable.name}}</p>
+            <p>{{variable.description}}</p>
+            <input [(ngModel)]="valueMap[variable.name]" class="form-control"
+                   name="{{variable.name}}"
+                   placeholder="{{variable.description}}">
         </div>
-
-
-        <!-- The following code block displays the same number of input fields as the number of tags in the selected template object.  -->
-        <table class="table col-sm-12">
-            <tbody>
-            <!-- Here the ? basically checks for null return values. So it goes like this: if the selectedValue is not null, and it has tags, iterate over the tags array and for each tag, display an input field.-->
-            <tr *ngFor="let tag of selectedValue?.tags; let i = index">
-                <td class='col-lg-12'>
-                    <input [(ngModel)]="tag.name" class="form-control"
-                           name="{{tag.name}}"
-                           placeholder="insert tag here">
-                </td>
-                <td class='col-lg-1'>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <button mat-flat-button color="accent" (click)="deleteTagValue(i)">Delete
-                            </button>
-                        </div>
-                    </div>
-                </td>
-
-            </tr>
-            </tbody>
-        </table>
-
-        <!-- The following is the on-click handler function that is called when download button is clicked. Currently, all it does is save the newly entererd fields into an array.-->
-        <button mat-raised-button color="primary"
-                (click)="downloadTemplate()">Download
-        </button>
     </div>
+
+    <button mat-raised-button color="primary"
+            (click)="downloadTemplate()">Download
+    </button>
 </mat-card>

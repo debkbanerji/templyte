@@ -28,7 +28,7 @@ const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
     {path: 'login', component: LoginComponent, pathMatch: 'full'},
     {path: 'create', component: CreateTemplateComponent, pathMatch: 'full'},
-    {path: 'download', component: DownloadTemplateComponent, pathMatch: 'full'},
+    {path: 'download-template/:id', component: DownloadTemplateComponent, pathMatch: 'full'},
     {path: 'my-templates', component: MyTemplatesComponent, pathMatch: 'full'},
     {path: '**', redirectTo: '', pathMatch: 'full'} // Redirect everything else to the home page
 ];
