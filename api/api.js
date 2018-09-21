@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const fstream = require('fstream');
+const mustache = require('mustache');
 const pathUtils = require('path');
 const request = require('request');
 const unzip = require('unzip');
@@ -33,8 +34,27 @@ function makeDirIfNotExists(path) {
 }
 
 
-function renderFolder(variables, fileEndings, path, targetArchive) {
-
+function renderFolder(variableMap, targetFileEndings, path, index, targetArchive, templateBasePath, doneCallback) {
+    const targetPath = joinPaths(templateBasePath, path);
+    fs.readdir(targetPath, (err, files) => {
+        if (index < files.length) {
+            let fileName = files[index];
+            const relativeFilePath = joinPaths(path, fileName);
+            const fullFilePath = joinPaths(targetPath, fileName);
+            if (fs.lstatSync(fullFilePath).isDirectory()) {
+                renderFolder(variableMap, targetFileEndings, relativeFilePath, 0, targetArchive, templateBasePath, doneCallback)
+            } else {
+                const fileContents = fs.readFileSync(fullFilePath);
+                const fileExtension = fullFilePath.split('.').slice(-1)[0];
+                const output = targetFileEndings.indexOf(fileExtension) < 0 ? fileContents : mustache.render(fileContents.toString(), variableMap);
+                targetArchive.entry(output, {name: relativeFilePath}, function () {
+                    renderFolder(variableMap, targetFileEndings, path, index + 1, targetArchive, templateBasePath, doneCallback)
+                });
+            }
+        } else {
+            doneCallback();
+        }
+    });
 }
 
 function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
@@ -69,9 +89,15 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
 
             readStream.on('close', function () {
                 fs.unlinkSync(downloadZipFilePath);
-                renderFolder(variables, fileEndings, unzippedTemplatePath, targetArchive);
-                targetArchive.finalize();
-                // deleteDir(workingFolderName);
+                for (let i = 0; i < fileEndings.length; i++) {
+                    fileEndings[i] = fileEndings[i].replace('.', '');
+                }
+                setTimeout(() => {
+                    renderFolder(variables, fileEndings, '', 0, targetArchive, unzippedTemplatePath, () => {
+                        targetArchive.finalize();
+                        deleteDir(workingFolderName);
+                    });
+                }, 500);
             });
         });
     });
@@ -79,7 +105,8 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
 }
 
 router.get('/download-template', (req, res) => {
-    // TODO: switch to post request if unable to pass all required information through get request
+    // TODO: Switch to post request if unable to pass all required information through get request
+    // TODO: Handle possible rendering errors and pass error message to frontend
 
     res.set('Content-Type', 'application/zip');
     res.set('Content-Disposition', 'attachment; filename=project.zip');
