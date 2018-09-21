@@ -64,8 +64,8 @@ export class DownloadTemplateComponent implements OnInit {
     }
 
     downloadTemplate() {
-        let tags_array = this.selectedValue.tags;
-        console.log("Tags:",tags_array);
+        let variables_array = this.selectedValue.tags;
+        console.log("Tags:",variables_array);
     }
 
     createTemplate() {
