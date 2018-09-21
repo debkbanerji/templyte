@@ -42,7 +42,6 @@ export class HomeComponent implements OnInit {
         this.router.navigate(['my-templates']);
     }
 
-    // Ashwini -- Adding the routing redirect to Download Templates from this component when user clicks the menu option in the top nav bar
     downloadTemplate() {
         this.router.navigate(['download']);
     }

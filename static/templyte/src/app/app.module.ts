@@ -21,11 +21,9 @@ import {InputValidateDialogComponent} from './input-validate-dialog/input-valida
 import {UploadSuccessDialogComponent} from './upload-success-dialog/upload-success-dialog.component';
 import { MyTemplatesComponent } from './my-templates/my-templates.component';
 import {MatChipsModule} from '@angular/material/chips';
-// Ashwini -- Added MatSelect Module to imports and the download templates to imports. The Drop down box
 import {MatSelectModule} from '@angular/material/select';
 import {DownloadTemplateComponent} from './download-template/download-template.component';
 
-// Ashwini: Added  routing for the download Templates component, so that it can be navigated to from other components.
 const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
     {path: 'login', component: LoginComponent, pathMatch: 'full'},
@@ -35,7 +33,6 @@ const routes: Routes = [
     {path: '**', redirectTo: '', pathMatch: 'full'} // Redirect everything else to the home page
 ];
 
-// Ashwini: Added  MatSelectModule, into the imports section.Added  DownloadTemplateComponent, into the declarations section. also added DownloadTemplateComponent, into the ngModules section
 @NgModule({
     declarations: [
         AppComponent,

@@ -7,7 +7,6 @@
             <li>
                 <button mat-button (click)="createTemplate()">Create Template</button>
             </li>
-            <!-- Ashwini -- Added the Menu option for DownloadTemplate to the top nav bar, and disabled it, as it is the one which is selected.-->
             <li>
                 <button mat-button disabled>Download Template</button>
             </li>
@@ -21,19 +20,13 @@
     </nav>
 </mat-toolbar>
 
-<!-- Ashwini -- Following is the dropdown form component from Material library, the same as is being used every where else. its called mat-option .  -->
 <mat-card class="card-download">
     <p class="title large">Download a Template</p>
     <div class="container">
         <form>
             <mat-form-field>
-                <!-- Ashwini -- When the user makes a selection in the dropdown, it is saved in the ngModel variable called selectedValue. This selected value variable is declared in the .ts file. -->
-                <!-- Ashwini -- With the ngStyle directive, I am just trying to do some inline styling to increase the width of the dropdown box. . -->
                 <mat-select placeholder="Templates" [(ngModel)]="selectedValue"
                             name="downloadableTemplates" [ngStyle]="{'width': '200px'}">
-                    <!-- Ashwini -- the Template List is the list of templates fetched in the same way as is done in the mt templates component. I am using the same db query. If this downladable template list should not be
-                    specific to a single user, the db query will need to be changed-->
-                    <!-- Ashwini -- Below, I am iterating over the templates list array and populating the selection options with the template names, for the dropdown box.-->
                     <mat-option *ngFor="let template of templateList | async" [value]="template">
                         {{template.templateName}}
                     </mat-option>
@@ -41,7 +34,7 @@
             </mat-form-field>
         </form>
 
-        <!--Ashwini -- The following commented out code block helps to see the whole object being returned from the database. Used for debugging only. -->
+        <!--The following commented out code block helps to see the whole object being returned from the database. Used for debugging only. -->
         <!--<div *ngFor="let template of templateList | async">-->
             <!--{{template | json}}-->
         <!--</div>-->
@@ -50,10 +43,10 @@
         </div>
 
 
-        <!-- Ashwini -- The following code block displays the same number of input fields as the number of tags in the selected template object.  -->
+        <!-- The following code block displays the same number of input fields as the number of tags in the selected template object.  -->
         <table class="table col-sm-12">
             <tbody>
-            <!-- Ashwini -- Here the ? basically checks for null return values. So it goes like this: if the selectedValue is not null, and it has tags, iterate over the tags array and for each tag, display an input field.-->
+            <!-- Here the ? basically checks for null return values. So it goes like this: if the selectedValue is not null, and it has tags, iterate over the tags array and for each tag, display an input field.-->
             <tr *ngFor="let tag of selectedValue?.tags; let i = index">
                 <td class='col-lg-12'>
                     <input [(ngModel)]="tag.name" class="form-control"
@@ -73,7 +66,7 @@
             </tbody>
         </table>
 
-        <!-- Ashwini -- The following is the on-click handler function that is called when download button is clicked. Currently, all it does is save the newly entererd fields into an array.-->
+        <!-- The following is the on-click handler function that is called when download button is clicked. Currently, all it does is save the newly entererd fields into an array.-->
         <button mat-raised-button color="primary"
                 (click)="downloadTemplate()">Download
         </button>

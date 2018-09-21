@@ -36,8 +36,8 @@ export class DownloadTemplateComponent implements OnInit {
             }
         });
     }
-    // Ashwini -- This is the same function as in the myTemplates component. I am using it here to fetch data to populate
-    // the dropdown list. This needs to be changed to get all templates, not just mine. This is temporary, for testing only.
+    // This is the same function as in the myTemplates component. It is used to populate
+    // the dropdown list. This needs to be changed to get all templates, not just the ones on my templates. This is temporary, for testing only.
     private createTemplateList() {
         const component = this;
         component.templateList = component.db.list('/template-directory',
@@ -63,7 +63,6 @@ export class DownloadTemplateComponent implements OnInit {
         this.authService.logout(null);
     }
 
-    //Ashwini -- onclick method for the download button. 
     downloadTemplate() {
         let tags_array = this.selectedValue.tags;
         console.log("Tags:",tags_array);
