@@ -1,5 +1,5 @@
 const express = require('express');
-const fs = require('fs');
+const fs = require('fs-extra');
 const fstream = require('fstream');
 const mustache = require('mustache');
 const pathUtils = require('path');
@@ -14,18 +14,6 @@ const tempFolderName = 'temp';
 console.log('Running api.js');
 
 const router = express.Router();
-
-function deleteDir(dirPath) {
-    fs.readdirSync(dirPath).forEach(file => {
-        const filePath = joinPaths(dirPath, file);
-        if (fs.lstatSync(filePath).isDirectory()) {
-            deleteDir(filePath)
-        } else {
-            fs.unlinkSync(filePath);
-        }
-    });
-    fs.rmdirSync(dirPath);
-}
 
 function makeDirIfNotExists(path) {
     if (!fs.existsSync(path)) {
@@ -95,7 +83,7 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
                 setTimeout(() => {
                     renderFolder(variables, fileEndings, '', 0, targetArchive, unzippedTemplatePath, () => {
                         targetArchive.finalize();
-                        deleteDir(workingFolderName);
+                        fs.remove(workingFolderName)
                     });
                 }, 500);
             });
