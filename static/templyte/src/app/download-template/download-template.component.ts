@@ -64,9 +64,8 @@ export class DownloadTemplateComponent implements OnInit {
     }
 
     downloadTemplate() {
-        //TODO: check to make sure variable values don't have spaces or special characters
-        let tags_array = this.selectedValue.tags;
-        console.log("Tags:",tags_array);
+        let variables_array = this.selectedValue.tags;
+        console.log("Tags:",variables_array);
     }
 
     createTemplate() {
