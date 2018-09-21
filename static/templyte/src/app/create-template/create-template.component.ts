@@ -90,7 +90,7 @@ export class CreateTemplateComponent implements OnInit {
                 const targetTemplateUrl = templateUrl;
                 const renderInfoObject = component.db.list('template-render-info');
                 renderInfoObject.push({
-                    'template-url': targetTemplateUrl,
+                    'templateUrl': targetTemplateUrl,
                     'variables' : component.variableArray,
                     'fileEndings' : component.fileEndingsArray
                 }).then((renderInfoResult) => {
@@ -113,6 +113,7 @@ export class CreateTemplateComponent implements OnInit {
     }
 
     validateInput() {
+        //TODO: Check to see that variable names don't have spaces or special characters
         let returnVal: Boolean = true;
         if (!this.templateName) { // will evaluate to true if templateName is an empty string, for more info google 'typescript truthiness'
             returnVal = false;
