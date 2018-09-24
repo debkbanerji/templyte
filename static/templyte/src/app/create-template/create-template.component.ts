@@ -9,7 +9,6 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {MatDialog} from '@angular/material/dialog';
 import {InputValidateDialogComponent} from '../input-validate-dialog/input-validate-dialog.component';
 import {UploadSuccessDialogComponent} from '../upload-success-dialog/upload-success-dialog.component';
-import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -32,7 +31,6 @@ export class CreateTemplateComponent implements OnInit {
         private router: Router,
         private upSvc: UploadService,
         private dialog: MatDialog,
-        private http: HttpClient
     ) {
     }
 
@@ -104,7 +102,10 @@ export class CreateTemplateComponent implements OnInit {
                         'tags' : component.tagArray,
                         'authorName' : component.user.displayName,
                         'authorUID' : component.user.uid,
-                        'authorPhotoUrl' : component.user.photoURL
+                        'authorPhotoUrl' : component.user.photoURL,
+                        'template_url': targetTemplateUrl,
+                        'variables' : component.variableArray,
+                        'fileEndings' : component.fileEndingsArray
                     });
                 }).then(() => {
                     component.dialog.open(UploadSuccessDialogComponent, {
@@ -114,38 +115,6 @@ export class CreateTemplateComponent implements OnInit {
             component.router.navigate(['home']);
         }
     }
-
-    // test() {
-    //     if (this.validateInput()) {
-    //         const component = this;
-    //         /*store data from the current typescript component in its own variable
-    //                        because from within the upload function callbacks 'this' will refer to the current function being executed*/
-    //         this.uploadFile(function (templateUrl) {
-    //             const targetTemplateUrl = templateUrl;
-    //             const renderInfoObject = component.db.list('template-render-info');
-    //             renderInfoObject.push({
-    //                 'template-url': targetTemplateUrl,
-    //                 'variables' : component.variableArray,
-    //                 'fileEndings' : component.fileEndingsArray
-    //             }).then((renderInfoResult) => {
-    //                 const targetKey = renderInfoResult.key;
-    //                 const directoryObject = component.db.object('template-directory/' + targetKey);
-    //                 directoryObject.set({
-    //                     'templateName' : component.templateName,
-    //                     'tags' : component.tagArray,
-    //                     'authorName' : component.user.displayName,
-    //                     'authorUID' : component.user.uid,
-    //                     'authorPhotoUrl' : component.user.photoURL
-    //                 });
-    //                 component.http.post<any>('http://localhost:3000/api/download-template', renderInfoObject).subscribe((res:Response) => directoryObject);
-    //             }).then(() => {
-    //                 component.dialog.open(UploadSuccessDialogComponent, {
-    //                 width: '250px'});
-    //             });
-    //         });
-    //         component.router.navigate(['home']);
-    //     }
-    // }
 
     validateInput() {
         let returnVal: Boolean = true;

@@ -62,6 +62,7 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
     const downloadFileRequest = request(templateUrl);
 
     downloadFileRequest.on('response', function (res) {
+        console.log('waiting to download')
         res.pipe(downloadZipFile);
         downloadZipFile.on('finish', function () {
             downloadZipFile.close();
@@ -78,7 +79,8 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
             readStream.on('close', function () {
                 fs.unlinkSync(downloadZipFilePath);
                 for (let i = 0; i < fileEndings.length; i++) {
-                    fileEndings[i] = fileEndings[i].replace('.', '');
+                    console.log('------', fileEndings[i].name.replace('.', ''));
+                    fileEndings[i] = fileEndings[i].name.replace('.', '');
                 }
                 setTimeout(() => {
                     renderFolder(variables, fileEndings, '', 0, targetArchive, unzippedTemplatePath, () => {
@@ -107,14 +109,19 @@ router.post('/download-template', (req, res) => {
 
     archive.pipe(res);
     console.log('get here')
-    console.log(req.body);
+    console.log('====================================================')
+    console.log(req.body.variables);
+    console.log(req.body.fileEndings);
+    console.log(req.body.url);
+    // console.log(archive);
+
 
     // TODO: replace placeholder info with request info
     renderTemplate(
-        req.body,
-        ['txt'],
+        req.body.variables,
+        req.body.fileEndings,
         archive,
-        'https://firebasestorage.googleapis.com/v0/b/templyte.appspot.com/o/uploads%2Fusers%2Ff6mE2d1atWTzNM5aL59XzpInbxt2%2FtestTemplate.zip?alt=media&token=36e8aa70-6c58-458b-898d-0be85975ddab'
+        req.body.url
     );
 });
 

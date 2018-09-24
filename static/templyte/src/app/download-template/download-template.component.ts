@@ -5,6 +5,7 @@ import {User} from 'firebase';
 import {Component, OnInit} from '@angular/core';
 
 import {AngularFireDatabase} from 'angularfire2/database';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'download-template',
@@ -22,6 +23,7 @@ export class DownloadTemplateComponent implements OnInit {
         private authService: AuthService,
         private db: AngularFireDatabase,
         private router: Router,
+        private http: HttpClient
     ) {
     }
 
@@ -64,8 +66,13 @@ export class DownloadTemplateComponent implements OnInit {
     }
 
     downloadTemplate() {
-        let tags_array = this.selectedValue.tags;
-        console.log("Tags:",tags_array);
+
+        let request = {
+            'variables' : this.selectedValue.variables,
+            'fileEndings' : this.selectedValue.fileEndings,
+            'url' : this.selectedValue.template_url
+        };
+        this.http.post<any>('http://localhost:3000/api/download-template', request).subscribe(data => console.log('data: ', data));
     }
 
     createTemplate() {
