@@ -92,7 +92,7 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
 
 }
 
-router.get('/download-template', (req, res) => {
+router.post('/download-template', (req, res) => {
     // TODO: Switch to post request if unable to pass all required information through get request
     // TODO: Handle possible rendering errors and pass error message to frontend
 
@@ -106,12 +106,12 @@ router.get('/download-template', (req, res) => {
     });
 
     archive.pipe(res);
+    console.log('get here')
+    console.log(req.body);
 
     // TODO: replace placeholder info with request info
-    renderTemplate({
-            'myVar1': 'SOME_VAL',
-            'myOtherVar': 'SOME_OTHER_VAL'
-        },
+    renderTemplate(
+        req.body,
         ['txt'],
         archive,
         'https://firebasestorage.googleapis.com/v0/b/templyte.appspot.com/o/uploads%2Fusers%2Ff6mE2d1atWTzNM5aL59XzpInbxt2%2FtestTemplate.zip?alt=media&token=36e8aa70-6c58-458b-898d-0be85975ddab'
