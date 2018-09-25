@@ -79,7 +79,6 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
             readStream.on('close', function () {
                 fs.unlinkSync(downloadZipFilePath);
                 for (let i = 0; i < fileEndings.length; i++) {
-                    console.log('------', fileEndings[i].name.replace('.', ''));
                     fileEndings[i] = fileEndings[i].name.replace('.', '');
                 }
                 setTimeout(() => {
@@ -95,7 +94,6 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
 }
 
 router.post('/download-template', (req, res) => {
-    // TODO: Switch to post request if unable to pass all required information through get request
     // TODO: Handle possible rendering errors and pass error message to frontend
 
     res.set('Content-Type', 'application/zip');
@@ -106,17 +104,8 @@ router.post('/download-template', (req, res) => {
     archive.on('error', function (err) {
         throw err;
     });
-
+    console.log('req: ', req.body.variables)
     archive.pipe(res);
-    console.log('get here')
-    console.log('====================================================')
-    console.log(req.body.variables);
-    console.log(req.body.fileEndings);
-    console.log(req.body.url);
-    // console.log(archive);
-
-
-    // TODO: replace placeholder info with request info
     renderTemplate(
         req.body.variables,
         req.body.fileEndings,
