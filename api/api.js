@@ -79,7 +79,7 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
             readStream.on('close', function () {
                 fs.unlinkSync(downloadZipFilePath);
                 for (let i = 0; i < fileEndings.length; i++) {
-                    fileEndings[i] = fileEndings[i].name.replace('.', '');
+                    fileEndings[i] = fileEndings[i].replace('.', '');
                 }
                 setTimeout(() => {
                     renderFolder(variables, fileEndings, '', 0, targetArchive, unzippedTemplatePath, () => {
@@ -104,7 +104,11 @@ router.post('/download-template', (req, res) => {
     archive.on('error', function (err) {
         throw err;
     });
-    console.log('req: ', req.body.variables)
+    console.log('variables: ', req.body.variables)
+    console.log('fileEndings: ', req.body.fileEndings)
+    console.log('url: ', req.body.url)
+
+
     archive.pipe(res);
     renderTemplate(
         req.body.variables,

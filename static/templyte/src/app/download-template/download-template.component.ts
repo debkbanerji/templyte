@@ -6,6 +6,7 @@ import {AngularFireDatabase, AngularFireObject} from 'angularfire2/database';
 import { HttpClient } from '@angular/common/http';
 import { Observable} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'download-template',
@@ -71,9 +72,14 @@ export class DownloadTemplateComponent implements OnInit {
         const component = this;
         this.templateRenderInfoRef.snapshotChanges().subscribe(data => {
             console.log(data.payload.val());
+            let fileEndings =  data.payload.val().fileEndings;
+            for (let i = 0; i < data.payload.val().fileEndings.length; i++) {
+                fileEndings[i] = fileEndings[i].name;
+            }
+            console.log(fileEndings);
             let request = {
                 'variables' : this.valueMap,
-                'fileEndings' : data.payload.val().fileEndings,
+                'fileEndings' : fileEndings,
                 'url' : data.payload.val().templateArchiveUrl
             }
             console.log(request);
