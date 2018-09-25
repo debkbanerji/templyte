@@ -5,6 +5,7 @@ import {Component, NgZone, OnInit} from '@angular/core';
 import {AngularFireDatabase, AngularFireObject} from 'angularfire2/database';
 import { HttpClient } from '@angular/common/http';
 import { Observable} from 'rxjs';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
     selector: 'download-template',
@@ -19,6 +20,7 @@ export class DownloadTemplateComponent implements OnInit {
     templateRenderInfo: Observable<any> = null;
     templateDirectoryInfo: Observable<any> = null;
     renderInfo : Object = null;
+    templateVariableNameList: Object = null;
 
 
 
@@ -28,7 +30,8 @@ export class DownloadTemplateComponent implements OnInit {
         private ngZone: NgZone,
         private route: ActivatedRoute,
         private router: Router,
-        private http: HttpClient
+        private http: HttpClient,
+        private dialog: MatDialog
     ) {
     }
 
@@ -42,17 +45,14 @@ export class DownloadTemplateComponent implements OnInit {
                 component.route.params.subscribe(params => {
                     component.ngZone.run(() => { // Need to do this using NgZone since we're calling a third party API
                         console.log('template-directory/' + params.id);
-                        // console.log('params: ', params);
-                        // defer(async() => {
-                        //     component.templateDirectoryInfo = await component.db.object('template-directory/' + params.id).valueChanges();
-                        //     component.templateRenderInfo = await component.db.object('template-render-info/' + params.id).valueChanges(); });
                         component.templateDirectoryInfoRef = component.db.object('template-directory/' + params.id);
                         component.templateRenderInfoRef = component.db.object('template-render-info/' + params.id);
                         component.templateDirectoryInfo = component.templateDirectoryInfoRef.valueChanges();
                         component.templateRenderInfo = component.templateRenderInfoRef.valueChanges();
-                        // defer(async() => {
-                        //     await component.templateDirectoryInfo;
-                        //     await component.templateRenderInfo});
+                        component.templateVariableNameList = component.db.object('template-render-info/' + params.id + '/variables')
+                            .valueChanges().subscribe((response) => {
+                                component.templateVariableNameList = response;
+                            });
                     });
                 });
             }
@@ -89,4 +89,17 @@ export class DownloadTemplateComponent implements OnInit {
     myTemplates() {
         this.router.navigate(['my-templates']);
     }
+        //Checks to make sure none of the entered values are null, and if they are change the value in the valueMap to an empty string
+        validateEnteredVariables() {
+            let keys = Object.keys(this.valueMap);
+            console.log(keys);
+            let myValueMap = this.valueMap as Map<any, any>;
+            console.log(typeof myValueMap);
+            for (var variable in this.templateVariableNameList) {
+                if (!keys.includes(this.templateVariableNameList[variable].name)) {
+                    myValueMap.set(this.templateVariableNameList[variable].name, "");
+                }
+            }
+            this.valueMap = myValueMap; 
+        }
 }
