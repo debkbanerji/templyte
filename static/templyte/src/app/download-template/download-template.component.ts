@@ -46,13 +46,23 @@ export class DownloadTemplateComponent implements OnInit {
                 component.route.params.subscribe(params => {
                     component.ngZone.run(() => { // Need to do this using NgZone since we're calling a third party API
                         console.log('template-directory/' + params.id);
+                        let metadataIsValid = true;
                         component.templateDirectoryInfoRef = component.db.object('template-directory/' + params.id);
                         component.templateRenderInfoRef = component.db.object('template-render-info/' + params.id);
-                        component.templateDirectoryInfo = component.templateDirectoryInfoRef.valueChanges();
-                        component.templateRenderInfo = component.templateRenderInfoRef.valueChanges();
+                        component.templateDirectoryInfoRef.valueChanges().subscribe((response) => {
+                            component.templateDirectoryInfo = response;
+                            metadataIsValid = false;
+                        });
+                        component.templateRenderInfoRef.valueChanges().subscribe((response) => {
+                            component.templateRenderInfo = response;
+                            metadataIsValid = false;
+                        });
                         component.templateVariableNameList = component.db.object('template-render-info/' + params.id + '/variables')
                             .valueChanges().subscribe((response) => {
                                 component.templateVariableNameList = response;
+                                if (!component.templateVariableNameList || !metadataIsValid) {
+                                    component.router.navigate(['home']);
+                                }
                             });
                     });
                 });
