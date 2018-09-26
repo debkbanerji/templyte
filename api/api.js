@@ -65,24 +65,29 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
         console.log('waiting to download')
         res.pipe(downloadZipFile);
         downloadZipFile.on('finish', function () {
+            console.log('download finished')
             downloadZipFile.close();
-
             const readStream = fs.createReadStream(downloadZipFilePath);
+            console.log(downloadZipFilePath);
             const unzippedTemplatePath = joinPaths(workingFolderName, downloadedZipFileID);
             fs.mkdirSync(unzippedTemplatePath);
             const writeStream = fstream.Writer(unzippedTemplatePath);
-
             readStream
                 .pipe(unzip.Parse())
                 .pipe(writeStream);
 
-            readStream.on('close', function () {
+            console.log('got here, error below1');
+            readStream.on('close', function (err) {
+                console.log('err');
+
+                console.log('closed readstream')
                 fs.unlinkSync(downloadZipFilePath);
                 for (let i = 0; i < fileEndings.length; i++) {
                     fileEndings[i] = fileEndings[i].replace('.', '');
                 }
                 setTimeout(() => {
                     renderFolder(variables, fileEndings, '', 0, targetArchive, unzippedTemplatePath, () => {
+                        console.log('finalizing archive')
                         targetArchive.finalize();
                         fs.remove(workingFolderName)
                     });
@@ -93,9 +98,10 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
 
 }
 
-router.post('/download-template', (req, res) => {
+router.get('/download-template', (req, res) => {
     // TODO: Handle possible rendering errors and pass error message to frontend
-
+    let request =JSON.parse( decodeURIComponent(req.query.request));
+    console.log(JSON.stringify(request));
     res.set('Content-Type', 'application/zip');
     res.set('Content-Disposition', 'attachment; filename=project.zip');
 
@@ -104,17 +110,17 @@ router.post('/download-template', (req, res) => {
     archive.on('error', function (err) {
         throw err;
     });
-    console.log('variables: ', req.body.variables)
-    console.log('fileEndings: ', req.body.fileEndings)
-    console.log('url: ', req.body.url)
+    console.log('variables: ', request.variables)
+    console.log('fileEndings: ', request['fileEndings'])
+    console.log('url: ', request['url'])
 
 
     archive.pipe(res);
     renderTemplate(
-        req.body.variables,
-        req.body.fileEndings,
+        request.variables,
+        request.fileEndings,
         archive,
-        req.body.url
+        request.url
     );
 });
 

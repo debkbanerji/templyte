@@ -6,7 +6,7 @@ import {AngularFireDatabase, AngularFireObject} from 'angularfire2/database';
 import { HttpClient } from '@angular/common/http';
 import { Observable} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
-import { forEach } from '@angular/router/src/utils/collection';
+import { FileSaver } from 'file-saver';
 
 @Component({
     selector: 'download-template',
@@ -77,13 +77,16 @@ export class DownloadTemplateComponent implements OnInit {
                 fileEndings[i] = fileEndings[i].name;
             }
             console.log(fileEndings);
-            let request = {
+            let request = encodeURIComponent(JSON.stringify({
                 'variables' : this.valueMap,
                 'fileEndings' : fileEndings,
                 'url' : data.payload.val().templateArchiveUrl
-            }
+            }))
             console.log(request);
-            component.http.post<any>('http://localhost:3000/api/download-template', request).subscribe(data => console.log('data: ', data));
+            component.http.get<any>('http://localhost:3000/api/download-template?request=' + request)
+                .subscribe(data => console.log('downloading'), (error => {
+                    console.log('Error connecting to API: ' + JSON.stringify(data) + " " + error.message);
+                }));
         });
 
     }
