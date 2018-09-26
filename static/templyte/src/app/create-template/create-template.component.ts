@@ -83,12 +83,11 @@ export class CreateTemplateComponent implements OnInit {
     }
 
     uploadTemplate() {
-        if (this.validateInput()) {
-            const component = this;
-            /*store data from the current typescript component in its own variable
-                           because from within the upload function callbacks 'this' will refer to the current function being executed*/
-            this.uploadFile(function (templateUrl) {
+        const component = this;
+        if (component.validateInput()) {
+            component.uploadFile(function (templateUrl) {
                 const renderInfoObject = component.db.list('template-render-info');
+                console.log(templateUrl);
                 renderInfoObject.push({
                     'templateArchiveUrl': templateUrl,
                     'variables': component.variableArray,
@@ -97,11 +96,11 @@ export class CreateTemplateComponent implements OnInit {
                     const targetKey = renderInfoResult.key;
                     const directoryObject = component.db.object('template-directory/' + targetKey);
                     directoryObject.set({
-                        'templateName' : component.templateName,
-                        'tags' : component.tagArray,
-                        'authorName' : component.user.displayName,
-                        'authorUID' : component.user.uid,
-                        'authorPhotoUrl' : component.user.photoURL
+                        'templateName': component.templateName,
+                        'tags': component.tagArray,
+                        'authorName': component.user.displayName,
+                        'authorUID': component.user.uid,
+                        'authorPhotoUrl': component.user.photoURL
 
                     });
                 }).then(() => {
@@ -134,21 +133,23 @@ export class CreateTemplateComponent implements OnInit {
                 }
             }
         }
-        let invalidCharactersArray : Array<String> = [" ", "!", "#", "$", "%", "&", "\'", 
-            "(", ")", "*", "+", ",", "-", ".", "/", ":", ";", "<", "=", ">", "?", "@", "[", 
-            `/`, "]", "^", "_", "`", "{", "|", "}", "~"];
-        console.log("made it here");
-        for (var i = 0; i < this.variableArray.length; i++) {
-            for (var char in invalidCharactersArray) {
+        const invalidCharactersArray: Array<String> = [' ', '!', '#', '$', '%', '&', '\\',
+            '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[',
+            `/`, ']', '^', '_', '`', '{', '|', '}', '~'];
+        console.log('made it here');
+        for (let i = 0; i < this.variableArray.length; i++) {
+            for (const char in invalidCharactersArray) {
                 if (this.variableArray[i].name.includes(invalidCharactersArray[char])) {
                     returnVal = false;
                     this.dialog.open(InputValidateDialogComponent, {
                         width: '250px',
-                        data: {message: `The variable name "` + this.variableArray[i].name + 
-                            `" contains an invalid character: ` + invalidCharactersArray[char] +
-                        "\n Please do not include spaces or special characters in your variable names."}
+                        data: {
+                            message: `The variable name "` + this.variableArray[i].name +
+                                `" contains an invalid character: ` + invalidCharactersArray[char] +
+                                '\n Please do not include spaces or special characters in your variable names.'
+                        }
                     });
-                    break; //once you find one invalid character in a variable name, the user doesn't need to be told if there are more
+                    break; // once you find one invalid character in a variable name, the user doesn't need to be told if there are more
                 }
             }
         }
@@ -182,13 +183,13 @@ export class CreateTemplateComponent implements OnInit {
                 }
             }
         }
-        if (this.selectedFiles[0].type != 'application/x-zip-compressed') {
+        if (this.selectedFiles[0].type !== 'application/x-zip-compressed') {
             returnVal = false;
             this.dialog.open(InputValidateDialogComponent, {
                 width: '250px',
                 data: {message: 'Please check that the file you are uploading is a .zip file'}
             });
-        }       
+        }
         return returnVal;
     }
 
