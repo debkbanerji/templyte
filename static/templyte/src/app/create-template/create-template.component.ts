@@ -115,7 +115,6 @@ export class CreateTemplateComponent implements OnInit {
     }
 
     validateInput() {
-        // TODO: Check to see that variable names don't have spaces or special characters
         let returnVal: Boolean = true;
         if (!this.templateName) { // will evaluate to true if templateName is an empty string, for more info google 'typescript truthiness'
             returnVal = false;
@@ -124,22 +123,32 @@ export class CreateTemplateComponent implements OnInit {
                 data: {message: 'Please enter a name for your template.'}
             });
         }
-        if (this.variableArray.length === 0) {
-            returnVal = false;
-            this.dialog.open(InputValidateDialogComponent, {
-                width: '250px',
-                data: {message: 'Please enter at least one variable name for your template.'}
-            });
-        } else {
-            for (let i = 0; i < this.variableArray.length - 1; i++) {
-                for (let j = i + 1; j < this.variableArray.length; j++) {
-                    if (this.variableArray[i].name === this.variableArray[j].name) {
-                        returnVal = false;
-                        this.dialog.open(InputValidateDialogComponent, {
-                            width: '250px',
-                            data: {message: 'Please do not enter duplicate variables'}
-                        });
-                    }
+        for (let i = 0; i < this.variableArray.length - 1; i++) {
+            for (let j = i + 1; j < this.variableArray.length; j++) {
+                if (this.variableArray[i].name === this.variableArray[j].name) {
+                    returnVal = false;
+                    this.dialog.open(InputValidateDialogComponent, {
+                        width: '250px',
+                        data: {message: 'Please do not enter duplicate variables'}
+                    });
+                }
+            }
+        }
+        let invalidCharactersArray : Array<String> = [" ", "!", "#", "$", "%", "&", "\'", 
+            "(", ")", "*", "+", ",", "-", ".", "/", ":", ";", "<", "=", ">", "?", "@", "[", 
+            `/`, "]", "^", "_", "`", "{", "|", "}", "~"];
+        console.log("made it here");
+        for (var i = 0; i < this.variableArray.length; i++) {
+            for (var char in invalidCharactersArray) {
+                if (this.variableArray[i].name.includes(invalidCharactersArray[char])) {
+                    returnVal = false;
+                    this.dialog.open(InputValidateDialogComponent, {
+                        width: '250px',
+                        data: {message: `The variable name "` + this.variableArray[i].name + 
+                            `" contains an invalid character: ` + invalidCharactersArray[char] +
+                        "\n Please do not include spaces or special characters in your variable names."}
+                    });
+                    break; //once you find one invalid character in a variable name, the user doesn't need to be told if there are more
                 }
             }
         }
@@ -173,6 +182,13 @@ export class CreateTemplateComponent implements OnInit {
                 }
             }
         }
+        if (this.selectedFiles[0].type != 'application/x-zip-compressed') {
+            returnVal = false;
+            this.dialog.open(InputValidateDialogComponent, {
+                width: '250px',
+                data: {message: 'Please check that the file you are uploading is a .zip file'}
+            });
+        }       
         return returnVal;
     }
 
