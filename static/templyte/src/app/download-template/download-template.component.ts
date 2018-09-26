@@ -46,13 +46,23 @@ export class DownloadTemplateComponent implements OnInit {
                 component.route.params.subscribe(params => {
                     component.ngZone.run(() => { // Need to do this using NgZone since we're calling a third party API
                         console.log('template-directory/' + params.id);
+                        let metadataIsValid = true;
                         component.templateDirectoryInfoRef = component.db.object('template-directory/' + params.id);
                         component.templateRenderInfoRef = component.db.object('template-render-info/' + params.id);
-                        component.templateDirectoryInfo = component.templateDirectoryInfoRef.valueChanges();
-                        component.templateRenderInfo = component.templateRenderInfoRef.valueChanges();
+                        component.templateDirectoryInfoRef.valueChanges().subscribe((response) => {
+                            component.templateDirectoryInfo = response;
+                            metadataIsValid = false;
+                        });
+                        component.templateRenderInfoRef.valueChanges().subscribe((response) => {
+                            component.templateRenderInfo = response;
+                            metadataIsValid = false;
+                        });
                         component.templateVariableNameList = component.db.object('template-render-info/' + params.id + '/variables')
                             .valueChanges().subscribe((response) => {
                                 component.templateVariableNameList = response;
+                                if (!component.templateVariableNameList || !metadataIsValid) {
+                                    component.router.navigate(['home']);
+                                }
                             });
                     });
                 });
@@ -69,6 +79,7 @@ export class DownloadTemplateComponent implements OnInit {
     }
 
     downloadTemplate() { 
+        this.validateEnteredVariables();
         const component = this;
         this.templateRenderInfoRef.snapshotChanges().subscribe(data => {
             console.log(data.payload.val());
@@ -98,17 +109,16 @@ export class DownloadTemplateComponent implements OnInit {
     myTemplates() {
         this.router.navigate(['my-templates']);
     }
-        //Checks to make sure none of the entered values are null, and if they are change the value in the valueMap to an empty string
-        validateEnteredVariables() {
-            let keys = Object.keys(this.valueMap);
-            console.log(keys);
-            let myValueMap = this.valueMap as Map<any, any>;
-            console.log(typeof myValueMap);
-            for (var variable in this.templateVariableNameList) {
-                if (!keys.includes(this.templateVariableNameList[variable].name)) {
-                    myValueMap.set(this.templateVariableNameList[variable].name, "");
-                }
+
+    //Checks to make sure none of the entered values are null, and if they are change the value in the valueMap to an empty string
+    validateEnteredVariables() {
+        let keys = Object.keys(this.valueMap);
+        let myValueMap = this.valueMap as Map<any, any>;
+        for (var variable in this.templateVariableNameList) {
+            if (!keys.includes(this.templateVariableNameList[variable].name)) {
+                myValueMap.set(this.templateVariableNameList[variable].name, "");
             }
             this.valueMap = myValueMap; 
         }
+    }
 }
