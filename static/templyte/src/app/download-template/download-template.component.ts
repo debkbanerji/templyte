@@ -5,6 +5,8 @@ import {Component, NgZone, OnInit} from '@angular/core';
 import {AngularFireDatabase, AngularFireObject} from 'angularfire2/database';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import { AngularFireStorage, AngularFireStorageReference} from 'angularfire2/storage';
+import * as FileSaver from 'file-saver'
 
 @Component({
     selector: 'download-template',
@@ -19,15 +21,17 @@ export class DownloadTemplateComponent implements OnInit {
     templateRenderInfo: Observable<any> = null;
     templateDirectoryInfo: Observable<any> = null;
     templateVariableNameList: Object = null;
+    templateRenderInfoStorageRef: AngularFireStorageReference;
 
 
     constructor(
         private authService: AuthService,
         private db: AngularFireDatabase,
+        private str: AngularFireStorage,
         private ngZone: NgZone,
         private route: ActivatedRoute,
         private router: Router,
-        private http: HttpClient
+        private http: HttpClient,
     ) {
     }
 
@@ -56,7 +60,7 @@ export class DownloadTemplateComponent implements OnInit {
                         });
                         component.templateVariableNameList = component.db.object('template-render-info/' + params.id + '/variables')
                             .valueChanges();
-
+                        component.templateRenderInfoStorageRef = component.str.ref('uploads/users/')
                         // .subscribe((response) => {
                         //     component.templateVariableNameList = response;
                         //     if (!component.templateVariableNameList || !metadataIsValid) {
@@ -81,22 +85,28 @@ export class DownloadTemplateComponent implements OnInit {
         const component = this;
         component.validateEnteredVariables();
         component.templateRenderInfoRef.snapshotChanges().subscribe(data => {
-            console.log(data.payload.val());
+            // console.log(data.payload.val().templateArchiveUrl);
             const fileEndings = data.payload.val().fileEndings;
+            let targetUrl = null;
+            component.templateRenderInfoStorageRef.getDownloadURL().subscribe(url => targetUrl = url);
             for (let i = 0; i < data.payload.val().fileEndings.length; i++) {
                 fileEndings[i] = fileEndings[i].name;
             }
-            console.log(fileEndings);
+            // console.log(component.templateRenderInfoStorageRef.getDownloadURL());
             const request = encodeURIComponent(JSON.stringify({
                 'variables': component.valueMap,
                 'fileEndings': fileEndings,
-                'url': data.payload.val().templateArchiveUrl
+                'url': targetUrl
             }));
-            console.log(request);
-            component.http.get<any>('http://localhost:3000/api/download-template?request=' + request)
-                .subscribe(downloadedData => console.log('downloading'), (error => {
+            console.log('Sending request: ' ,request);
+            const options = { responseType: 'blob' as 'blob' };
+            component.http.get('http://localhost:3000/api/download-template?request=' + request, options )
+                .subscribe(downloadedData => {
+                    const url= window.URL.createObjectURL(downloadedData);
+                    window.open(url);
+                }), (error => {
                     console.log('Error connecting to API: ' + JSON.stringify(data) + ' ' + error.message);
-                }));
+                });
         });
 
     }
