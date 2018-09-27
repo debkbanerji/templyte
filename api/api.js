@@ -60,7 +60,7 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
     const downloadZipFilePath = joinPaths(workingFolderName, downloadedZipFileName);
     const downloadZipFile = fs.createWriteStream(downloadZipFilePath);
     console.log(templateUrl);
-    const downloadFileRequest = request(templateUrl);
+    const downloadFileRequest = request(decodeURI(templateUrl));
 
     downloadFileRequest.on('response', function (res) {
         console.log('waiting to download');
@@ -80,6 +80,7 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
 
             console.log('got here, error below');
             readStream.on('close', function (err) {
+
                 console.log('closed readstream');
                 fs.unlinkSync(downloadZipFilePath);
                 for (let i = 0; i < fileEndings.length; i++) {
@@ -100,6 +101,8 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
 
 router.get('/download-template', (req, res) => {
     // TODO: Handle possible rendering errors and pass error message to frontend
+    console.log(req.query.request);
+    console.log(decodeURIComponent(req.query.request));
     const requestData = JSON.parse(decodeURIComponent(req.query.request));
     console.log(JSON.stringify(requestData));
     res.set('Content-Type', 'application/zip');

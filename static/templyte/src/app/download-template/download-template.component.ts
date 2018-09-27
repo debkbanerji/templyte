@@ -5,8 +5,7 @@ import {Component, NgZone, OnInit} from '@angular/core';
 import {AngularFireDatabase, AngularFireObject} from 'angularfire2/database';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import { AngularFireStorage, AngularFireStorageReference} from 'angularfire2/storage';
-import {saveAs} from 'file-saver'
+
 
 @Component({
     selector: 'download-template',
@@ -21,7 +20,6 @@ export class DownloadTemplateComponent implements OnInit {
     templateRenderInfo: Observable<any> = null;
     templateDirectoryInfo: Observable<any> = null;
     templateVariableNameList: Object = null;
-    templateRenderInfoStorageRef: AngularFireStorageReference;
     targetUrl: String = null;
 
 
