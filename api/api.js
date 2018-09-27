@@ -76,10 +76,10 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
             readStream
                 .pipe(unzip.Parse())
                 .pipe(writeStream);
+            console.log(unzippedTemplatePath);
 
             console.log('got here, error below');
             readStream.on('close', function (err) {
-                console.log('err');
                 console.log('closed readstream');
                 fs.unlinkSync(downloadZipFilePath);
                 for (let i = 0; i < fileEndings.length; i++) {
@@ -108,12 +108,13 @@ router.get('/download-template', (req, res) => {
     let archive = new zipStream();
 
     archive.on('error', function (err) {
+        console.log(err);
         throw err;
     });
 
     console.log('variables: ', requestData['variables']);
     console.log('fileEndings: ', requestData['fileEndings']);
-    // console.log('url: ', JSON.parse(requestData.url));
+    console.log('url: ', requestData.url);
 
 
     archive.pipe(res);
@@ -121,7 +122,8 @@ router.get('/download-template', (req, res) => {
         requestData.variables,
         requestData.fileEndings,
         archive,
-        "https://firebasestorage.googleapis.com/v0/b/templyte.appspot.com/o/uploads%2Fusers%2Ff6mE2d1atWTzNM5aL59XzpInbxt2%2FtestTemplate.zip?alt=media&token=04a237d9-d579-4f4e-ac23-b699188e90b2"
+        requestData.url
+        // "https://firebasestorage.googleapis.com/v0/b/templyte.appspot.com/o/uploads%2Fusers%2Ff6mE2d1atWTzNM5aL59XzpInbxt2%2FtestTemplate.zip?alt=media&token=04a237d9-d579-4f4e-ac23-b699188e90b2"
     );
 });
 
