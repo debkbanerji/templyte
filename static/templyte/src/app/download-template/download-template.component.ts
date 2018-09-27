@@ -5,8 +5,7 @@ import {Component, NgZone, OnInit} from '@angular/core';
 import {AngularFireDatabase, AngularFireObject} from 'angularfire2/database';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import { AngularFireStorage, AngularFireStorageReference} from 'angularfire2/storage';
-import * as FileSaver from 'file-saver'
+import {AngularFireStorage, AngularFireStorageReference} from 'angularfire2/storage';
 
 @Component({
     selector: 'download-template',
@@ -98,15 +97,15 @@ export class DownloadTemplateComponent implements OnInit {
                 'fileEndings': fileEndings,
                 'url': targetUrl
             }));
-            console.log('Sending request: ' ,request);
-            const options = { responseType: 'blob' as 'blob' };
-            component.http.get('http://localhost:3000/api/download-template?request=' + request, options )
+            console.log('Sending request: ', request);
+            const options = {responseType: 'blob' as 'blob'};
+            component.http.get('http://localhost:3000/api/download-template?request=' + request, options)
                 .subscribe(downloadedData => {
-                    const url= window.URL.createObjectURL(downloadedData);
+                    const url = window.URL.createObjectURL(downloadedData);
                     window.open(url);
-                }), (error => {
+                }, (error => {
                     console.log('Error connecting to API: ' + JSON.stringify(data) + ' ' + error.message);
-                });
+                }));
         });
 
     }
