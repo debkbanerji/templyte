@@ -59,34 +59,26 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
     const downloadedZipFileName = downloadedZipFileID + '.zip';
     const downloadZipFilePath = joinPaths(workingFolderName, downloadedZipFileName);
     const downloadZipFile = fs.createWriteStream(downloadZipFilePath);
-    console.log(templateUrl);
     const downloadFileRequest = request(decodeURI(templateUrl));
 
     downloadFileRequest.on('response', function (res) {
-        console.log('waiting to download');
         res.pipe(downloadZipFile);
         downloadZipFile.on('finish', function () {
-            console.log('download finished');
             downloadZipFile.close();
             const readStream = fs.createReadStream(downloadZipFilePath);
-            console.log(downloadZipFilePath);
             const unzippedTemplatePath = joinPaths(workingFolderName, downloadedZipFileID);
             fs.mkdirSync(unzippedTemplatePath);
             const writeStream = fstream.Writer(unzippedTemplatePath);
             readStream
                 .pipe(unzip.Parse())
                 .pipe(writeStream);
-            console.log(unzippedTemplatePath);
             readStream.on('close', function (err) {
-
-                console.log('closed readstream');
                 fs.unlinkSync(downloadZipFilePath);
                 for (let i = 0; i < fileEndings.length; i++) {
                     fileEndings[i] = fileEndings[i].replace('.', '');
                 }
                 setTimeout(() => {
                     renderFolder(variables, fileEndings, '', 0, targetArchive, unzippedTemplatePath, () => {
-                        console.log('finalizing archive');
                         targetArchive.finalize();
                         fs.remove(workingFolderName)
                     });
@@ -98,7 +90,6 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
 }
 
 router.get('/download-template', (req, res) => {
-    // TODO: Handle possible rendering errors and pass error message to frontend
     const requestData = JSON.parse(decodeURIComponent(req.query.request));
     res.set('Content-Type', 'application/zip');
     res.set('Content-Disposition', 'attachment; filename=project.zip');
