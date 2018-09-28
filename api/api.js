@@ -77,8 +77,6 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
                 .pipe(unzip.Parse())
                 .pipe(writeStream);
             console.log(unzippedTemplatePath);
-
-            console.log('got here, error below');
             readStream.on('close', function (err) {
 
                 console.log('closed readstream');
@@ -101,25 +99,15 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
 
 router.get('/download-template', (req, res) => {
     // TODO: Handle possible rendering errors and pass error message to frontend
-    console.log(req.query.request);
-    console.log(decodeURIComponent(req.query.request));
     const requestData = JSON.parse(decodeURIComponent(req.query.request));
-    console.log(JSON.stringify(requestData));
     res.set('Content-Type', 'application/zip');
     res.set('Content-Disposition', 'attachment; filename=project.zip');
 
     const archive = new zipStream();
 
     archive.on('error', function (err) {
-        console.log(err);
-        throw err;
+        throw ('Error rendering zip file: ' + err.message);
     });
-
-    console.log('variables: ', requestData['variables']);
-    console.log('fileEndings: ', requestData['fileEndings']);
-    console.log('url: ', requestData.url);
-
-
     archive.pipe(res);
     renderTemplate(
         requestData.variables,
@@ -129,5 +117,4 @@ router.get('/download-template', (req, res) => {
     );
 });
 
-console.log('Exporting api router');
 module.exports = router;

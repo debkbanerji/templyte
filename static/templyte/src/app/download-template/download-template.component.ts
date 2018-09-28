@@ -3,8 +3,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {User} from 'firebase';
 import {Component, NgZone, OnInit} from '@angular/core';
 import {AngularFireDatabase, AngularFireObject} from 'angularfire2/database';
-import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {ApiInterfaceService} from '../providers/api-interface.service';
 
 
 @Component({
@@ -19,8 +19,6 @@ export class DownloadTemplateComponent implements OnInit {
     templateRenderInfoRef: AngularFireObject<any>;
     templateRenderInfo: Observable<any> = null;
     templateDirectoryInfo: Observable<any> = null;
-    templateVariableNameList: Object = null;
-    targetUrl: String = null;
 
 
     constructor(
@@ -29,7 +27,7 @@ export class DownloadTemplateComponent implements OnInit {
         private ngZone: NgZone,
         private route: ActivatedRoute,
         private router: Router,
-        private http: HttpClient,
+        private api: ApiInterfaceService,
     ) {
     }
 
@@ -42,27 +40,16 @@ export class DownloadTemplateComponent implements OnInit {
                 component.user = component.authService.getAuth().currentUser;
                 component.route.params.subscribe(params => {
                     component.ngZone.run(() => { // Need to do this using NgZone since we're calling a third party API
-                        // let metadataIsValid = true;
                         component.templateDirectoryInfoRef = component.db.object('template-directory/' + params.id);
                         component.templateRenderInfoRef = component.db.object('template-render-info/' + params.id);
                         component.templateDirectoryInfo = component.templateDirectoryInfoRef.valueChanges();
                         component.templateRenderInfo = component.templateRenderInfoRef.valueChanges();
-                        component.templateDirectoryInfoRef.valueChanges().subscribe((response) => {
-                            // component.templateDirectoryInfo = response;
-                            // metadataIsValid = false;
+
+                        component.templateRenderInfo.subscribe((response) => {
+                            if (response == null) {
+                                component.router.navigate(['home']);
+                            }
                         });
-                        component.templateRenderInfoRef.valueChanges().subscribe((response) => {
-                            // component.templateRenderInfo = response;
-                            // metadataIsValid = false;
-                        });
-                        component.templateVariableNameList = component.db.object('template-render-info/' + params.id + '/variables')
-                            .valueChanges();
-                        // .subscribe((response) => {
-                        //     component.templateVariableNameList = response;
-                        //     if (!component.templateVariableNameList || !metadataIsValid) {
-                        //         component.router.navigate(['home']);
-                        //     }
-                        // });
                     });
                 });
             }
@@ -80,41 +67,31 @@ export class DownloadTemplateComponent implements OnInit {
     downloadTemplate() {
         const component = this;
         component.validateEnteredVariables();
-        // component.templateRenderInfoStorageRef.getDownloadURL().subscribe(url => console.log('targetUrl: ', url));
-        // console.log('targetUrl: ', this.targetUrl);
-
         component.templateRenderInfoRef.snapshotChanges().subscribe(data => {
-            // console.log(data.payload.val().templateArchiveUrl);
-            const fileEndings = data.payload.val().fileEndings;
-            for (let i = 0; i < data.payload.val().fileEndings.length; i++) {
+            const payload_val = data.payload.val();
+            const fileEndings = payload_val.fileEndings;
+            for (let i = 0; i < payload_val.fileEndings.length; i++) {
                 fileEndings[i] = fileEndings[i].name;
             }
-            // console.log(component.templateRenderInfoStorageRef.getDownloadURL());
             const request = encodeURIComponent(JSON.stringify({
                 'variables': component.valueMap,
                 'fileEndings': fileEndings,
-                'url': encodeURI(data.payload.val().templateArchiveUrl)
+                'url': encodeURI(payload_val.templateArchiveUrl)
             }));
-            console.log('Sending request: ', request);
-            const options = {responseType: 'blob' as 'blob'};
-            const linkElement = document.createElement('a');
-            component.http.get('http://localhost:3000/api/download-template?request=' + request, options)
-                .subscribe(downloadedData => {
-                    console.log('download', downloadedData);
-                    const url = window.URL.createObjectURL(downloadedData);
-                    linkElement.setAttribute('href', url);
-                    linkElement.setAttribute('download', 'rawTemplate');
-                    console.log(url);
-                    const clickEvent = new MouseEvent('click', {
-                        'view': window,
-                        'bubbles': true,
-                        'cancelable': false
-                    });
-                    linkElement.dispatchEvent(clickEvent);
 
-                }, (error => {
-                    console.log('Error connecting to API: ' + JSON.stringify(data) + ' ' + error.message);
-                }));
+            component.api.getZipFile(request, function(downloadedData) {
+                var linkElement = document.createElement('a');
+                const url= window.URL.createObjectURL(downloadedData);
+                linkElement.setAttribute('href', url);
+                linkElement.setAttribute("download", 'rawTemplate');
+                var clickEvent = new MouseEvent("click", {
+                    "view": window,
+                    "bubbles": true,
+                    "cancelable": false
+                });
+                linkElement.dispatchEvent(clickEvent);
+            });
+
         });
 
     }
