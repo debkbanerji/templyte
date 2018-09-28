@@ -8,9 +8,6 @@
                 <button mat-button disabled>Create Template</button>
             </li>
             <li>
-                <button mat-button (click)="downloadTemplate()">Download Template</button>
-            </li>
-            <li>
                 <button mat-button (click)="myTemplates()">My Templates</button>
             </li>
             <li>
@@ -42,7 +39,7 @@
             </div>
         </form>
 
-    <p class="form-heading">Template Variables</p>
+        <p class="form-heading">Template Variables</p>
         <table class="table col-sm-12">
             <tbody>
             <tr *ngFor="let variable of variableArray; let i = index">

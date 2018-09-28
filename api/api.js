@@ -126,7 +126,6 @@ router.get('/download-template', (req, res) => {
         requestData.fileEndings,
         archive,
         requestData.url
-        // "https://firebasestorage.googleapis.com/v0/b/templyte.appspot.com/o/uploads%2Fusers%2Ff6mE2d1atWTzNM5aL59XzpInbxt2%2FtestTemplate.zip?alt=media&token=04a237d9-d579-4f4e-ac23-b699188e90b2"
     );
 });
 

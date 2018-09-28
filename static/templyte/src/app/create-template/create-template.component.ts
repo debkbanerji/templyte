@@ -96,6 +96,7 @@ export class CreateTemplateComponent implements OnInit {
                     const targetKey = renderInfoResult.key;
                     const directoryObject = component.db.object('template-directory/' + targetKey);
                     directoryObject.set({
+                        'uid': targetKey,
                         'templateName': component.templateName,
                         'tags': component.tagArray,
                         'authorName': component.user.displayName,
@@ -198,10 +199,6 @@ export class CreateTemplateComponent implements OnInit {
         const file = component.selectedFiles.item(0);
         component.currentUpload = new Upload(file, component.user.uid);
         component.upSvc.pushUpload(component.currentUpload, callback);
-    }
-
-    downloadTemplate() {
-        this.router.navigate(['download']);
     }
 
     myTemplates() {

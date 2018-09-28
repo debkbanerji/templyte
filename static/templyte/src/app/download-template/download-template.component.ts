@@ -42,7 +42,6 @@ export class DownloadTemplateComponent implements OnInit {
                 component.user = component.authService.getAuth().currentUser;
                 component.route.params.subscribe(params => {
                     component.ngZone.run(() => { // Need to do this using NgZone since we're calling a third party API
-                        console.log('template-directory/' + params.id);
                         // let metadataIsValid = true;
                         component.templateDirectoryInfoRef = component.db.object('template-directory/' + params.id);
                         component.templateRenderInfoRef = component.db.object('template-render-info/' + params.id);
@@ -96,27 +95,26 @@ export class DownloadTemplateComponent implements OnInit {
                 'fileEndings': fileEndings,
                 'url': encodeURI(data.payload.val().templateArchiveUrl)
             }));
-            console.log('Sending request: ' ,request);
-            const options = { responseType: 'blob' as 'blob' };
-            var linkElement = document.createElement('a');
-            component.http.get('http://localhost:3000/api/download-template?request=' + request, options )
+            console.log('Sending request: ', request);
+            const options = {responseType: 'blob' as 'blob'};
+            const linkElement = document.createElement('a');
+            component.http.get('http://localhost:3000/api/download-template?request=' + request, options)
                 .subscribe(downloadedData => {
                     console.log('download', downloadedData);
-                    const url= window.URL.createObjectURL(downloadedData);
+                    const url = window.URL.createObjectURL(downloadedData);
                     linkElement.setAttribute('href', url);
-                    linkElement.setAttribute("download", 'rawTemplate');
+                    linkElement.setAttribute('download', 'rawTemplate');
                     console.log(url);
-                    var clickEvent = new MouseEvent("click", {
-                        "view": window,
-                        "bubbles": true,
-                        "cancelable": false
+                    const clickEvent = new MouseEvent('click', {
+                        'view': window,
+                        'bubbles': true,
+                        'cancelable': false
                     });
-                    // window.URL.revokeObjectURL(url);
                     linkElement.dispatchEvent(clickEvent);
 
-                }), (error => {
+                }, (error => {
                     console.log('Error connecting to API: ' + JSON.stringify(data) + ' ' + error.message);
-                });
+                }));
         });
 
     }
