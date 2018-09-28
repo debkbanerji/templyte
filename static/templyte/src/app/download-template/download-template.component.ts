@@ -3,7 +3,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {User} from 'firebase';
 import {Component, NgZone, OnInit} from '@angular/core';
 import {AngularFireDatabase, AngularFireObject} from 'angularfire2/database';
-import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {ApiInterfaceService} from '../providers/api-interface.service';
 
@@ -28,7 +27,6 @@ export class DownloadTemplateComponent implements OnInit {
         private ngZone: NgZone,
         private route: ActivatedRoute,
         private router: Router,
-        private http: HttpClient,
         private api: ApiInterfaceService,
     ) {
     }
@@ -80,20 +78,6 @@ export class DownloadTemplateComponent implements OnInit {
                 'fileEndings': fileEndings,
                 'url': encodeURI(payload_val.templateArchiveUrl)
             }));
-            console.log('Sending request: ', request);
-            const options = {responseType: 'blob' as 'blob'};
-            const linkElement = document.createElement('a');
-            component.http.get('http://localhost:3000/api/download-template?request=' + request, options)
-                .subscribe(downloadedData => {
-                    const url = window.URL.createObjectURL(downloadedData);
-                    linkElement.setAttribute('href', url);
-                    linkElement.setAttribute('download', 'rawTemplate');
-                    const clickEvent = new MouseEvent('click', {
-                        'view': window,
-                        'bubbles': true,
-                        'cancelable': false
-                    });
-                    linkElement.dispatchEvent(clickEvent);
 
             component.api.getZipFile(request, function(downloadedData) {
                 var linkElement = document.createElement('a');
@@ -110,7 +94,7 @@ export class DownloadTemplateComponent implements OnInit {
 
         });
 
-    })}
+    }
 
     createTemplate() {
         this.router.navigate(['create']);
