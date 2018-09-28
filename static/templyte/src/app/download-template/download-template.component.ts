@@ -85,11 +85,9 @@ export class DownloadTemplateComponent implements OnInit {
             const linkElement = document.createElement('a');
             component.http.get('http://localhost:3000/api/download-template?request=' + request, options)
                 .subscribe(downloadedData => {
-                    console.log('download', downloadedData);
                     const url = window.URL.createObjectURL(downloadedData);
                     linkElement.setAttribute('href', url);
                     linkElement.setAttribute('download', 'rawTemplate');
-                    console.log(url);
                     const clickEvent = new MouseEvent('click', {
                         'view': window,
                         'bubbles': true,
@@ -112,7 +110,7 @@ export class DownloadTemplateComponent implements OnInit {
 
         });
 
-    }
+    })}
 
     createTemplate() {
         this.router.navigate(['create']);
