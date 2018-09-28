@@ -72,14 +72,15 @@ export class DownloadTemplateComponent implements OnInit {
         component.validateEnteredVariables();
 
         component.templateRenderInfoRef.snapshotChanges().subscribe(data => {
-            const fileEndings = data.payload.val().fileEndings;
-            for (let i = 0; i < data.payload.val().fileEndings.length; i++) {
+            const payload_val = data.payload.val();
+            const fileEndings = payload_val.fileEndings;
+            for (let i = 0; i < payload_val.fileEndings.length; i++) {
                 fileEndings[i] = fileEndings[i].name;
             }
             const request = encodeURIComponent(JSON.stringify({
                 'variables': component.valueMap,
                 'fileEndings': fileEndings,
-                'url': encodeURI(data.payload.val().templateArchiveUrl)
+                'url': encodeURI(payload_val.templateArchiveUrl)
             }));
 
             component.api.getZipFile(request, function(downloadedData) {
