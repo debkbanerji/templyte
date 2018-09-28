@@ -108,8 +108,6 @@ router.get('/download-template', (req, res) => {
     archive.on('error', function (err) {
         throw ('Error rendering zip file: ' + err.message);
     });
-
-
     archive.pipe(res);
     renderTemplate(
         requestData.variables,
@@ -119,5 +117,4 @@ router.get('/download-template', (req, res) => {
     );
 });
 
-console.log('Exporting api router');
 module.exports = router;
