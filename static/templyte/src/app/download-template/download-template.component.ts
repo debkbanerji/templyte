@@ -19,7 +19,6 @@ export class DownloadTemplateComponent implements OnInit {
     templateRenderInfoRef: AngularFireObject<any>;
     templateRenderInfo: Observable<any> = null;
     templateDirectoryInfo: Observable<any> = null;
-    targetUrl: String = null;
 
 
     constructor(
@@ -67,31 +66,23 @@ export class DownloadTemplateComponent implements OnInit {
     downloadTemplate() {
         const component = this;
         component.validateEnteredVariables();
-        // component.templateRenderInfoStorageRef.getDownloadURL().subscribe(url => console.log('targetUrl: ', url));
-        // console.log('targetUrl: ', this.targetUrl);
-
         component.templateRenderInfoRef.snapshotChanges().subscribe(data => {
-            // console.log(data.payload.val().templateArchiveUrl);
             const fileEndings = data.payload.val().fileEndings;
             for (let i = 0; i < data.payload.val().fileEndings.length; i++) {
                 fileEndings[i] = fileEndings[i].name;
             }
-            // console.log(component.templateRenderInfoStorageRef.getDownloadURL());
             const request = encodeURIComponent(JSON.stringify({
                 'variables': component.valueMap,
                 'fileEndings': fileEndings,
                 'url': encodeURI(data.payload.val().templateArchiveUrl)
             }));
-            console.log('Sending request: ', request);
             const options = {responseType: 'blob' as 'blob'};
             const linkElement = document.createElement('a');
             component.http.get('http://localhost:3000/api/download-template?request=' + request, options)
                 .subscribe(downloadedData => {
-                    console.log('download', downloadedData);
                     const url = window.URL.createObjectURL(downloadedData);
                     linkElement.setAttribute('href', url);
                     linkElement.setAttribute('download', 'rawTemplate');
-                    console.log(url);
                     const clickEvent = new MouseEvent('click', {
                         'view': window,
                         'bubbles': true,

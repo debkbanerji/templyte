@@ -101,10 +101,7 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
 
 router.get('/download-template', (req, res) => {
     // TODO: Handle possible rendering errors and pass error message to frontend
-    console.log(req.query.request);
-    console.log(decodeURIComponent(req.query.request));
     const requestData = JSON.parse(decodeURIComponent(req.query.request));
-    console.log(JSON.stringify(requestData));
     res.set('Content-Type', 'application/zip');
     res.set('Content-Disposition', 'attachment; filename=project.zip');
 
@@ -114,12 +111,6 @@ router.get('/download-template', (req, res) => {
         console.log(err);
         throw err;
     });
-
-    console.log('variables: ', requestData['variables']);
-    console.log('fileEndings: ', requestData['fileEndings']);
-    console.log('url: ', requestData.url);
-
-
     archive.pipe(res);
     renderTemplate(
         requestData.variables,
@@ -129,5 +120,4 @@ router.get('/download-template', (req, res) => {
     );
 });
 
-console.log('Exporting api router');
 module.exports = router;
