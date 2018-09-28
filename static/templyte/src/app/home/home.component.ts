@@ -42,10 +42,6 @@ export class HomeComponent implements OnInit {
         this.router.navigate(['my-templates']);
     }
 
-    downloadTemplate() {
-        this.router.navigate(['download']);
-    }
-
     logout(): void {
         this.authService.logout(null);
     }

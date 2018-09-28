@@ -52,6 +52,11 @@ export class MyTemplatesComponent implements OnInit {
         this.router.navigate(['create']);
     }
 
+    openTemplate(templateId) {
+        const component = this;
+        component.router.navigate(['download-template/' + templateId]);
+    }
+
     logout(): void {
         this.authService.logout(null);
     }

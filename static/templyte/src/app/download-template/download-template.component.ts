@@ -20,7 +20,6 @@ export class DownloadTemplateComponent implements OnInit {
     templateRenderInfoRef: AngularFireObject<any>;
     templateRenderInfo: Observable<any> = null;
     templateDirectoryInfo: Observable<any> = null;
-    templateVariableNameList: Object = null;
     targetUrl: String = null;
 
 
@@ -44,18 +43,16 @@ export class DownloadTemplateComponent implements OnInit {
                 component.user = component.authService.getAuth().currentUser;
                 component.route.params.subscribe(params => {
                     component.ngZone.run(() => { // Need to do this using NgZone since we're calling a third party API
-                        console.log('template-directory/' + params.id);
-                        // let metadataIsValid = true;
                         component.templateDirectoryInfoRef = component.db.object('template-directory/' + params.id);
                         component.templateRenderInfoRef = component.db.object('template-render-info/' + params.id);
                         component.templateDirectoryInfo = component.templateDirectoryInfoRef.valueChanges();
                         component.templateRenderInfo = component.templateRenderInfoRef.valueChanges();
-                        component.templateDirectoryInfoRef.valueChanges().subscribe((response) => {
+
+                        component.templateRenderInfo.subscribe((response) => {
+                            if (response == null) {
+                                component.router.navigate(['home']);
+                            }
                         });
-                        component.templateRenderInfoRef.valueChanges().subscribe((response) => {
-                        });
-                        component.templateVariableNameList = component.db.object('template-render-info/' + params.id + '/variables')
-                            .valueChanges();
                     });
                 });
             }
@@ -97,6 +94,7 @@ export class DownloadTemplateComponent implements OnInit {
                 });
                 linkElement.dispatchEvent(clickEvent);
             });
+
         });
 
     }
