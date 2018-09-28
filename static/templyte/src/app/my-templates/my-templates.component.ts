@@ -54,7 +54,6 @@ export class MyTemplatesComponent implements OnInit {
 
     openTemplate(templateId) {
         const component = this;
-        console.log(component.templateList);
         component.router.navigate(['download-template/' + templateId]);
     }
 
