@@ -17,21 +17,26 @@
     </nav>
 </mat-toolbar>
 
-<mat-card class="card-download">
-    <h1>Download a Template</h1>
+<mat-card class="card-form">
+    <p class="title large">Download a Template</p>
 
-    <h1>{{(templateDirectoryInfo | async)?.templateName}}</h1>
+    <p class="form-heading center-text">{{(templateDirectoryInfo | async)?.templateName}}</p>
     <!--TODO: Add description-->
 
-    <div>
-        <div *ngFor="let variable of (templateRenderInfo | async)?.variables">
-            <p>{{variable.name}}</p>
-            <p>{{variable.description}}</p>
-            <input [(ngModel)]="valueMap[variable.name]" class="form-control"
-                   name="{{variable.name}}"
-                   placeholder="{{variable.description}}">
-        </div>
-    </div>
+    <table class="table col-sm-12">
+        <tbody>
+        <tr *ngFor="let variable of (templateRenderInfo | async)?.variables">
+            <td>
+                <p class="form-subheading">{{variable.name}}</p>
+                <p class="">{{variable.description}}</p>
+                <input [(ngModel)]="valueMap[variable.name]" class="form-control"
+                       name="{{variable.name}}"
+                       placeholder="{{variable.name}}">
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
 
     <button mat-raised-button color="primary"
             (click)="downloadTemplate()" class="fa fa-download">Download

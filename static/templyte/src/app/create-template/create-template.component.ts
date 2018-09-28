@@ -175,7 +175,7 @@ export class CreateTemplateComponent implements OnInit {
                 }
             }
         }
-        if (this.selectedFiles[0].type !== 'application/x-zip-compressed') {
+        if (!/zip/i.test(this.selectedFiles[0].type)) {
             returnVal = false;
             this.dialog.open(InputValidateDialogComponent, {
                 data: {message: 'Please check that the file you are uploading is a .zip file'}
