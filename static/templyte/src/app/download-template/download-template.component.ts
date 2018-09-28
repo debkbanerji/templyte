@@ -5,6 +5,7 @@ import {Component, NgZone, OnInit} from '@angular/core';
 import {AngularFireDatabase, AngularFireObject} from 'angularfire2/database';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {ApiInterfaceService} from '../providers/api-interface.service';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class DownloadTemplateComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private http: HttpClient,
+        private api: ApiInterfaceService,
     ) {
     }
 
@@ -44,6 +46,7 @@ export class DownloadTemplateComponent implements OnInit {
                         component.templateRenderInfoRef = component.db.object('template-render-info/' + params.id);
                         component.templateDirectoryInfo = component.templateDirectoryInfoRef.valueChanges();
                         component.templateRenderInfo = component.templateRenderInfoRef.valueChanges();
+
                         component.templateRenderInfo.subscribe((response) => {
                             if (response == null) {
                                 component.router.navigate(['home']);
@@ -76,13 +79,16 @@ export class DownloadTemplateComponent implements OnInit {
                 'fileEndings': fileEndings,
                 'url': encodeURI(data.payload.val().templateArchiveUrl)
             }));
+            console.log('Sending request: ', request);
             const options = {responseType: 'blob' as 'blob'};
             const linkElement = document.createElement('a');
             component.http.get('http://localhost:3000/api/download-template?request=' + request, options)
                 .subscribe(downloadedData => {
+                    console.log('download', downloadedData);
                     const url = window.URL.createObjectURL(downloadedData);
                     linkElement.setAttribute('href', url);
                     linkElement.setAttribute('download', 'rawTemplate');
+                    console.log(url);
                     const clickEvent = new MouseEvent('click', {
                         'view': window,
                         'bubbles': true,
@@ -90,9 +96,19 @@ export class DownloadTemplateComponent implements OnInit {
                     });
                     linkElement.dispatchEvent(clickEvent);
 
-                }, (error => {
-                    console.log('Error connecting to API: ' + JSON.stringify(data) + ' ' + error.message);
-                }));
+            component.api.getZipFile(request, function(downloadedData) {
+                var linkElement = document.createElement('a');
+                const url= window.URL.createObjectURL(downloadedData);
+                linkElement.setAttribute('href', url);
+                linkElement.setAttribute("download", 'rawTemplate');
+                var clickEvent = new MouseEvent("click", {
+                    "view": window,
+                    "bubbles": true,
+                    "cancelable": false
+                });
+                linkElement.dispatchEvent(clickEvent);
+            });
+
         });
 
     }

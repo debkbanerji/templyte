@@ -77,8 +77,6 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
                 .pipe(unzip.Parse())
                 .pipe(writeStream);
             console.log(unzippedTemplatePath);
-
-            console.log('got here, error below');
             readStream.on('close', function (err) {
 
                 console.log('closed readstream');
