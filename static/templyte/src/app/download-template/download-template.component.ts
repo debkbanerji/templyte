@@ -83,7 +83,7 @@ export class DownloadTemplateComponent implements OnInit {
                 const linkElement = document.createElement('a');
                 const url = window.URL.createObjectURL(downloadedData);
                 linkElement.setAttribute('href', url);
-                linkElement.setAttribute('download', 'rawTemplate');
+                linkElement.setAttribute('download', 'project');
                 const clickEvent = new MouseEvent('click', {
                     'view': window,
                     'bubbles': true,
