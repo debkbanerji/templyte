@@ -105,9 +105,7 @@ export class CreateTemplateComponent implements OnInit {
 
                     });
                 }).then(() => {
-                    component.dialog.open(UploadSuccessDialogComponent, {
-                        width: '250px'
-                    });
+                    component.dialog.open(UploadSuccessDialogComponent);
                 });
             });
             component.router.navigate(['home']);
@@ -119,7 +117,6 @@ export class CreateTemplateComponent implements OnInit {
         if (!this.templateName) { // will evaluate to true if templateName is an empty string, for more info google 'typescript truthiness'
             returnVal = false;
             this.dialog.open(InputValidateDialogComponent, {
-                width: '250px',
                 data: {message: 'Please enter a name for your template.'}
             });
         }
@@ -128,7 +125,6 @@ export class CreateTemplateComponent implements OnInit {
                 if (this.variableArray[i].name === this.variableArray[j].name) {
                     returnVal = false;
                     this.dialog.open(InputValidateDialogComponent, {
-                        width: '250px',
                         data: {message: 'Please do not enter duplicate variables'}
                     });
                 }
@@ -142,7 +138,6 @@ export class CreateTemplateComponent implements OnInit {
                 if (this.variableArray[i].name.includes(invalidCharactersArray[char])) {
                     returnVal = false;
                     this.dialog.open(InputValidateDialogComponent, {
-                        width: '250px',
                         data: {
                             message: `The variable name "` + this.variableArray[i].name +
                                 `" contains an invalid character: ` + invalidCharactersArray[char] +
@@ -158,7 +153,6 @@ export class CreateTemplateComponent implements OnInit {
                 if (this.tagArray[i].name === this.tagArray[j].name) {
                     returnVal = false;
                     this.dialog.open(InputValidateDialogComponent, {
-                        width: '250px',
                         data: {message: 'Please do not enter duplicate tags'}
                     });
                 }
@@ -167,7 +161,6 @@ export class CreateTemplateComponent implements OnInit {
         if (this.fileEndingsArray.length === 0) {
             returnVal = false;
             this.dialog.open(InputValidateDialogComponent, {
-                width: '250px',
                 data: {message: 'Please enter at least one file ending that includes variables for your template.'}
             });
         } else {
@@ -176,7 +169,6 @@ export class CreateTemplateComponent implements OnInit {
                     if (this.fileEndingsArray[i].name === this.fileEndingsArray[j].name) {
                         returnVal = false;
                         this.dialog.open(InputValidateDialogComponent, {
-                            width: '250px',
                             data: {message: 'Please do not enter duplicate file endings'}
                         });
                     }
@@ -186,7 +178,6 @@ export class CreateTemplateComponent implements OnInit {
         if (this.selectedFiles[0].type !== 'application/x-zip-compressed') {
             returnVal = false;
             this.dialog.open(InputValidateDialogComponent, {
-                width: '250px',
                 data: {message: 'Please check that the file you are uploading is a .zip file'}
             });
         }
