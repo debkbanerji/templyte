@@ -10,6 +10,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {InputValidateDialogComponent} from '../input-validate-dialog/input-validate-dialog.component';
 import {UploadSuccessDialogComponent} from '../upload-success-dialog/upload-success-dialog.component';
 
+
 @Component({
     selector: 'create-template',
     templateUrl: './create-template.component.html',
@@ -29,7 +30,7 @@ export class CreateTemplateComponent implements OnInit {
         private db: AngularFireDatabase,
         private router: Router,
         private upSvc: UploadService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
     ) {
     }
 
@@ -82,30 +83,29 @@ export class CreateTemplateComponent implements OnInit {
     }
 
     uploadTemplate() {
-        if (this.validateInput()) {
-            const component = this;
-            /*store data from the current typescript component in its own variable
-                           because from within the upload function callbacks 'this' will refer to the current function being executed*/
-            this.uploadFile(function (templateUrl) {
-                const targetTemplateUrl = templateUrl;
+        const component = this;
+        if (component.validateInput()) {
+            component.uploadFile(function (templateUrl) {
                 const renderInfoObject = component.db.list('template-render-info');
+                console.log(templateUrl);
                 renderInfoObject.push({
-                    'template-url': targetTemplateUrl,
-                    'variables' : component.variableArray,
-                    'fileEndings' : component.fileEndingsArray
+                    'templateArchiveUrl': templateUrl,
+                    'variables': component.variableArray,
+                    'fileEndings': component.fileEndingsArray
                 }).then((renderInfoResult) => {
                     const targetKey = renderInfoResult.key;
                     const directoryObject = component.db.object('template-directory/' + targetKey);
                     directoryObject.set({
-                        'templateName' : component.templateName,
-                        'tags' : component.tagArray,
-                        'authorName' : component.user.displayName,
-                        'authorUID' : component.user.uid,
-                        'authorPhotoUrl' : component.user.photoURL
+                        'uid': targetKey,
+                        'templateName': component.templateName,
+                        'tags': component.tagArray,
+                        'authorName': component.user.displayName,
+                        'authorUID': component.user.uid,
+                        'authorPhotoUrl': component.user.photoURL
+
                     });
                 }).then(() => {
-                    component.dialog.open(UploadSuccessDialogComponent, {
-                    width: '250px'});
+                    component.dialog.open(UploadSuccessDialogComponent);
                 });
             });
             component.router.navigate(['home']);
@@ -117,26 +117,34 @@ export class CreateTemplateComponent implements OnInit {
         if (!this.templateName) { // will evaluate to true if templateName is an empty string, for more info google 'typescript truthiness'
             returnVal = false;
             this.dialog.open(InputValidateDialogComponent, {
-                width: '250px',
                 data: {message: 'Please enter a name for your template.'}
             });
         }
-        if (this.variableArray.length === 0) {
-            returnVal = false;
-            this.dialog.open(InputValidateDialogComponent, {
-                width: '250px',
-                data: {message: 'Please enter at least one variable name for your template.'}
-            });
-        } else {
-            for (let i = 0; i < this.variableArray.length - 1; i++) {
-                for (let j = i + 1; j < this.variableArray.length; j++) {
-                    if (this.variableArray[i].name === this.variableArray[j].name) {
-                        returnVal = false;
-                        this.dialog.open(InputValidateDialogComponent, {
-                            width: '250px',
-                            data: {message: 'Please do not enter duplicate variables'}
-                        });
-                    }
+        for (let i = 0; i < this.variableArray.length - 1; i++) {
+            for (let j = i + 1; j < this.variableArray.length; j++) {
+                if (this.variableArray[i].name === this.variableArray[j].name) {
+                    returnVal = false;
+                    this.dialog.open(InputValidateDialogComponent, {
+                        data: {message: 'Please do not enter duplicate variables'}
+                    });
+                }
+            }
+        }
+        const invalidCharactersArray: Array<String> = [' ', '!', '#', '$', '%', '&', '\\',
+            '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[',
+            `/`, ']', '^', '_', '`', '{', '|', '}', '~'];
+        for (let i = 0; i < this.variableArray.length; i++) {
+            for (const char in invalidCharactersArray) {
+                if (this.variableArray[i].name.includes(invalidCharactersArray[char])) {
+                    returnVal = false;
+                    this.dialog.open(InputValidateDialogComponent, {
+                        data: {
+                            message: `The variable name "` + this.variableArray[i].name +
+                                `" contains an invalid character: ` + invalidCharactersArray[char] +
+                                '\n Please do not include spaces or special characters in your variable names.'
+                        }
+                    });
+                    break; // once you find one invalid character in a variable name, the user doesn't need to be told if there are more
                 }
             }
         }
@@ -145,7 +153,6 @@ export class CreateTemplateComponent implements OnInit {
                 if (this.tagArray[i].name === this.tagArray[j].name) {
                     returnVal = false;
                     this.dialog.open(InputValidateDialogComponent, {
-                        width: '250px',
                         data: {message: 'Please do not enter duplicate tags'}
                     });
                 }
@@ -154,7 +161,6 @@ export class CreateTemplateComponent implements OnInit {
         if (this.fileEndingsArray.length === 0) {
             returnVal = false;
             this.dialog.open(InputValidateDialogComponent, {
-                width: '250px',
                 data: {message: 'Please enter at least one file ending that includes variables for your template.'}
             });
         } else {
@@ -163,12 +169,17 @@ export class CreateTemplateComponent implements OnInit {
                     if (this.fileEndingsArray[i].name === this.fileEndingsArray[j].name) {
                         returnVal = false;
                         this.dialog.open(InputValidateDialogComponent, {
-                            width: '250px',
                             data: {message: 'Please do not enter duplicate file endings'}
                         });
                     }
                 }
             }
+        }
+        if (!/zip/i.test(this.selectedFiles[0].type)) {
+            returnVal = false;
+            this.dialog.open(InputValidateDialogComponent, {
+                data: {message: 'Please make sure that the file you are uploading is a .zip file'}
+            });
         }
         return returnVal;
     }

@@ -2,11 +2,13 @@
 const express = require('express');
 const path = require('path');
 const http = require('http');
+const bodyParser = require('body-parser');
 
 // Get our API routes
 const api = require(path.join(__dirname, 'api', 'api.js'));
 
 const app = express();
+app.use(bodyParser.json());
 
 /**
  * Get port from environment and store in Express.

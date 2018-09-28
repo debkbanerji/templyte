@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 
 @Injectable({
@@ -17,13 +17,16 @@ export class ApiInterfaceService {
             'http://localhost:3000/api'; // Expect a development server to be running if running in prod mode
     }
 
-    // TODO: Remove once an actual API call is being made
-    testApi(callback): void {
-        const targetAddress = this.API_ADDRESS + '/test-api';
-        this.http.get(targetAddress).subscribe((response: any) => {
-            callback(response.message);
-        }, (error => {
-            callback('Error connecting to API: ' + error.message);
-        }));
+    getZipFile(request: string, callback): void {
+        const targetAddress = this.API_ADDRESS + '/download-template';
+
+        const options = {responseType: 'blob' as 'blob'};
+        this.http.get(targetAddress + '?request=' + request, options)
+            .subscribe(downloadedData => {
+                callback(downloadedData);
+
+            }, (error => {
+                callback('Error connecting to API: ' + error.message);
+            }));
     }
 }

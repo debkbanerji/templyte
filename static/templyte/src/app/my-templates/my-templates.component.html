@@ -22,8 +22,8 @@
 </div>
 
 <div *ngFor="let template of templateList | async">
-    <mat-card id="card-template">
-        <p class="card-title">{{template.templateName}}</p>
+    <mat-card class="template-card" (click)="openTemplate(template.uid)">
+        <p class="template-title">{{template.templateName}}</p>
         <p>by {{template.authorName}}</p>
         <mat-chip-list>
             <mat-chip *ngFor="let tag of template.tags">

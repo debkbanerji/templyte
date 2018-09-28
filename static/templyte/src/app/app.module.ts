@@ -19,14 +19,16 @@ import {FormsModule} from '@angular/forms';
 import {UploadService} from './upload/upload.service';
 import {InputValidateDialogComponent} from './input-validate-dialog/input-validate-dialog.component';
 import {UploadSuccessDialogComponent} from './upload-success-dialog/upload-success-dialog.component';
-import { MyTemplatesComponent } from './my-templates/my-templates.component';
+import {MyTemplatesComponent} from './my-templates/my-templates.component';
 import {MatChipsModule} from '@angular/material/chips';
-
+import {MatSelectModule} from '@angular/material/select';
+import {DownloadTemplateComponent} from './download-template/download-template.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
     {path: 'login', component: LoginComponent, pathMatch: 'full'},
     {path: 'create', component: CreateTemplateComponent, pathMatch: 'full'},
+    {path: 'download-template/:id', component: DownloadTemplateComponent, pathMatch: 'full'},
     {path: 'my-templates', component: MyTemplatesComponent, pathMatch: 'full'},
     {path: '**', redirectTo: '', pathMatch: 'full'} // Redirect everything else to the home page
 ];
@@ -37,6 +39,7 @@ const routes: Routes = [
         HomeComponent,
         LoginComponent,
         CreateTemplateComponent,
+        DownloadTemplateComponent,
         InputValidateDialogComponent,
         UploadSuccessDialogComponent,
         MyTemplatesComponent
@@ -51,6 +54,7 @@ const routes: Routes = [
         MatDialogModule,
         MatToolbarModule,
         MatInputModule,
+        MatSelectModule,
         RouterModule.forRoot(routes),
         FormsModule,
         MatChipsModule
