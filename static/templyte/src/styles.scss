@@ -64,5 +64,23 @@ $white: #FFFFFF;
         .nav-title {
             font-family: "Playfair Display", serif;
         }
+        .card-form {
+            margin:auto;
+            max-width: 800px;
+        }
+
+        .table td {
+            padding: .75rem 0rem;
+        }
+
+        .form-heading {
+            font-family: "Playfair Display", serif;
+            font-size:2em;
+        }
+
+        .center-text {
+            text-align: center;
+        }
+
     }
 }

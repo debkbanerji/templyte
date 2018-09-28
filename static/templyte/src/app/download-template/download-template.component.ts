@@ -79,15 +79,15 @@ export class DownloadTemplateComponent implements OnInit {
                 'url': encodeURI(payload_val.templateArchiveUrl)
             }));
 
-            component.api.getZipFile(request, function(downloadedData) {
-                var linkElement = document.createElement('a');
-                const url= window.URL.createObjectURL(downloadedData);
+            component.api.getZipFile(request, function (downloadedData) {
+                const linkElement = document.createElement('a');
+                const url = window.URL.createObjectURL(downloadedData);
                 linkElement.setAttribute('href', url);
-                linkElement.setAttribute("download", 'rawTemplate');
-                var clickEvent = new MouseEvent("click", {
-                    "view": window,
-                    "bubbles": true,
-                    "cancelable": false
+                linkElement.setAttribute('download', 'rawTemplate');
+                const clickEvent = new MouseEvent('click', {
+                    'view': window,
+                    'bubbles': true,
+                    'cancelable': false
                 });
                 linkElement.dispatchEvent(clickEvent);
             });
