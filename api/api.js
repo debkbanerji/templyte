@@ -108,7 +108,7 @@ router.get('/download-template', (req, res) => {
     res.set('Content-Type', 'application/zip');
     res.set('Content-Disposition', 'attachment; filename=project.zip');
 
-    let archive = new zipStream();
+    const archive = new zipStream();
 
     archive.on('error', function (err) {
         console.log(err);
