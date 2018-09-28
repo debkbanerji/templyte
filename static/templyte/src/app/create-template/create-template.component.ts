@@ -137,7 +137,6 @@ export class CreateTemplateComponent implements OnInit {
         const invalidCharactersArray: Array<String> = [' ', '!', '#', '$', '%', '&', '\\',
             '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[',
             `/`, ']', '^', '_', '`', '{', '|', '}', '~'];
-        console.log('made it here');
         for (let i = 0; i < this.variableArray.length; i++) {
             for (const char in invalidCharactersArray) {
                 if (this.variableArray[i].name.includes(invalidCharactersArray[char])) {
