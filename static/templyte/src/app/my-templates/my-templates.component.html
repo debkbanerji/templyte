@@ -22,7 +22,7 @@
 </div>
 
 <div *ngFor="let template of templateList | async">
-    <mat-card class="template-card" (click)="openTemplate(template.uid)">
+    <mat-card class="template-card">
         <p class="template-title">{{template.templateName}}</p>
         <p>by {{template.authorName}}</p>
         <mat-chip-list>
@@ -30,6 +30,8 @@
                 {{tag.name}}
             </mat-chip>
         </mat-chip-list>
+        <button mat-raised-button (click)="openTemplate(template.uid)">Download</button>
+        <button mat-raised-button (click)="deleteTemplate(template.uid)">Delete</button>
     </mat-card>
 </div>
 

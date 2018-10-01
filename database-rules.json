@@ -10,7 +10,7 @@
         "template-render-info": {
             ".read": "auth !== null",
             "$uid": {
-                ".write": "auth !== null && (!data.exists() || (root.child('template-directory/'+$uid+'/authorUID').exists() && root.child('template-directory/'+$uid+'/authorUID').val() === auth.uid))"
+                ".write": "auth !== null && (!data.exists() || (data.child('authorUID').exists() && data.child('authorUID').val() === auth.uid))"
             }
         }
     }

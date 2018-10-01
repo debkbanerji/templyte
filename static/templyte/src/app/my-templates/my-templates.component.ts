@@ -3,6 +3,8 @@ import {User} from 'firebase';
 import {AuthService} from '../providers/auth.service';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Router} from '@angular/router';
+import {AngularFireStorage} from 'angularfire2/storage';
+import * as firebase from 'firebase';
 
 @Component({
     selector: 'app-my-templates',
@@ -17,8 +19,9 @@ export class MyTemplatesComponent implements OnInit {
     constructor(
         private authService: AuthService,
         private db: AngularFireDatabase,
+        private ngZone: NgZone,
         private router: Router,
-        private ngZone: NgZone
+        private storage: AngularFireStorage
     ) {
     }
 
@@ -50,6 +53,21 @@ export class MyTemplatesComponent implements OnInit {
 
     createTemplate() {
         this.router.navigate(['create']);
+    }
+
+    deleteTemplate(templateUID) {
+        const component = this;
+        component.db.object('template-directory/' + templateUID).remove().then(() => {
+            const renderInfoRef = component.db.object('template-render-info/' + templateUID);
+            renderInfoRef.valueChanges().subscribe((renderInfoValueRes: any) => {
+                if (renderInfoValueRes) {
+                    const archiveURL = renderInfoValueRes.templateArchiveUrl;
+                    renderInfoRef.remove().then(() => {
+                        firebase.storage().refFromURL(archiveURL).delete();
+                    });
+                }
+            });
+        });
     }
 
     openTemplate(templateId) {
