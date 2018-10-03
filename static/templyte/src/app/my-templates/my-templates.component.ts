@@ -5,6 +5,9 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {Router} from '@angular/router';
 import {AngularFireStorage} from 'angularfire2/storage';
 import * as firebase from 'firebase';
+import {MatDialog} from '@angular/material';
+
+import {DeleteConfirmDialogComponent} from '../delete-confirm-dialog/delete-confirm-dialog.component';
 
 @Component({
     selector: 'app-my-templates',
@@ -21,7 +24,8 @@ export class MyTemplatesComponent implements OnInit {
         private db: AngularFireDatabase,
         private ngZone: NgZone,
         private router: Router,
-        private storage: AngularFireStorage
+        private storage: AngularFireStorage,
+        private dialog: MatDialog
     ) {
     }
 
@@ -56,17 +60,22 @@ export class MyTemplatesComponent implements OnInit {
     }
 
     deleteTemplate(templateUID) {
-        const component = this;
-        component.db.object('template-directory/' + templateUID).remove().then(() => {
-            const renderInfoRef = component.db.object('template-render-info/' + templateUID);
-            renderInfoRef.valueChanges().subscribe((renderInfoValueRes: any) => {
-                if (renderInfoValueRes) {
-                    const archiveURL = renderInfoValueRes.templateArchiveUrl;
-                    renderInfoRef.remove().then(() => {
-                        firebase.storage().refFromURL(archiveURL).delete();
+        var dialogRef = this.dialog.open(DeleteConfirmDialogComponent);
+        dialogRef.afterClosed().subscribe( (result) => {
+            if (result == true) {
+                const component = this;
+                component.db.object('template-directory/' + templateUID).remove().then(() => {
+                    const renderInfoRef = component.db.object('template-render-info/' + templateUID);
+                    renderInfoRef.valueChanges().subscribe((renderInfoValueRes: any) => {
+                        if (renderInfoValueRes) {
+                            const archiveURL = renderInfoValueRes.templateArchiveUrl;
+                            renderInfoRef.remove().then(() => {
+                                firebase.storage().refFromURL(archiveURL).delete();
+                            });
+                        }
                     });
-                }
-            });
+                });
+            }
         });
     }
 

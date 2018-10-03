@@ -23,6 +23,7 @@ import {MyTemplatesComponent} from './my-templates/my-templates.component';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatSelectModule} from '@angular/material/select';
 import {DownloadTemplateComponent} from './download-template/download-template.component';
+import {DeleteConfirmDialogComponent} from './delete-confirm-dialog/delete-confirm-dialog.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
@@ -42,6 +43,7 @@ const routes: Routes = [
         DownloadTemplateComponent,
         InputValidateDialogComponent,
         UploadSuccessDialogComponent,
+        DeleteConfirmDialogComponent,
         MyTemplatesComponent
     ],
     imports: [
@@ -61,7 +63,8 @@ const routes: Routes = [
     ],
     entryComponents: [
         InputValidateDialogComponent,
-        UploadSuccessDialogComponent
+        UploadSuccessDialogComponent,
+        DeleteConfirmDialogComponent
     ],
     providers: [
         AngularFireAuth,
