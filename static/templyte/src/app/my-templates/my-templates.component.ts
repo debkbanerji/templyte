@@ -6,7 +6,6 @@ import {Router} from '@angular/router';
 import {AngularFireStorage} from 'angularfire2/storage';
 import * as firebase from 'firebase';
 import {MatDialog} from '@angular/material';
-
 import {DeleteConfirmDialogComponent} from '../delete-confirm-dialog/delete-confirm-dialog.component';
 
 @Component({
