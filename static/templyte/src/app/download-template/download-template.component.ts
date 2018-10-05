@@ -92,13 +92,13 @@ export class DownloadTemplateComponent implements OnInit {
                     'cancelable': false
                 });
                 linkElement.dispatchEvent(clickEvent);
-                component.templateDirectoryInfoRef.snapshotChanges().then((snap) => {
-                    console.log('haha: ', snap.payload.val().templateNumDownload);
-                    return component.templateDirectoryInfoRef.update({
-                        'templateNumDownload': snap.payload.val().templateNumDownload + 1,
-                        'templateLastDownloadDate': formatDate(new Date(), 'yyyy/MM/dd', 'en') 
-                    })
-                  });
+                // component.templateDirectoryInfoRef.snapshotChanges().then((snap) => {
+                //     console.log('haha: ', snap.payload.val().templateNumDownload);
+                //     return component.templateDirectoryInfoRef.update({
+                //         'templateNumDownload': snap.payload.val().templateNumDownload + 1,
+                //         'templateLastDownloadDate': formatDate(new Date(), 'yyyy/MM/dd', 'en') 
+                //     })
+                //   });
             });
 
         });
