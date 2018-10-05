@@ -19,7 +19,7 @@ export class Upload {
 @Injectable()
 export class UploadService {
 
-    constructor(private af: AngularFireModule, private db: AngularFireDatabase) {
+    constructor() {
     }
 
     private basePath = '/uploads';
@@ -43,7 +43,9 @@ export class UploadService {
             () => {
                 // upload success
                 upload.name = upload.file.name;
-                uploadTask.snapshot.ref.getDownloadURL().then((url)=>{callback(url)});
+                uploadTask.snapshot.ref.getDownloadURL().then((url) => {
+                    callback(url)
+                });
             }
         );
     }

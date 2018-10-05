@@ -91,7 +91,8 @@ export class CreateTemplateComponent implements OnInit {
                 renderInfoObject.push({
                     'templateArchiveUrl': templateUrl,
                     'variables': component.variableArray,
-                    'fileEndings': component.fileEndingsArray
+                    'fileEndings': component.fileEndingsArray,
+                    'authorUID': component.user.uid
                 }).then((renderInfoResult) => {
                     const targetKey = renderInfoResult.key;
                     const directoryObject = component.db.object('template-directory/' + targetKey);

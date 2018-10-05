@@ -3,6 +3,10 @@ import {User} from 'firebase';
 import {AuthService} from '../providers/auth.service';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Router} from '@angular/router';
+import {AngularFireStorage} from 'angularfire2/storage';
+import * as firebase from 'firebase';
+import {MatDialog} from '@angular/material';
+import {DeleteConfirmDialogComponent} from '../delete-confirm-dialog/delete-confirm-dialog.component';
 
 @Component({
     selector: 'app-my-templates',
@@ -17,8 +21,10 @@ export class MyTemplatesComponent implements OnInit {
     constructor(
         private authService: AuthService,
         private db: AngularFireDatabase,
+        private ngZone: NgZone,
         private router: Router,
-        private ngZone: NgZone
+        private storage: AngularFireStorage,
+        private dialog: MatDialog
     ) {
     }
 
@@ -50,6 +56,26 @@ export class MyTemplatesComponent implements OnInit {
 
     createTemplate() {
         this.router.navigate(['create']);
+    }
+
+    deleteTemplate(templateUID) {
+        var dialogRef = this.dialog.open(DeleteConfirmDialogComponent);
+        dialogRef.afterClosed().subscribe( (result) => {
+            if (result) {
+                const component = this;
+                component.db.object('template-directory/' + templateUID).remove().then(() => {
+                    const renderInfoRef = component.db.object('template-render-info/' + templateUID);
+                    renderInfoRef.valueChanges().subscribe((renderInfoValueRes: any) => {
+                        if (renderInfoValueRes) {
+                            const archiveURL = renderInfoValueRes.templateArchiveUrl;
+                            renderInfoRef.remove().then(() => {
+                                firebase.storage().refFromURL(archiveURL).delete();
+                            });
+                        }
+                    });
+                });
+            }
+        });
     }
 
     openTemplate(templateId) {
