@@ -1,6 +1,7 @@
 import {AuthService} from '../providers/auth.service';
 import {Router} from '@angular/router';
 import {User} from 'firebase';
+import {formatDate} from '@angular/common';
 
 import {Component, OnInit} from '@angular/core';
 
@@ -102,8 +103,10 @@ export class CreateTemplateComponent implements OnInit {
                         'tags': component.tagArray,
                         'authorName': component.user.displayName,
                         'authorUID': component.user.uid,
-                        'authorPhotoUrl': component.user.photoURL
-
+                        'authorPhotoUrl': component.user.photoURL,
+                        'templateNumDownload': 0,
+                        'templateLastDownloadDate' : "",
+                        'templateCreateDate': formatDate(new Date(), 'yyyy/MM/dd', 'en')
                     });
                 }).then(() => {
                     component.dialog.open(UploadSuccessDialogComponent);

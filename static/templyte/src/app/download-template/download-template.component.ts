@@ -5,6 +5,8 @@ import {Component, NgZone, OnInit} from '@angular/core';
 import {AngularFireDatabase, AngularFireObject} from 'angularfire2/database';
 import {Observable} from 'rxjs';
 import {ApiInterfaceService} from '../providers/api-interface.service';
+import {formatDate} from '@angular/common';
+import { ConstantPool } from '@angular/compiler';
 
 
 @Component({
@@ -90,8 +92,28 @@ export class DownloadTemplateComponent implements OnInit {
                     'cancelable': false
                 });
                 linkElement.dispatchEvent(clickEvent);
+                component.templateDirectoryInfoRef.snapshotChanges().then((snap) => {
+                    console.log('haha: ', snap.payload.val().templateNumDownload);
+                    return component.templateDirectoryInfoRef.update({
+                        'templateNumDownload': snap.payload.val().templateNumDownload + 1,
+                        'templateLastDownloadDate': formatDate(new Date(), 'yyyy/MM/dd', 'en') 
+                    })
+                  });
             });
 
+        });
+        
+
+    }
+    update(callback) {
+        const component = this;
+
+    }
+
+    getUpdateValue(callback) {
+        const component = this;
+        component.templateDirectoryInfoRef.snapshotChanges().subscribe((data) => {
+            callback(data.payload.val().templateNumDownload);
         });
 
     }
