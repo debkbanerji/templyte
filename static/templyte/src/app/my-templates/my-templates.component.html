@@ -25,6 +25,7 @@
     <mat-card class="template-card">
         <p class="template-title">{{template.templateName}}</p>
         <p>by {{template.authorName}}</p>
+        <p>{{template.templateDescription}}</p>
         <mat-chip-list>
             <mat-chip *ngFor="let tag of template.tags">
                 {{tag.name}}
