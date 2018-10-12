@@ -24,6 +24,7 @@ export class CreateTemplateComponent implements OnInit {
     variableArray: Array<any> = [];
     tagArray: Array<any> = [];
     fileEndingsArray: Array<any> = [];
+    isUploading: boolean;
 
     constructor(
         private authService: AuthService,
@@ -84,32 +85,35 @@ export class CreateTemplateComponent implements OnInit {
 
     uploadTemplate() {
         const component = this;
-        if (component.validateInput()) {
-            component.uploadFile(function (templateUrl) {
-                const renderInfoObject = component.db.list('template-render-info');
-                console.log(templateUrl);
-                renderInfoObject.push({
-                    'templateArchiveUrl': templateUrl,
-                    'variables': component.variableArray,
-                    'fileEndings': component.fileEndingsArray,
-                    'authorUID': component.user.uid
-                }).then((renderInfoResult) => {
-                    const targetKey = renderInfoResult.key;
-                    const directoryObject = component.db.object('template-directory/' + targetKey);
-                    directoryObject.set({
-                        'uid': targetKey,
-                        'templateName': component.templateName,
-                        'tags': component.tagArray,
-                        'authorName': component.user.displayName,
-                        'authorUID': component.user.uid,
-                        'authorPhotoUrl': component.user.photoURL
-
-                    });
+        if (component.validateInput() && !component.isUploading) {
+            component.isUploading = true;
+            const renderInfoObject = component.db.list('template-render-info');
+            renderInfoObject.push({
+                'variables': component.variableArray,
+                'fileEndings': component.fileEndingsArray,
+                'authorUID': component.user.uid
+            }).then((renderInfoResult) => {
+                const targetKey = renderInfoResult.key;
+                const directoryObject = component.db.object('template-directory/' + targetKey);
+                directoryObject.set({
+                    'uid': targetKey,
+                    'templateName': component.templateName,
+                    'tags': component.tagArray,
+                    'authorName': component.user.displayName,
+                    'authorUID': component.user.uid,
+                    'authorPhotoUrl': component.user.photoURL
                 }).then(() => {
-                    component.dialog.open(UploadSuccessDialogComponent);
+                    component.uploadFile(targetKey + '.zip', function (templateUrl) {
+                        component.db.object('template-render-info/' + targetKey + '/templateArchiveUrl')
+                            .set(templateUrl).then(() => {
+                            const dialogRef = component.dialog.open(UploadSuccessDialogComponent);
+                            dialogRef.afterClosed().subscribe(() => {
+                                component.router.navigate(['home']);
+                            });
+                        });
+                    });
                 });
             });
-            component.router.navigate(['home']);
         }
     }
 
@@ -185,10 +189,10 @@ export class CreateTemplateComponent implements OnInit {
         return returnVal;
     }
 
-    uploadFile(callback) {
+    uploadFile(targetName: string, callback) {
         const component = this;
         const file = component.selectedFiles.item(0);
-        component.currentUpload = new Upload(file, component.user.uid);
+        component.currentUpload = new Upload(file, targetName, component.user.uid);
         component.upSvc.pushUpload(component.currentUpload, callback);
     }
 
