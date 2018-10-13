@@ -5,8 +5,11 @@ import {Component, NgZone, OnInit} from '@angular/core';
 import {AngularFireDatabase, AngularFireObject} from 'angularfire2/database';
 import {Observable} from 'rxjs';
 import {ApiInterfaceService} from '../providers/api-interface.service';
+import * as firebase from 'firebase';
 import {formatDate} from '@angular/common';
 import { ConstantPool } from '@angular/compiler';
+import { FirebaseDatabase } from 'angularfire2';
+import { Reference } from 'firebase/database';
 
 
 @Component({
@@ -21,6 +24,8 @@ export class DownloadTemplateComponent implements OnInit {
     templateRenderInfoRef: AngularFireObject<any>;
     templateRenderInfo: Observable<any> = null;
     templateDirectoryInfo: Observable<any> = null;
+    templateDirectoryInfoDatabaseRef: Reference;
+
 
 
     constructor(
@@ -46,7 +51,7 @@ export class DownloadTemplateComponent implements OnInit {
                         component.templateRenderInfoRef = component.db.object('template-render-info/' + params.id);
                         component.templateDirectoryInfo = component.templateDirectoryInfoRef.valueChanges();
                         component.templateRenderInfo = component.templateRenderInfoRef.valueChanges();
-
+                        component.templateDirectoryInfoDatabaseRef = firebase.database().ref('template-directory/' + params.id);
                         component.templateRenderInfo.subscribe((response) => {
                             if (response == null) {
                                 component.router.navigate(['home']);
@@ -92,13 +97,12 @@ export class DownloadTemplateComponent implements OnInit {
                     'cancelable': false
                 });
                 linkElement.dispatchEvent(clickEvent);
-                // component.templateDirectoryInfoRef.snapshotChanges().then((snap) => {
-                //     console.log('haha: ', snap.payload.val().templateNumDownload);
-                //     return component.templateDirectoryInfoRef.update({
-                //         'templateNumDownload': snap.payload.val().templateNumDownload + 1,
-                //         'templateLastDownloadDate': formatDate(new Date(), 'yyyy/MM/dd', 'en') 
-                //     })
-                //   });
+                component.templateDirectoryInfoDatabaseRef.child('/templateNumDownload').once('value', function(snapshot) {
+                    component.templateDirectoryInfoRef.update({
+                        'templateNumDownload': snapshot.val() + 1,
+                        'templateLastDownloadDate': formatDate(new Date(), 'yyyy/MM/dd', 'en')
+                    })
+                });
             });
 
         });
