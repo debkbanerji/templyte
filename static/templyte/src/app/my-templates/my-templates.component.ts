@@ -6,7 +6,6 @@ import {Router} from '@angular/router';
 import {AngularFireStorage} from 'angularfire2/storage';
 import * as firebase from 'firebase';
 import {MatDialog} from '@angular/material';
-
 import {DeleteConfirmDialogComponent} from '../delete-confirm-dialog/delete-confirm-dialog.component';
 
 @Component({
@@ -62,7 +61,7 @@ export class MyTemplatesComponent implements OnInit {
     deleteTemplate(templateUID) {
         var dialogRef = this.dialog.open(DeleteConfirmDialogComponent);
         dialogRef.afterClosed().subscribe( (result) => {
-            if (result == true) {
+            if (result) {
                 const component = this;
                 component.db.object('template-directory/' + templateUID).remove().then(() => {
                     const renderInfoRef = component.db.object('template-render-info/' + templateUID);
