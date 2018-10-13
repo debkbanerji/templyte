@@ -22,6 +22,7 @@ export class CreateTemplateComponent implements OnInit {
     selectedFiles: FileList;
     currentUpload: Upload;
     templateName: String = null;
+    templateDescription: String = null;
     variableArray: Array<any> = [];
     tagArray: Array<any> = [];
     fileEndingsArray: Array<any> = [];
@@ -100,6 +101,7 @@ export class CreateTemplateComponent implements OnInit {
                     directoryObject.set({
                         'uid': targetKey,
                         'templateName': component.templateName,
+                        'templateDescription': component.templateDescription,
                         'tags': component.tagArray,
                         'authorName': component.user.displayName,
                         'authorUID': component.user.uid,
