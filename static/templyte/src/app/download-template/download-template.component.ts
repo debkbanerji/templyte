@@ -82,25 +82,18 @@ export class DownloadTemplateComponent implements OnInit {
             let hasRated:boolean = old_rating != null;
             if (hasRated == true) {
                 // author has reviewed before
-                console.log("Author has reviewed before");
                 // update values in template directory
                 component.templateDirectoryInfoDatabaseRef.child('/ratingSum').once('value', function(snapshot) {
-                    console.log("Rating sum snapshot val");
-                    console.log(snapshot.val());
                     component.templateDirectoryInfoRef.update({
                         'ratingSum': snapshot.val() - old_rating
                     })
                 });
                 component.templateDirectoryInfoDatabaseRef.child('/numberRatings').once('value', function(snapshot) {
-                    console.log("Number of ratings snapshot val");
-                    console.log(snapshot.val());
                     component.templateDirectoryInfoRef.update({
                         'numberRatings': snapshot.val() - 1
                     })
                 });
-                // hasRated = false;
             }
-            console.log("Updated current rating to " + new_rating);
             component.templateRatingsInfoRef.set({
                 [authorUID]: new_rating
             });
@@ -113,18 +106,15 @@ export class DownloadTemplateComponent implements OnInit {
                     'ratingSum': ratingSum
                 })
             });
-            console.log('Updated Sum');
             component.templateDirectoryInfoDatabaseRef.child('/numberRatings').once('value', countSnapshot => {
                 ratingCount = countSnapshot.val() + 1;
                 component.templateDirectoryInfoRef.update({
                     'numberRatings': ratingCount
                 })
             });
-            console.log('Updated Count');
             component.templateDirectoryInfoRef.update({
                 'averageRating': (ratingSum * 1.0) / ratingCount
             });
-            console.log('Updated Average');
         });
     }
 
