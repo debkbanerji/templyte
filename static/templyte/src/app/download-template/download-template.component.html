@@ -22,6 +22,10 @@
 
     <p class="form-heading center-text">{{(templateDirectoryInfo | async)?.templateName}}</p>
     <p>{{(templateDirectoryInfo | async)?.templateDescription}}</p>
+    <p>Creation date: {{(templateDirectoryInfo | async)?.templateCreateDate}}</p>
+    <p>Number of downloads: {{(templateDirectoryInfo | async)?.templateNumDownload}}</p>
+
+
 
     <table class="table col-sm-12">
         <tbody>
