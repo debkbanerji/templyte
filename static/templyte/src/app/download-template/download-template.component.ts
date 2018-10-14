@@ -21,6 +21,8 @@ export class DownloadTemplateComponent implements OnInit {
     templateDirectoryInfoRef: AngularFireObject<any>;
     templateRenderInfoRef: AngularFireObject<any>;
     templateRatingsInfoRef: AngularFireObject<any>;
+    templateRatingsInfoDatabaseRef: Reference;
+    templateDirectoryInfoDatabaseRef: Reference;
     templateRenderInfo: Observable<any> = null;
     templateDirectoryInfo: Observable<any> = null;
     templateRatingsInfo: Observable<any> = null;
@@ -48,6 +50,7 @@ export class DownloadTemplateComponent implements OnInit {
                         component.templateDirectoryInfoRef = component.db.object('template-directory/' + params.id);
                         component.templateRenderInfoRef = component.db.object('template-render-info/' + params.id);
                         component.templateRatingsInfoRef = component.db.object('template-ratings/' + params.id);
+                        component.templateRatingsInfoDatabaseRef = firebase.database().ref('template-ratings/' + params.id);
                         component.templateDirectoryInfoDatabaseRef = firebase.database().ref('template-directory/' + params.id);
                         component.templateRatingsInfo = component.templateRatingsInfoRef.valueChanges();
                         component.templateDirectoryInfo = component.templateDirectoryInfoRef.valueChanges();
@@ -71,69 +74,57 @@ export class DownloadTemplateComponent implements OnInit {
         this.authService.logout(null);
     }
 
-    previousfunctionalRating(rating_value) {
-        console.log("here");
+    storeRating(new_rating) {
         const component = this;
-        const templateUID = " ";
-        component.templateDirectoryInfoRef.snapshotChanges().subscribe(data => {
-            console.log("here");
-            const payload_val = data.payload.val();
-            console.log(payload_val);
-            templateUID = payload_val.uid;
-            let authorUID:String  =  component.user.uid;
-            const ratingsObject = component.db.object('template-ratings/' + templateUID);
-            
-            ratingsObject.set({
-                [authorUID]: rating_value
+        let authorUID:string  =  component.user.uid;
+        component.templateRatingsInfoDatabaseRef.once('value').then(snapshot2 => {
+            const old_rating = snapshot2.child(authorUID).val(); //value of previous rating
+            let hasRated:boolean = old_rating != null;
+            if (hasRated == true) {
+                // author has reviewed before
+                console.log("Author has reviewed before");
+                // update values in template directory
+                component.templateDirectoryInfoDatabaseRef.child('/ratingSum').once('value', function(snapshot) {
+                    console.log("Rating sum snapshot val");
+                    console.log(snapshot.val());
+                    component.templateDirectoryInfoRef.update({
+                        'ratingSum': snapshot.val() - old_rating
+                    })
+                });
+                component.templateDirectoryInfoDatabaseRef.child('/numberRatings').once('value', function(snapshot) {
+                    console.log("Number of ratings snapshot val");
+                    console.log(snapshot.val());
+                    component.templateDirectoryInfoRef.update({
+                        'numberRatings': snapshot.val() - 1
+                    })
+                });
+                // hasRated = false;
+            }
+            console.log("Updated current rating to " + new_rating);
+            component.templateRatingsInfoRef.set({
+                [authorUID]: new_rating
             });
-        });
-    }
 
-    storeRating(rating_value) {
-        console.log("here");
-        const component = this;
-        const templateUID = " ";
-        component.templateDirectoryInfoRef.snapshotChanges().subscribe(data => {
-            console.log("here");
-            const payload_val = data.payload.val();
-            console.log(payload_val);
-            templateUID = payload_val.uid;
-            let authorUID:String  =  component.user.uid;
-            const ratingsObject = component.db.object('template-ratings/' + templateUID);
-            component.templateRatingsInfoRef.snapshotChanges().subscribe(action => {
-                const rating_val = action.payload.child(authorUID).val(); //value of previous rating
-                let hasRated:Boolean = rating_val != null;
-                if (hasRated == true) {
-                    // author has reviewed before
-                    console.log("author has reviewed before");
-                    // update values in template directory
-                    component.templateDirectoryInfoDatabaseRef.child('/ratingSum').once('value', function(snapshot) {
-                        component.templateDirectoryInfoRef.update({
-                            'ratingSum': snapshot.val() - rating_value
-                        })
-                    });
-                    component.templateDirectoryInfoDatabaseRef.child('/numberRatings').once('value', function(snapshot) {
-                        component.templateDirectoryInfoRef.update({
-                            'numberRatings': snapshot.val() - 1
-                        })
-                    });
-                    hasRated = false;
-                }
-            });         
-            ratingsObject.set({
-                [authorUID]: rating_value
+            //update all with new_rating
+            let ratingSum, ratingCount
+            component.templateDirectoryInfoDatabaseRef.child('/ratingSum').once('value', sumSnapshot => {
+                ratingSum = sumSnapshot.val() + new_rating;
+                component.templateDirectoryInfoRef.update({
+                    'ratingSum': ratingSum
+                })
             });
-        });
-        //update all with rating_value
-        component.templateDirectoryInfoDatabaseRef.child('/ratingSum').once('value', function(snapshot) {
+            console.log('Updated Sum');
+            component.templateDirectoryInfoDatabaseRef.child('/numberRatings').once('value', countSnapshot => {
+                ratingCount = countSnapshot.val() + 1;
+                component.templateDirectoryInfoRef.update({
+                    'numberRatings': ratingCount
+                })
+            });
+            console.log('Updated Count');
             component.templateDirectoryInfoRef.update({
-                'ratingSum': snapshot.val() + rating_value
-            })
-        });
-        component.templateDirectoryInfoDatabaseRef.child('/numberRatings').once('value', function(snapshot) {
-            component.templateDirectoryInfoRef.update({
-                'numberRatings': snapshot.val() + 1
-            })
+                'averageRating': (ratingSum * 1.0) / ratingCount
+            });
+            console.log('Updated Average');
         });
     }
 
