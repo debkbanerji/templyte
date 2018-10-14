@@ -5,6 +5,9 @@ import {Component, NgZone, OnInit} from '@angular/core';
 import {AngularFireDatabase, AngularFireObject} from 'angularfire2/database';
 import {Observable} from 'rxjs';
 import {ApiInterfaceService} from '../providers/api-interface.service';
+import * as firebase from 'firebase';
+import { FirebaseDatabase } from 'angularfire2';
+import { Reference } from 'firebase/database';
 
 
 @Component({
@@ -17,8 +20,10 @@ export class DownloadTemplateComponent implements OnInit {
     valueMap: Object = {};
     templateDirectoryInfoRef: AngularFireObject<any>;
     templateRenderInfoRef: AngularFireObject<any>;
+    templateRatingsInfoRef: AngularFireObject<any>;
     templateRenderInfo: Observable<any> = null;
     templateDirectoryInfo: Observable<any> = null;
+    templateRatingsInfo: Observable<any> = null;
 
 
     constructor(
@@ -42,9 +47,11 @@ export class DownloadTemplateComponent implements OnInit {
                     component.ngZone.run(() => { // Need to do this using NgZone since we're calling a third party API
                         component.templateDirectoryInfoRef = component.db.object('template-directory/' + params.id);
                         component.templateRenderInfoRef = component.db.object('template-render-info/' + params.id);
+                        component.templateRatingsInfoRef = component.db.object('template-ratings/' + params.id);
+                        component.templateDirectoryInfoDatabaseRef = firebase.database().ref('template-directory/' + params.id);
+                        component.templateRatingsInfo = component.templateRatingsInfoRef.valueChanges();
                         component.templateDirectoryInfo = component.templateDirectoryInfoRef.valueChanges();
                         component.templateRenderInfo = component.templateRenderInfoRef.valueChanges();
-
                         component.templateRenderInfo.subscribe((response) => {
                             if (response == null) {
                                 component.router.navigate(['home']);
@@ -62,6 +69,72 @@ export class DownloadTemplateComponent implements OnInit {
 
     logout(): void {
         this.authService.logout(null);
+    }
+
+    previousfunctionalRating(rating_value) {
+        console.log("here");
+        const component = this;
+        const templateUID = " ";
+        component.templateDirectoryInfoRef.snapshotChanges().subscribe(data => {
+            console.log("here");
+            const payload_val = data.payload.val();
+            console.log(payload_val);
+            templateUID = payload_val.uid;
+            let authorUID:String  =  component.user.uid;
+            const ratingsObject = component.db.object('template-ratings/' + templateUID);
+            
+            ratingsObject.set({
+                [authorUID]: rating_value
+            });
+        });
+    }
+
+    storeRating(rating_value) {
+        console.log("here");
+        const component = this;
+        const templateUID = " ";
+        component.templateDirectoryInfoRef.snapshotChanges().subscribe(data => {
+            console.log("here");
+            const payload_val = data.payload.val();
+            console.log(payload_val);
+            templateUID = payload_val.uid;
+            let authorUID:String  =  component.user.uid;
+            const ratingsObject = component.db.object('template-ratings/' + templateUID);
+            component.templateRatingsInfoRef.snapshotChanges().subscribe(action => {
+                const rating_val = action.payload.child(authorUID).val(); //value of previous rating
+                let hasRated:Boolean = rating_val != null;
+                if (hasRated == true) {
+                    // author has reviewed before
+                    console.log("author has reviewed before");
+                    // update values in template directory
+                    component.templateDirectoryInfoDatabaseRef.child('/ratingSum').once('value', function(snapshot) {
+                        component.templateDirectoryInfoRef.update({
+                            'ratingSum': snapshot.val() - rating_value
+                        })
+                    });
+                    component.templateDirectoryInfoDatabaseRef.child('/numberRatings').once('value', function(snapshot) {
+                        component.templateDirectoryInfoRef.update({
+                            'numberRatings': snapshot.val() - 1
+                        })
+                    });
+                    hasRated = false;
+                }
+            });         
+            ratingsObject.set({
+                [authorUID]: rating_value
+            });
+        });
+        //update all with rating_value
+        component.templateDirectoryInfoDatabaseRef.child('/ratingSum').once('value', function(snapshot) {
+            component.templateDirectoryInfoRef.update({
+                'ratingSum': snapshot.val() + rating_value
+            })
+        });
+        component.templateDirectoryInfoDatabaseRef.child('/numberRatings').once('value', function(snapshot) {
+            component.templateDirectoryInfoRef.update({
+                'numberRatings': snapshot.val() + 1
+            })
+        });
     }
 
     downloadTemplate() {

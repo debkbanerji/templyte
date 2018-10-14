@@ -103,6 +103,9 @@ export class CreateTemplateComponent implements OnInit {
                         'authorName': component.user.displayName,
                         'authorUID': component.user.uid,
                         'authorPhotoUrl': component.user.photoURL
+                        'averageRating' : 0
+                        'ratingSum' : 0
+                        'numberRatings' : 0
 
                     });
                 }).then(() => {
