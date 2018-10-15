@@ -15,6 +15,7 @@ import {AngularFireStorage} from 'angularfire2/storage';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule, MatCardModule, MatDialogModule, MatInputModule} from '@angular/material';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatExpansionModule} from '@angular/material/expansion';
 import {FormsModule} from '@angular/forms';
 import {UploadService} from './upload/upload.service';
 import {InputValidateDialogComponent} from './input-validate-dialog/input-validate-dialog.component';
@@ -57,6 +58,7 @@ const routes: Routes = [
         MatToolbarModule,
         MatInputModule,
         MatSelectModule,
+        MatExpansionModule,
         RouterModule.forRoot(routes),
         FormsModule,
         MatChipsModule

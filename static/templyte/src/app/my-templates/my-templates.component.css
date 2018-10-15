@@ -12,3 +12,12 @@
     font-family: "Playfair Display", serif;
     font-size: 2em;
 }
+
+.mat-expansion-panel-header {
+    height:auto !important;
+}
+
+.form-subheading {
+    font-size:1.2em;
+    font-family: 'Playfair Display', serif;
+}

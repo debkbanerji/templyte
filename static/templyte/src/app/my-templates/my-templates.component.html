@@ -20,18 +20,46 @@
 <div>
     <p class="title large">My Templates</p>
 </div>
+<mat-accordion [multi]="false">
+    <div *ngFor="let template of templateList | async">
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <p>
+                        <span class="template-title">{{template.templateName}}</span>
+                        <br> by {{template.authorName}}
+                        <mat-chip-list>
+                            <mat-chip *ngFor="let tag of template.tags">
+                                {{tag.name}}
+                            </mat-chip>
+                        </mat-chip-list>
+                    </p>
+                </mat-panel-title>
+                <mat-panel-description>
+                   <p>{{template.templateDescription}}</p>
+                </mat-panel-description>
 
-<div *ngFor="let template of templateList | async">
-    <mat-card class="template-card">
-        <p class="template-title">{{template.templateName}}</p>
-        <p>by {{template.authorName}}</p>
-        <mat-chip-list>
-            <mat-chip *ngFor="let tag of template.tags">
-                {{tag.name}}
-            </mat-chip>
-        </mat-chip-list>
-        <button mat-raised-button (click)="openTemplate(template.uid)">Download</button>
-        <button mat-raised-button (click)="deleteTemplate(template.uid)">Delete</button>
-    </mat-card>
-</div>
+                <button mat-button (click)="deleteTemplate(template.uid)">Delete</button>
+                <button mat-button (click)="openTemplate(template.uid)">
+                    Download
+                </button>
+            </mat-expansion-panel-header>
+            <table class="table col-sm-12">
+                <tbody>
+                <tr *ngFor="let variable of (templateRenderList | async)?.variables">
+                    <td>
+                        <p class="form-subheading">{{variable.name}}</p>
+                        <p class="">{{variable.description}}</p>
+                        <input [(ngModel)]="valueMap[variable.name]" class="form-control"
+                               name="{{variable.name}}"
+                               placeholder="{{variable.name}}">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <button mat-raised-button color="primary"
+                    (click)="downloadTemplate()" class="fa fa-download">Download
+            </button>
+        </mat-expansion-panel>
+    </div>
 
