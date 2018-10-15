@@ -1,10 +1,10 @@
-import {AuthService} from '../providers/auth.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {User} from 'firebase';
-import {Component, NgZone, OnInit} from '@angular/core';
-import {AngularFireDatabase, AngularFireObject} from 'angularfire2/database';
-import {Observable} from 'rxjs';
-import {ApiInterfaceService} from '../providers/api-interface.service';
+import { AuthService } from '../providers/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { User } from 'firebase';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
+import { Observable } from 'rxjs';
+import { ApiInterfaceService } from '../providers/api-interface.service';
 import * as firebase from 'firebase';
 import { FirebaseDatabase } from 'angularfire2';
 import { Reference } from 'firebase/database';
