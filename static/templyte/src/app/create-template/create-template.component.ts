@@ -21,6 +21,7 @@ export class CreateTemplateComponent implements OnInit {
     selectedFiles: FileList;
     currentUpload: Upload;
     templateName: String = null;
+    templateDescription: String = null;
     variableArray: Array<any> = [];
     tagArray: Array<any> = [];
     fileEndingsArray: Array<any> = [];
@@ -85,6 +86,7 @@ export class CreateTemplateComponent implements OnInit {
 
     uploadTemplate() {
         const component = this;
+                        'templateDescription': component.templateDescription,
         if (component.validateInput() && !component.isUploading) {
             component.isUploading = true;
             const renderInfoObject = component.db.list('template-render-info');
