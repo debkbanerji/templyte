@@ -86,7 +86,6 @@ export class CreateTemplateComponent implements OnInit {
 
     uploadTemplate() {
         const component = this;
-                        'templateDescription': component.templateDescription,
         if (component.validateInput() && !component.isUploading) {
             component.isUploading = true;
             const renderInfoObject = component.db.list('template-render-info');
@@ -100,6 +99,7 @@ export class CreateTemplateComponent implements OnInit {
                 directoryObject.set({
                     'uid': targetKey,
                     'templateName': component.templateName,
+                    'templateDescription': component.templateDescription,
                     'tags': component.tagArray,
                     'authorName': component.user.displayName,
                     'authorUID': component.user.uid,
