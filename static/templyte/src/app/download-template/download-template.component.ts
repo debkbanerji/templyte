@@ -7,8 +7,6 @@ import {Observable} from 'rxjs';
 import {ApiInterfaceService} from '../providers/api-interface.service';
 import * as firebase from 'firebase';
 import {formatDate} from '@angular/common';
-import { ConstantPool } from '@angular/compiler';
-import { FirebaseDatabase } from 'angularfire2';
 import { Reference } from 'firebase/database';
 
 
@@ -76,7 +74,7 @@ export class DownloadTemplateComponent implements OnInit {
         component.validateEnteredVariables();
         component.templateRenderInfoRef.snapshotChanges().subscribe(data => {
             const payload_val = data.payload.val();
-            const fileEndings = payload_val.fileEndings;
+            const fileEndings = payload_val.fileEndings;   
             for (let i = 0; i < payload_val.fileEndings.length; i++) {
                 fileEndings[i] = fileEndings[i].name;
             }
@@ -97,12 +95,12 @@ export class DownloadTemplateComponent implements OnInit {
                     'cancelable': false
                 });
                 linkElement.dispatchEvent(clickEvent);
-                component.templateDirectoryInfoDatabaseRef.child('/templateNumDownload').once('value', function(snapshot) {
-                    component.templateDirectoryInfoRef.update({
-                        'templateNumDownload': snapshot.val() + 1,
-                        'templateLastDownloadDate': formatDate(new Date(), 'yyyy/MM/dd', 'en')
-                    })
+                component.templateDirectoryInfoDatabaseRef.child('/templateNumDownload').transaction(function(snapshot) {
+                    return snapshot+1;
                 });
+                component.templateDirectoryInfoRef.update({
+                    'templateLastDownloadDate': formatDate(new Date(), 'yyyy/MM/dd', 'en')});
+
             });
 
         });
