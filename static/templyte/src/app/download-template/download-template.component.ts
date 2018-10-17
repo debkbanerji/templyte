@@ -76,44 +76,37 @@ export class DownloadTemplateComponent implements OnInit {
 
     storeRating(new_rating) {
         const component = this;
+        console.log("new rating: "+new_rating);
         let authorUID:string  =  component.user.uid;
         component.templateRatingsInfoDatabaseRef.once('value').then(snapshot2 => {
             const old_rating = snapshot2.child(authorUID).val(); //value of previous rating
+            console.log("old_rating: "+old_rating);
             let hasRated:boolean = old_rating != null;
             if (hasRated == true) {
-                // author has reviewed before
-                // update values in template directory
-                component.templateDirectoryInfoDatabaseRef.child('/ratingSum').once('value', function(snapshot) {
-                    component.templateDirectoryInfoRef.update({
-                        'ratingSum': snapshot.val() - old_rating
-                    })
+                component.templateDirectoryInfoDatabaseRef.child('/numberRatings').transaction(function(numberRatings){
+                    return numberRatings - 1;
                 });
-                component.templateDirectoryInfoDatabaseRef.child('/numberRatings').once('value', function(snapshot) {
-                    component.templateDirectoryInfoRef.update({
-                        'numberRatings': snapshot.val() - 1
-                    })
+                component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function(ratingSum){
+                    return ratingSum - old_rating;
                 });
             }
             component.templateRatingsInfoRef.set({
                 [authorUID]: new_rating
             });
 
-            //update all with new_rating
-            let ratingSum, ratingCount
-            component.templateDirectoryInfoDatabaseRef.child('/ratingSum').once('value', sumSnapshot => {
-                ratingSum = sumSnapshot.val() + new_rating;
-                component.templateDirectoryInfoRef.update({
-                    'ratingSum': ratingSum
-                })
+            let ratingSum1, ratingCount //was there before
+            component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function(ratingSum){
+                return ratingSum + new_rating;
+            })
+            component.templateDirectoryInfoDatabaseRef.child('/numberRatings').transaction(function(numberRatings){
+                return numberRatings + 1;
             });
-            component.templateDirectoryInfoDatabaseRef.child('/numberRatings').once('value', countSnapshot => {
-                ratingCount = countSnapshot.val() + 1;
-                component.templateDirectoryInfoRef.update({
-                    'numberRatings': ratingCount
-                })
-            });
-            component.templateDirectoryInfoRef.update({
-                'averageRating': (ratingSum * 1.0) / ratingCount
+            component.templateDirectoryInfoDatabaseRef.once('value').then(dirInfoSnapshot => {
+                const numRatings = dirInfoSnapshot.child('numberRatings').val();
+                const ratingSum = dirInfoSnapshot.child('ratingSum').val();
+                component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function(avgRating){
+                    return (ratingSum * 1.0) / numRatings;
+                });
             });
         });
     }
