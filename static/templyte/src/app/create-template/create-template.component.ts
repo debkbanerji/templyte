@@ -107,7 +107,7 @@ export class CreateTemplateComponent implements OnInit {
                         'authorUID': component.user.uid,
                         'authorPhotoUrl': component.user.photoURL,
                         'templateNumDownload': 0,
-                        'templateLastDownloadDate' : "",
+                        'templateLastDownloadDate' : null,
                         'templateCreateDate': formatDate(new Date(), 'yyyy/MM/dd', 'en')
                     });
                 }).then(() => {

@@ -28,6 +28,7 @@
         <p>{{template.templateDescription}}</p>
         <p>Creation date: {{template.templateCreateDate}}</p>
         <p>Number of downloads: {{template.templateNumDownload}}</p>
+        <p *ngIf="template.templateLastDownloadDate">Last downloaded date: {{template.templateLastDownloadDate}}</p>
         <mat-chip-list>
             <mat-chip *ngFor="let tag of template.tags">
                 {{tag.name}}

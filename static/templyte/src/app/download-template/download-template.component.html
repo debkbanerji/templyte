@@ -24,6 +24,7 @@
     <p>{{(templateDirectoryInfo | async)?.templateDescription}}</p>
     <p>Creation date: {{(templateDirectoryInfo | async)?.templateCreateDate}}</p>
     <p>Number of downloads: {{(templateDirectoryInfo | async)?.templateNumDownload}}</p>
+    <p *ngIf="(templateDirectoryInfo | async)?.templateNumDownload != 0">Last downloaded date: {{(templateDirectoryInfo | async)?.templateLastDownloadDate}}</p>
 
 
 
