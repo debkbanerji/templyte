@@ -75,7 +75,7 @@ export class DownloadTemplateComponent implements OnInit {
 
     storeRating(new_rating) {
         const component = this;
-        let authorUID:string  =  component.user.uid;
+        const authorUID:string  =  component.user.uid;
         component.templateRatingsInfoDatabaseRef.once('value').then(snapshot2 => {
             const old_rating = snapshot2.child(authorUID).val(); //value of previous rating
             let hasRated:boolean = old_rating != null;
