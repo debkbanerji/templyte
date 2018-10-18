@@ -108,7 +108,7 @@ export class CreateTemplateComponent implements OnInit {
                         'authorPhotoUrl': component.user.photoURL,
                         'templateNumDownload': 0,
                         'templateLastDownloadDate' : null,
-                        'templateCreateDate': formatDate(new Date(), 'yyyy/MM/dd', 'en')
+                        'templateCreateDate': Date.now()
                     });
                 }).then(() => {
                     component.dialog.open(UploadSuccessDialogComponent);

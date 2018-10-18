@@ -22,9 +22,9 @@
 
     <p class="form-heading center-text">{{(templateDirectoryInfo | async)?.templateName}}</p>
     <p>{{(templateDirectoryInfo | async)?.templateDescription}}</p>
-    <p>Creation date: {{(templateDirectoryInfo | async)?.templateCreateDate}}</p>
+    <p>Creation date: {{(templateDirectoryInfo | async)?.templateCreateDate | date}}</p>
     <p>Number of downloads: {{(templateDirectoryInfo | async)?.templateNumDownload}}</p>
-    <p *ngIf="(templateDirectoryInfo | async)?.templateNumDownload != 0">Last downloaded date: {{(templateDirectoryInfo | async)?.templateLastDownloadDate}}</p>
+    <p *ngIf="(templateDirectoryInfo | async)?.templateNumDownload != 0">Last downloaded date: {{(templateDirectoryInfo | async)?.templateLastDownloadDate | date}}</p>
 
 
 
