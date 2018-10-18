@@ -25,7 +25,6 @@
     <mat-card class="template-card">
         <p class="template-title">{{template.templateName}}</p>
         <p>by {{template.authorName}}</p>
-        <p>{{template.templateDescription}}</p>
         <p>Creation date: {{template.templateCreateDate | date}}</p>
         <p>Number of downloads: {{template.templateNumDownload}}</p>
         <p *ngIf="template.templateLastDownloadDate">Last downloaded date: {{template.templateLastDownloadDate | date}}</p>

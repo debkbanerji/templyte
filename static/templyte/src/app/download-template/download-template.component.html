@@ -33,7 +33,6 @@
         <tr *ngFor="let variable of (templateRenderInfo | async)?.variables">
             <td>
                 <p class="form-subheading">{{variable.name}}</p>
-                <p class="">{{variable.description}}</p>
                 <input [(ngModel)]="valueMap[variable.name]" class="form-control"
                        name="{{variable.name}}"
                        placeholder="{{variable.name}}">
