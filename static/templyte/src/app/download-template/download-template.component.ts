@@ -6,7 +6,6 @@ import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
 import { Observable } from 'rxjs';
 import { ApiInterfaceService } from '../providers/api-interface.service';
 import * as firebase from 'firebase';
-import { FirebaseDatabase } from 'angularfire2';
 import { Reference } from 'firebase/database';
 
 
@@ -76,13 +75,11 @@ export class DownloadTemplateComponent implements OnInit {
 
     storeRating(new_rating) {
         const component = this;
-        console.log("new rating: "+new_rating);
         let authorUID:string  =  component.user.uid;
         component.templateRatingsInfoDatabaseRef.once('value').then(snapshot2 => {
             const old_rating = snapshot2.child(authorUID).val(); //value of previous rating
-            console.log("old_rating: "+old_rating);
             let hasRated:boolean = old_rating != null;
-            if (hasRated == true) {
+            if (hasRated) {
                 component.templateDirectoryInfoDatabaseRef.child('/numberRatings').transaction(function(numberRatings){
                     return numberRatings - 1;
                 });
@@ -97,7 +94,7 @@ export class DownloadTemplateComponent implements OnInit {
             let ratingSum1, ratingCount //was there before
             component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function(ratingSum){
                 return ratingSum + new_rating;
-            })
+            });
             component.templateDirectoryInfoDatabaseRef.child('/numberRatings').transaction(function(numberRatings){
                 return numberRatings + 1;
             });
