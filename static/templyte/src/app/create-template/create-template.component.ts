@@ -1,7 +1,6 @@
 import {AuthService} from '../providers/auth.service';
 import {Router} from '@angular/router';
 import {User} from 'firebase';
-import {formatDate} from '@angular/common';
 
 import {Component, OnInit} from '@angular/core';
 

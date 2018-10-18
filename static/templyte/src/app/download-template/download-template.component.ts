@@ -6,7 +6,6 @@ import {AngularFireDatabase, AngularFireObject} from 'angularfire2/database';
 import {Observable} from 'rxjs';
 import {ApiInterfaceService} from '../providers/api-interface.service';
 import * as firebase from 'firebase';
-import {formatDate} from '@angular/common';
 import { Reference } from 'firebase/database';
 
 
@@ -96,28 +95,12 @@ export class DownloadTemplateComponent implements OnInit {
                 });
                 linkElement.dispatchEvent(clickEvent);
                 component.templateDirectoryInfoDatabaseRef.child('/templateNumDownload').transaction(function(snapshot) {
-                    return snapshot+1;
+                    return snapshot + 1;
                 });
-                component.templateDirectoryInfoRef.update({
-                    'templateLastDownloadDate': formatDate(new Date(), 'yyyy/MM/dd', 'en')});
-
+                component.templateDirectoryInfoDatabaseRef.child('/templateLastDownloadDate').set(Date.now());
             });
 
         });
-        
-
-    }
-    update(callback) {
-        const component = this;
-
-    }
-
-    getUpdateValue(callback) {
-        const component = this;
-        component.templateDirectoryInfoRef.snapshotChanges().subscribe((data) => {
-            callback(data.payload.val().templateNumDownload);
-        });
-
     }
 
     createTemplate() {
