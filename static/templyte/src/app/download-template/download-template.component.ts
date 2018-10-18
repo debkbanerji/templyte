@@ -73,7 +73,7 @@ export class DownloadTemplateComponent implements OnInit {
         component.validateEnteredVariables();
         component.templateRenderInfoRef.snapshotChanges().subscribe(data => {
             const payload_val = data.payload.val();
-            const fileEndings = payload_val.fileEndings;   
+            const fileEndings = payload_val.fileEndings;
             for (let i = 0; i < payload_val.fileEndings.length; i++) {
                 fileEndings[i] = fileEndings[i].name;
             }
