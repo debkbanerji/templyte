@@ -25,7 +25,6 @@ export class DownloadTemplateComponent implements OnInit {
     templateRenderInfo: Observable<any> = null;
     templateDirectoryInfo: Observable<any> = null;
     templateRatingsInfo: Observable<any> = null;
-    templateDirectoryInfoDatabaseRef: Reference;
   
     constructor(
         private authService: AuthService,
