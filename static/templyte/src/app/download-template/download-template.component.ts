@@ -95,7 +95,6 @@ export class DownloadTemplateComponent implements OnInit {
                     });
                 });
             } else {
-                console.log("has not rated before");
                 component.templateDirectoryInfoDatabaseRef.child('/numberRatings').transaction(function(numberRatings){
                     varNumRatings = numberRatings + 1;
                     return numberRatings + 1;
