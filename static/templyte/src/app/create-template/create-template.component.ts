@@ -111,11 +111,6 @@ export class CreateTemplateComponent implements OnInit {
                         'templateNumDownload': 0,
                         'templateLastDownloadDate' : null,
                         'templateCreateDate': Date.now()
-
-                        'templateNumDownload': 0,
-                        'templateLastDownloadDate' : null,
-                        'templateCreateDate': Date.now()
-
                     });
                 }).then(() => {
                     component.dialog.open(UploadSuccessDialogComponent);
