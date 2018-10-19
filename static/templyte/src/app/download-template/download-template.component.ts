@@ -5,6 +5,8 @@ import {Component, NgZone, OnInit} from '@angular/core';
 import {AngularFireDatabase, AngularFireObject} from 'angularfire2/database';
 import {Observable} from 'rxjs';
 import {ApiInterfaceService} from '../providers/api-interface.service';
+import * as firebase from 'firebase';
+import {Reference} from 'firebase/database';
 
 
 @Component({
@@ -19,6 +21,8 @@ export class DownloadTemplateComponent implements OnInit {
     templateRenderInfoRef: AngularFireObject<any>;
     templateRenderInfo: Observable<any> = null;
     templateDirectoryInfo: Observable<any> = null;
+    templateDirectoryInfoDatabaseRef: Reference;
+
 
 
     constructor(
@@ -44,7 +48,7 @@ export class DownloadTemplateComponent implements OnInit {
                         component.templateRenderInfoRef = component.db.object('template-render-info/' + params.id);
                         component.templateDirectoryInfo = component.templateDirectoryInfoRef.valueChanges();
                         component.templateRenderInfo = component.templateRenderInfoRef.valueChanges();
-
+                        component.templateDirectoryInfoDatabaseRef = firebase.database().ref('template-directory/' + params.id);
                         component.templateRenderInfo.subscribe((response) => {
                             if (response == null) {
                                 component.router.navigate(['home']);
@@ -90,10 +94,13 @@ export class DownloadTemplateComponent implements OnInit {
                     'cancelable': false
                 });
                 linkElement.dispatchEvent(clickEvent);
+                component.templateDirectoryInfoDatabaseRef.child('/templateNumDownload').transaction(function(snapshot) {
+                    return snapshot + 1;
+                });
+                component.templateDirectoryInfoDatabaseRef.child('/templateLastDownloadDate').set(Date.now());
             });
 
         });
-
     }
 
     createTemplate() {

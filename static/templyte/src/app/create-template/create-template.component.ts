@@ -90,6 +90,7 @@ export class CreateTemplateComponent implements OnInit {
             component.isUploading = true;
             const renderInfoObject = component.db.list('template-render-info');
             renderInfoObject.push({
+                'templateArchiveUrl': templateUrl,
                 'variables': component.variableArray,
                 'fileEndings': component.fileEndingsArray,
                 'authorUID': component.user.uid
@@ -97,13 +98,17 @@ export class CreateTemplateComponent implements OnInit {
                 const targetKey = renderInfoResult.key;
                 const directoryObject = component.db.object('template-directory/' + targetKey);
                 directoryObject.set({
-                    'uid': targetKey,
-                    'templateName': component.templateName,
-                    'templateDescription': component.templateDescription,
-                    'tags': component.tagArray,
-                    'authorName': component.user.displayName,
-                    'authorUID': component.user.uid,
-                    'authorPhotoUrl': component.user.photoURL
+                      'uid': targetKey,
+                      'templateName': component.templateName,
+                      'templateDescription': component.templateDescription,
+                      'tags': component.tagArray,
+                      'authorName': component.user.displayName,
+                      'authorUID': component.user.uid,
+                      'authorPhotoUrl': component.user.photoURL,
+                      'templateNumDownload': 0,
+                      'templateLastDownloadDate' : null,
+                      'templateCreateDate': Date.now()
+                    });
                 }).then(() => {
                     component.uploadFile(targetKey + '.zip', function (templateUrl) {
                         component.db.object('template-render-info/' + targetKey + '/templateArchiveUrl')
