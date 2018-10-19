@@ -97,9 +97,9 @@ export class DownloadTemplateComponent implements OnInit {
 					varNumRatings = numberRatings + 1;
 					return numberRatings + 1;
 				}).then(function(ratingSum) {
-					component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function(ratingSum){
-						varRatingSum = ratingSum + new_rating;
-						return ratingSum + new_rating;
+					component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function(ratingSumAgain){
+						varRatingSum = ratingSumAgain + new_rating;
+						return ratingSumAgain + new_rating;
 					}).then(function(ratingSum) {
 						component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function(avgRating){
 							return (varRatingSum * 1.0) / varNumRatings;
