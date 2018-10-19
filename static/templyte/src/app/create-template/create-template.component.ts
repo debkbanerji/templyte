@@ -104,8 +104,10 @@ export class CreateTemplateComponent implements OnInit {
                         'tags': component.tagArray,
                         'authorName': component.user.displayName,
                         'authorUID': component.user.uid,
-                        'authorPhotoUrl': component.user.photoURL
-
+                        'authorPhotoUrl': component.user.photoURL,
+                        'templateNumDownload': 0,
+                        'templateLastDownloadDate' : null,
+                        'templateCreateDate': Date.now()
                     });
                 }).then(() => {
                     component.dialog.open(UploadSuccessDialogComponent);

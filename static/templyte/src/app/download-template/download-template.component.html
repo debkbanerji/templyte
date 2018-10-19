@@ -22,13 +22,17 @@
 
     <p class="form-heading center-text">{{(templateDirectoryInfo | async)?.templateName}}</p>
     <p>{{(templateDirectoryInfo | async)?.templateDescription}}</p>
+    <p>Creation date: {{(templateDirectoryInfo | async)?.templateCreateDate | date}}</p>
+    <p>Number of downloads: {{(templateDirectoryInfo | async)?.templateNumDownload}}</p>
+    <p *ngIf="(templateDirectoryInfo | async)?.templateNumDownload != 0">Last downloaded date: {{(templateDirectoryInfo | async)?.templateLastDownloadDate | date}}</p>
+
+
 
     <table class="table col-sm-12">
         <tbody>
         <tr *ngFor="let variable of (templateRenderInfo | async)?.variables">
             <td>
                 <p class="form-subheading">{{variable.name}}</p>
-                <p class="">{{variable.description}}</p>
                 <input [(ngModel)]="valueMap[variable.name]" class="form-control"
                        name="{{variable.name}}"
                        placeholder="{{variable.name}}">
