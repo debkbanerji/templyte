@@ -6,7 +6,7 @@ import {AngularFireDatabase, AngularFireObject} from 'angularfire2/database';
 import {Observable} from 'rxjs';
 import {ApiInterfaceService} from '../providers/api-interface.service';
 import * as firebase from 'firebase';
-import { Reference } from 'firebase/database';
+import {Reference} from 'firebase/database';
 
 
 @Component({
