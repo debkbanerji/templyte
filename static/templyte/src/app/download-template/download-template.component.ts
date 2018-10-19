@@ -49,7 +49,7 @@ export class DownloadTemplateComponent implements OnInit {
                         component.templateDirectoryInfoRef = component.db.object('template-directory/' + params.id);
                         component.templateRenderInfoRef = component.db.object('template-render-info/' + params.id);
                         component.templateRatingsInfoRef = component.db.object('template-ratings/' + params.id);
-                        component.templateRatingsInfoDatabaseRef = firebase.database().ref('template-ratings/' + params.id);
+                        component.templateRatingsInfoDatabaseRef = firebase.database().ref('template-ratings/' + params.id + '/' + component.user.uid);
                         component.templateDirectoryInfoDatabaseRef = firebase.database().ref('template-directory/' + params.id);
                         component.templateRatingsInfo = component.templateRatingsInfoRef.valueChanges();
                         component.templateDirectoryInfo = component.templateDirectoryInfoRef.valueChanges();
@@ -77,34 +77,39 @@ export class DownloadTemplateComponent implements OnInit {
         const component = this;
         const authorUID:string  =  component.user.uid;
         component.templateRatingsInfoDatabaseRef.once('value').then(snapshot2 => {
-            const old_rating = snapshot2.child(authorUID).val(); //value of previous rating
+            const old_rating = snapshot2.val(); //value of previous rating
+            var varNumRatings = 0;
+            var varRatingSum = 0;
+            component.templateRatingsInfoDatabaseRef.set(
+                 new_rating
+            );
             let hasRated:boolean = old_rating != null;
             if (hasRated) {
-                component.templateDirectoryInfoDatabaseRef.child('/numberRatings').transaction(function(numberRatings){
-                    return numberRatings - 1;
-                });
                 component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function(ratingSum){
-                    return ratingSum - old_rating;
+                    varRatingSum = ratingSum - old_rating + new_rating;
+                    return ratingSum - old_rating + new_rating;
+                }).then(function(ratingSum) {
+                    varNumRatings = 1;
+                    component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function(avgRating){
+                            return (varRatingSum * 1.0) / varNumRatings;
+                    });
+                });
+            } else {
+                console.log("has not rated before");
+                component.templateDirectoryInfoDatabaseRef.child('/numberRatings').transaction(function(numberRatings){
+                    varNumRatings = numberRatings + 1;
+                    return numberRatings + 1;
+                }).then(function(ratingSum) {
+                    component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function(ratingSum){
+                        varRatingSum = ratingSum + new_rating;
+                        return ratingSum + new_rating;
+                    }).then(function(ratingSum) {
+                        component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function(avgRating){
+                            return (varRatingSum * 1.0) / varNumRatings;
+                        });
+                    });
                 });
             }
-            component.templateRatingsInfoRef.set({
-                [authorUID]: new_rating
-            });
-
-            let ratingSum1, ratingCount //was there before
-            component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function(ratingSum){
-                return ratingSum + new_rating;
-            });
-            component.templateDirectoryInfoDatabaseRef.child('/numberRatings').transaction(function(numberRatings){
-                return numberRatings + 1;
-            });
-            component.templateDirectoryInfoDatabaseRef.once('value').then(dirInfoSnapshot => {
-                const numRatings = dirInfoSnapshot.child('numberRatings').val();
-                const ratingSum = dirInfoSnapshot.child('ratingSum').val();
-                component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function(avgRating){
-                    return (ratingSum * 1.0) / numRatings;
-                });
-            });
         });
     }
 
