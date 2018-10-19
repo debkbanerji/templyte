@@ -25,8 +25,8 @@ export class DownloadTemplateComponent implements OnInit {
     templateRenderInfo: Observable<any> = null;
     templateDirectoryInfo: Observable<any> = null;
     templateRatingsInfo: Observable<any> = null;
-
-
+    templateDirectoryInfoDatabaseRef: Reference;
+  
     constructor(
         private authService: AuthService,
         private db: AngularFireDatabase,
@@ -54,6 +54,7 @@ export class DownloadTemplateComponent implements OnInit {
                         component.templateRatingsInfo = component.templateRatingsInfoRef.valueChanges();
                         component.templateDirectoryInfo = component.templateDirectoryInfoRef.valueChanges();
                         component.templateRenderInfo = component.templateRenderInfoRef.valueChanges();
+                        component.templateDirectoryInfoDatabaseRef = firebase.database().ref('template-directory/' + params.id);
                         component.templateRenderInfo.subscribe((response) => {
                             if (response == null) {
                                 component.router.navigate(['home']);
@@ -139,10 +140,13 @@ export class DownloadTemplateComponent implements OnInit {
                     'cancelable': false
                 });
                 linkElement.dispatchEvent(clickEvent);
+                component.templateDirectoryInfoDatabaseRef.child('/templateNumDownload').transaction(function(snapshot) {
+                    return snapshot + 1;
+                });
+                component.templateDirectoryInfoDatabaseRef.child('/templateLastDownloadDate').set(Date.now());
             });
 
         });
-
     }
 
     createTemplate() {

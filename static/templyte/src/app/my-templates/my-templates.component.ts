@@ -59,10 +59,10 @@ export class MyTemplatesComponent implements OnInit {
     }
 
     deleteTemplate(templateUID) {
-        var dialogRef = this.dialog.open(DeleteConfirmDialogComponent);
+        const component = this;
+        const dialogRef = component.dialog.open(DeleteConfirmDialogComponent);
         dialogRef.afterClosed().subscribe( (result) => {
             if (result) {
-                const component = this;
                 component.db.object('template-directory/' + templateUID).remove().then(() => {
                     const renderInfoRef = component.db.object('template-render-info/' + templateUID);
                     renderInfoRef.valueChanges().subscribe((renderInfoValueRes: any) => {
