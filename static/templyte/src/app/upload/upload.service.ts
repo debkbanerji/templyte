@@ -7,11 +7,13 @@ export class Upload {
 
     file: File;
     name: string;
+    targetName: string;
     userUID: string;
     progress: number;
 
-    constructor(file: File, userUID: string) {
+    constructor(file: File, targetName: string, userUID: string) {
         this.file = file;
+        this.targetName = targetName;
         this.userUID = userUID;
     }
 }
@@ -26,7 +28,7 @@ export class UploadService {
 
     pushUpload(upload: Upload, callback) {
         const storageRef = firebase.storage().ref();
-        const uploadTask = storageRef.child(`${this.basePath}/users/${upload.userUID}/${upload.file.name}`).put(upload.file);
+        const uploadTask = storageRef.child(`${this.basePath}/users/${upload.userUID}/${upload.targetName}`).put(upload.file);
 
         uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
             (snapshot) => {
