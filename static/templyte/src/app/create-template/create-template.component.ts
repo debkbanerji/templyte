@@ -108,10 +108,13 @@ export class CreateTemplateComponent implements OnInit {
                         'authorPhotoUrl': component.user.photoURL,
                         'averageRating' : 0,
                         'ratingSum' : 0,
-                        'numberRatings' : 0
+                        'numberRatings' : 0,
                         'templateNumDownload': 0,
                         'templateLastDownloadDate' : null,
                         'templateCreateDate': Date.now()
+                    });
+                });
+        }
         if (component.validateInput() && !component.isUploading) {
             component.isUploading = true;
             const renderInfoObject = component.db.list('template-render-info');
