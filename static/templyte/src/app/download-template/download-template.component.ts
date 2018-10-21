@@ -75,8 +75,8 @@ export class DownloadTemplateComponent implements OnInit {
 
 	storeRating(new_rating) {
 		const component = this;
-		component.templateRatingsInfoDatabaseRef.once('value').then(snapshot2 => {
-			const old_rating = snapshot2.val(); //value of previous rating
+		component.templateRatingsInfoDatabaseRef.once('value').then(snapshot => {
+			const old_rating = snapshot.val(); //value of previous rating
 			let varNumRatings = 0;
 			let varRatingSum = 0;
 			component.templateRatingsInfoDatabaseRef.set(
