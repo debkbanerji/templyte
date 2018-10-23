@@ -86,6 +86,35 @@ export class CreateTemplateComponent implements OnInit {
 
     uploadTemplate() {
         const component = this;
+        if (component.validateInput()) {
+            component.uploadFile(function (templateUrl) {
+                const renderInfoObject = component.db.list('template-render-info');
+                console.log(templateUrl);
+                renderInfoObject.push({
+                    'templateArchiveUrl': templateUrl,
+                    'variables': component.variableArray,
+                    'fileEndings': component.fileEndingsArray,
+                    'authorUID': component.user.uid
+                }).then((renderInfoResult) => {
+                    const targetKey = renderInfoResult.key;
+                    const directoryObject = component.db.object('template-directory/' + targetKey);
+                    directoryObject.set({
+                        'uid': targetKey,
+                        'templateName': component.templateName,
+                        'templateDescription': component.templateDescription,
+                        'tags': component.tagArray,
+                        'authorName': component.user.displayName,
+                        'authorUID': component.user.uid,
+                        'authorPhotoUrl': component.user.photoURL,
+                        'averageRating' : 0,
+                        'ratingSum' : 0,
+                        'numberRatings' : 0,
+                        'templateNumDownload': 0,
+                        'templateLastDownloadDate' : null,
+                        'templateCreateDate': Date.now()
+                    });
+                });
+        }
         if (component.validateInput() && !component.isUploading) {
             component.isUploading = true;
             const renderInfoObject = component.db.list('template-render-info');
