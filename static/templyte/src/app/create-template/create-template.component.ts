@@ -38,7 +38,6 @@ export class CreateTemplateComponent implements OnInit {
 
 
     static encodeTag(tag) {
-        console.log(tag);
         return '__TAG__' + tag.replace(/\s*/g, '').toLowerCase();
     }
 
@@ -119,6 +118,11 @@ export class CreateTemplateComponent implements OnInit {
                 };
                 for (let i = 0; i < component.tagArray.length; i++) {
                     templateDirectoryData[CreateTemplateComponent.encodeTag(component.tagArray[i].name)] = true;
+                }
+                templateDirectoryData[CreateTemplateComponent.encodeTag(component.templateName)] = true;
+                const nameSplit = component.templateName.split(/\s+/);
+                for (let i = 0; i < nameSplit.length; i++) {
+                    templateDirectoryData[CreateTemplateComponent.encodeTag(nameSplit[i])] = true;
                 }
                 directoryObject.set(templateDirectoryData);
                 component.uploadFile(targetKey + '.zip', function (templateUrl) {
