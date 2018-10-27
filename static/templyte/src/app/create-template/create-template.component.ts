@@ -36,6 +36,12 @@ export class CreateTemplateComponent implements OnInit {
     ) {
     }
 
+
+    static encodeTag(tag) {
+        console.log(tag);
+        return '__TAG__' + tag.replace(/\s*/g, '').toLowerCase();
+    }
+
     ngOnInit() {
         const component = this;
         component.authService.onAuthStateChanged(function (auth) {
@@ -96,7 +102,7 @@ export class CreateTemplateComponent implements OnInit {
             }).then((renderInfoResult) => {
                 const targetKey = renderInfoResult.key;
                 const directoryObject = component.db.object('template-directory/' + targetKey);
-                directoryObject.set({
+                const templateDirectoryData = {
                     'uid': targetKey,
                     'templateName': component.templateName,
                     'templateDescription': component.templateDescription,
@@ -110,7 +116,11 @@ export class CreateTemplateComponent implements OnInit {
                     'templateNumDownload': 0,
                     'templateLastDownloadDate': null,
                     'templateCreateDate': Date.now()
-                });
+                };
+                for (let i = 0; i < component.tagArray.length; i++) {
+                    templateDirectoryData[CreateTemplateComponent.encodeTag(component.tagArray[i].name)] = true;
+                }
+                directoryObject.set(templateDirectoryData);
                 component.uploadFile(targetKey + '.zip', function (templateUrl) {
                     component.db.object('template-render-info/' + targetKey + '/templateArchiveUrl')
                         .set(templateUrl).then(() => {
