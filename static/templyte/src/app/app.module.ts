@@ -5,6 +5,7 @@ import {AppComponent} from './app.component';
 import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from './login/login.component';
 import {HomeComponent} from './home/home.component';
+import {TutorialComponent} from './tutorial/tutorial.component';
 import {ApiInterfaceService} from './providers/api-interface.service';
 import {HttpClientModule} from '@angular/common/http';
 import {AngularFireModule} from 'angularfire2';
@@ -28,6 +29,7 @@ import {DeleteConfirmDialogComponent} from './delete-confirm-dialog/delete-confi
 const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
     {path: 'login', component: LoginComponent, pathMatch: 'full'},
+    {path: 'tutorial', component: TutorialComponent, pathMatch: 'full'},
     {path: 'create', component: CreateTemplateComponent, pathMatch: 'full'},
     {path: 'download-template/:id', component: DownloadTemplateComponent, pathMatch: 'full'},
     {path: 'my-templates', component: MyTemplatesComponent, pathMatch: 'full'},
@@ -44,7 +46,8 @@ const routes: Routes = [
         InputValidateDialogComponent,
         UploadSuccessDialogComponent,
         DeleteConfirmDialogComponent,
-        MyTemplatesComponent
+        MyTemplatesComponent,
+        TutorialComponent,
     ],
     imports: [
         AngularFireModule.initializeApp(config),
