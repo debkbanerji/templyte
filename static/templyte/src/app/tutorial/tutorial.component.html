@@ -2,13 +2,13 @@
     <nav class="navbar">
         <ul class="nav navbar-right">
             <li>
-                <button mat-button disabled>Home</button>
+                <button mat-button (click)="goHome()">Home</button>
             </li>
             <li>
                 <button mat-button (click)="createTemplate()">Create Template</button>
             </li>
             <li>
-                <button mat-button (click)="tutorial()">Tutorial</button>
+                 <button mat-button disabled>Tutorial</button>
             </li>
             <li>
                 <button mat-button (click)="myTemplates()">My Templates</button>
@@ -27,20 +27,44 @@
 <body>
 
 <h1>Create a Template</h1>
-<img src="pic_trulli.jpg" alt="Italian Trulli">
-<p>This is a paragraph.</p>
+<ol type="1">
+  <li>Navigate to the "Create Template" page from the navigation bar at the top of each page</li>
+  <li>Provide a name and description of your template</li>
+  <li>Select the zip file of the template</li>
+  <li>Provide Names and Descriptions of Template Variables</li>
+  <li>Provide Tags</li>
+  <li>Provide File Endings</li>
+  <li>Submit template</li>
+</ol>
 
 <h1>View Templates</h1>
-<p>This is a paragraph.</p>
+<ol type="1">
+  <li>Navigate to the "My Templates" page from the navigation bar at the top of each page</li>
+  <li>Your existing templates will be displayed, if there are none you have not created any.</li>
+</ol>
 
 <h1>Download A Template</h1>
-<p>This is a paragraph.</p>
+<ol type="1">
+  <li>Navigate to the "My Templates" page from the navigation bar at the top of each page</li>
+  <li>Your existing templates will be displayed, if there are none you have not created any.</li>
+  <li>If you wish to download one of your templates, click on download button.</li>
+  <li>Fill in your customizations and download</li>
+</ol>
 
 <h1>Delete A Template</h1>
-<p>This is a paragraph.</p>
+<ol type="1">
+  <li>Navigate to the "My Templates" page from the navigation bar at the top of each page</li>
+  <li>Your existing templates will be displayed, if there are none you have not created any.</li>
+  <li>If you wish to delete one of your templates, click on delete button.</li>
+</ol>
 
 <h1>Rate A Template</h1>
-<p>This is a paragraph.</p>
+<ol type="1">
+  <li>Navigate to the "My Templates" page from the navigation bar at the top of each page</li>
+  <li>Your existing templates will be displayed, if there are none you have not created any.</li>
+  <li>If you wish to rate one of your templates, click on the template.</li>
+  <li>Click the stars to rate</li>
+</ol>
 
 </body>
 </html>

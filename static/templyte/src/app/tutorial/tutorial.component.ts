@@ -46,6 +46,10 @@ export class TutorialComponent implements OnInit {
     myTemplates() {
         this.router.navigate(['my-templates']);
     }
+    
+    goHome() {
+        this.router.navigate(['']);
+    }
 
     logout(): void {
         this.authService.logout(null);
