@@ -17,6 +17,8 @@ import { Reference } from 'firebase/database';
 export class DownloadTemplateComponent implements OnInit {
 	user: User = null;
 	valueMap: Object = {};
+	ratingText: String = "";
+	ratingVal: number = null;
 	templateDirectoryInfoRef: AngularFireObject<any>;
 	templateRenderInfoRef: AngularFireObject<any>;
 	templateRatingsInfoRef: AngularFireObject<any>;
@@ -73,19 +75,20 @@ export class DownloadTemplateComponent implements OnInit {
 		this.authService.logout(null);
 	}
 
-	storeRating(new_rating) {
+	storeRating() {
 		const component = this;
 		component.templateRatingsInfoDatabaseRef.once('value').then(snapshot => {
 			const old_rating = snapshot.val(); //value of previous rating
 			let varNumRatings = 0;
 			let varRatingSum = 0;
-			component.templateRatingsInfoDatabaseRef.set(
-				 new_rating
-			);
+			component.templateRatingsInfoDatabaseRef.set({
+				 'ratingValue' : this.ratingVal,
+				 'ratingText' : this.ratingText
+			});
 			if (old_rating != null) {
 				component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function(ratingSum){
-					varRatingSum = ratingSum - old_rating + new_rating;
-					return ratingSum - old_rating + new_rating;
+					varRatingSum = ratingSum - old_rating + this.ratingVal;
+					return ratingSum - old_rating + this.ratingVal;
 				}).then(function(ratingSum) {
 					varNumRatings = 1;
 					component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function(avgRating){
@@ -98,8 +101,8 @@ export class DownloadTemplateComponent implements OnInit {
 					return numberRatings + 1;
 				}).then(function(ratingSum) {
 					component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function(ratingSumAgain){
-						varRatingSum = ratingSumAgain + new_rating;
-						return ratingSumAgain + new_rating;
+						varRatingSum = ratingSumAgain + this.ratingVal;
+						return ratingSumAgain + this.ratingVal;
 					}).then(function(ratingSum) {
 						component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function(avgRating){
 							return (varRatingSum * 1.0) / varNumRatings;
@@ -108,6 +111,10 @@ export class DownloadTemplateComponent implements OnInit {
 				});
 			}
 		});
+	}
+
+	saveRatingVal(star_number) {
+		this.ratingVal = star_number;
 	}
 
 	downloadTemplate() {

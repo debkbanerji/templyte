@@ -23,17 +23,19 @@
     <p class="form-heading center-text">{{(templateDirectoryInfo | async)?.templateName}}</p>
     <body>
       <div class="rate">
-        <input type="radio" id="star5" name="rate" value="5" (click)="storeRating(5)" />
+        <input type="radio" id="star5" name="rate" value="5" (click)="saveRatingVal(5)" />
         <label for="star5" title="text">5 stars</label>
-        <input type="radio" id="star4" name="rate" value="4" (click)="storeRating(4)" />
+        <input type="radio" id="star4" name="rate" value="4" (click)="saveRatingVal(4)" />
         <label for="star4" title="text">4 stars</label>
-        <input type="radio" id="star3" name="rate" value="3" (click)="storeRating(3)" />
+        <input type="radio" id="star3" name="rate" value="3" (click)="saveRatingVal(3)" />
         <label for="star3" title="text">3 stars</label>
-        <input type="radio" id="star2" name="rate" value="2" (click)="storeRating(2)" />
+        <input type="radio" id="star2" name="rate" value="2" (click)="saveRatingVal(2)" />
         <label for="star2" title="text">2 stars</label>
-        <input type="radio" id="star1" name="rate" value="1" (click)="storeRating(1)" />
+        <input type="radio" id="star1" name="rate" value="1" (click)="saveRatingVal(1)" />
         <label for="star1" title="text">1 star</label>
       </div>
+      <input type="text" id="ratingtext" name="review" [(ngModel)]="ratingText">
+      <input type="button" id="ratingsubmit" name="saverating" (click)="storeRating()">
     </body>
 
     <p>{{(templateDirectoryInfo | async)?.templateDescription}}</p>
