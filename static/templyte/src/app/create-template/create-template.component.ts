@@ -207,7 +207,6 @@ export class CreateTemplateComponent implements OnInit {
         this.router.navigate(['tutorial']);
     }
 
-
     myTemplates() {
         this.router.navigate(['my-templates']);
     }
