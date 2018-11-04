@@ -83,6 +83,11 @@ export class MyTemplatesComponent implements OnInit {
         component.router.navigate(['download-template/' + templateId]);
     }
 
+    editTemplate(templateId) {
+        const component = this;
+        component.router.navigate(['edit-template/' + templateId]);
+    }
+
     logout(): void {
         this.authService.logout(null);
     }

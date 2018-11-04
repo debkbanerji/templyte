@@ -24,12 +24,14 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatSelectModule} from '@angular/material/select';
 import {DownloadTemplateComponent} from './download-template/download-template.component';
 import {DeleteConfirmDialogComponent} from './delete-confirm-dialog/delete-confirm-dialog.component';
+import {EditTemplateComponent} from "./edit-template/edit-template.component";
 
 const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
     {path: 'login', component: LoginComponent, pathMatch: 'full'},
     {path: 'create', component: CreateTemplateComponent, pathMatch: 'full'},
     {path: 'download-template/:id', component: DownloadTemplateComponent, pathMatch: 'full'},
+    {path: 'edit-template/:id', component: EditTemplateComponent, pathMatch: 'full'},
     {path: 'my-templates', component: MyTemplatesComponent, pathMatch: 'full'},
     {path: '**', redirectTo: '', pathMatch: 'full'} // Redirect everything else to the home page
 ];
@@ -41,6 +43,7 @@ const routes: Routes = [
         LoginComponent,
         CreateTemplateComponent,
         DownloadTemplateComponent,
+        EditTemplateComponent,
         InputValidateDialogComponent,
         UploadSuccessDialogComponent,
         DeleteConfirmDialogComponent,
