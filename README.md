@@ -14,4 +14,3 @@ Via command line:
 	npm run development-gui
 Launch web browser of your choice and go to localhost:4200
 
-firebase set up instructions
