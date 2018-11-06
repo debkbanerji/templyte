@@ -17,7 +17,7 @@ import {UploadSuccessDialogComponent} from '../upload-success-dialog/upload-succ
 })
 
 export class TutorialComponent implements OnInit {
-	user: User = null;
+    user: User = null;
 
     constructor(
         private apiInterfaceService: ApiInterfaceService,
