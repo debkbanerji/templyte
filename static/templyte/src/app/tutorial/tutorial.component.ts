@@ -28,14 +28,6 @@ export class TutorialComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        const component = this;
-        component.authService.onAuthStateChanged(function (auth) {
-            if (auth === null) { // If the user is logged out
-                component.router.navigate(['login']);
-            } else {
-                component.user = component.authService.getAuth().currentUser;
-            }
-        });
 
     }
 
