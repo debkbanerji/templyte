@@ -1,7 +1,7 @@
 # templyte
 Junior Design Project created by Team 7331
 
-The Templyte is a web application that allows users to upload, download, and share coding templates for starter coding projects. A coding template is a set of files that contains starter code for a programming project and has variables that the user can provide values for when the template is downloaded. 
+Templyte is a web application that allows users to upload, download, and share coding templates for starting coding projects. A coding template is a set of files that contains starter code for a programming project and has variables that the user can provide values for when the template is downloaded. 
 
 To launch templyte:
 Install Node and NPM
