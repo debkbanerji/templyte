@@ -7,10 +7,18 @@ To launch templyte:
 Install Node and NPM
 	To install on mac: https://blog.teamtreehouse.com/install-node-js-npm-mac
 	To install on windows: https://blog.teamtreehouse.com/install-node-js-npm-windows
-Via command line:
-	npm install
-	npm start 
-	npm run development-server
-	npm run development-gui
-Launch web browser of your choice and go to localhost:4200
+	To install on linux: https://blog.teamtreehouse.com/install-node-js-npm-linux
 
+Development Mode:
+	Via command line:
+		npm install
+		npm start 
+		npm run development-server
+		npm run development-gui
+	Launch web browser of your choice and go to localhost:4200
+
+Deployment:
+	Via command line:
+		npm run develop
+		ng serve
+	Launch web browser of your choice and go to localhost:4200
