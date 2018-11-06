@@ -5,7 +5,7 @@ import {ApiInterfaceService} from '../providers/api-interface.service';
 import {Component, OnInit} from '@angular/core';
 
 import {UploadService, Upload} from '../upload/upload.service';
-import {AngularFireDatabase} from 'angularfire2/database';
+/*import {AngularFireDatabase} from 'angularfire2/database';*/
 
 @Component({
     selector: 'app-tutorial',
@@ -17,9 +17,7 @@ export class TutorialComponent implements OnInit {
     user: User = null;
 
     constructor(
-        private apiInterfaceService: ApiInterfaceService,
         private authService: AuthService,
-        private db: AngularFireDatabase,
         private router: Router
     ) {
     }
