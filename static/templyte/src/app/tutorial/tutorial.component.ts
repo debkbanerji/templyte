@@ -6,9 +6,6 @@ import {Component, OnInit} from '@angular/core';
 
 import {UploadService, Upload} from '../upload/upload.service';
 import {AngularFireDatabase} from 'angularfire2/database';
-import {MatDialog} from '@angular/material/dialog';
-import {InputValidateDialogComponent} from '../input-validate-dialog/input-validate-dialog.component';
-import {UploadSuccessDialogComponent} from '../upload-success-dialog/upload-success-dialog.component';
 
 @Component({
     selector: 'app-tutorial',
