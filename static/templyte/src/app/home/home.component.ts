@@ -25,15 +25,13 @@ export class HomeComponent implements OnInit {
     hasSearched = false;
     searchedTemplateList: any = null;
     options: String[];
-    optionValues: SortingOptions;
     SortingOptions : typeof SortingOptions = SortingOptions;
-    templateDirectoryInfoList: AngularFireList<any>;
     displayList: any[];
     constructor(
         private apiInterfaceService: ApiInterfaceService,
         private authService: AuthService,
         private db: AngularFireDatabase,
-        private router: Router,
+        private router: Router
     ) {
     }
 
@@ -56,7 +54,7 @@ export class HomeComponent implements OnInit {
             ref =>
                 ref.orderByChild(CreateTemplateComponent.encodeTag(component.searchTerm))
                     .equalTo(true)
-        ).valueChanges().subscribe((data) => component.displayList = data);  
+        ).valueChanges().subscribe((data) => component.displayList = data);
     }
 
 
@@ -82,25 +80,25 @@ export class HomeComponent implements OnInit {
         switch(option) {
             case SortingOptions.CREATIONDATE: {
                 if (component.displayList != null) {
-                    component.displayList.sort((a,b) => a.templateCreateDate - b.templateCreateDate);
-                } 
+                    component.displayList.sort((b,a) => a.templateCreateDate - b.templateCreateDate);
+                }
                 break;
             }
             case SortingOptions.LASTDOWNLOADEDDATE: {
                 if (component.displayList != null) {
-                    component.displayList.sort((a,b) => a.templateLastDownloadDate - b.templateLastDownloadDate);
+                    component.displayList.sort((b,a) => a.templateLastDownloadDate - b.templateLastDownloadDate);
                 }
                 break;
             }
             case SortingOptions.NUMBEROFDOWNLOADS: {
                 if (component.displayList != null) {
-                    component.displayList.sort((a,b) => a.templateNumDownload - b.templateNumDownload);
+                    component.displayList.sort((b,a) => a.templateNumDownload - b.templateNumDownload);
                 }
                 break;
             }
             case SortingOptions.RATING: {
                 if (component.displayList != null) {
-                    component.displayList.sort((a,b) => a.averageRating - b.averageRating);
+                    component.displayList.sort((b,a) => a.averageRating - b.averageRating);
                 }
                 break;
             }
