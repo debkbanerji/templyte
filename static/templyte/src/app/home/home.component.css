@@ -1,0 +1,9 @@
+.search-card {
+    max-width: 100%;
+    margin: 1em auto 3em auto;
+    background-image: linear-gradient(to right, #A3E9EA , #9CE4FA);
+}
+
+.search-field {
+    width: 70%;
+}
