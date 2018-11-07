@@ -50,6 +50,18 @@
     color: #c59b08;
 }
 
+.rating-star {
+    font-size: 30px;
+}
+
+.rating-star-deactivated {
+    color: #ccc;
+}
+
+.rating-star-activated {
+    color: #ffc700;
+}
+
 .reviews-heading {
     font-size: 2em;
 }

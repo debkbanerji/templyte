@@ -73,7 +73,17 @@
             <hr>
             <br>
         </div>
-        <p *ngIf="review.ratingText">{{review.ratingText}}</p>
+        <div>
+            <span *ngFor="let rating of ([1, 2, 3, 4, 5])" class="rating-star">
+                <span
+                    [ngClass]="{'rating-star-deactivated': rating > review.ratingValue, 'rating-star-activated': rating <= review.ratingValue}">
+                    ★
+                </span>
+            </span>
+        </div>
+        <div *ngIf="review.ratingText">
+            <p>{{review.ratingText}}</p>
+        </div>
         <b>{{review.ratingUserDisplayName}}</b>
     </div>
     <div *ngIf="(allRatingsList | async)?.length === 0">
