@@ -66,13 +66,11 @@
 <br>
 <mat-card class="card-reviews">
     <p class="title reviews-heading">Reviews</p>
+    <br>
     <div *ngFor="let review of allRatingsList | async; let i = index">
+        <br>
         <p *ngIf="review.ratingText">{{review.ratingText}}</p>
         <b>{{review.ratingUserDisplayName}}</b>
-        <div *ngIf=" i < (allRatingsList | async)?.length - 1">
-            <hr>
-            <br>
-        </div>
     </div>
     <div *ngIf="(allRatingsList | async)?.length === 0">
         <p>No reviews yet</p>
