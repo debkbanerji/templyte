@@ -68,7 +68,11 @@
     <p class="title reviews-heading">Reviews</p>
     <br>
     <div *ngFor="let review of allRatingsList | async; let i = index">
-        <br>
+        <div *ngIf="i > 0">
+            <br>
+            <hr>
+            <br>
+        </div>
         <p *ngIf="review.ratingText">{{review.ratingText}}</p>
         <b>{{review.ratingUserDisplayName}}</b>
     </div>
