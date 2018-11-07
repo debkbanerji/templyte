@@ -35,7 +35,6 @@
         <mat-form-field>
             <mat-select placeholder="Sort by" [(value)]="selected" (selectionChange)="sort(selected)">
                 <mat-option *ngFor="let option of options" [value]="option">{{option}}</mat-option>
-
             </mat-select>
         </mat-form-field>
         <div *ngFor="let template of displayList" class="col col-xs-12">
