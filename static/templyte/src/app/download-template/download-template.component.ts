@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 import { ApiInterfaceService } from '../providers/api-interface.service';
 import * as firebase from 'firebase';
 import { Reference } from 'firebase/database';
-import {MatDialog} from '@angular/material/dialog';
-import {InputValidateDialogComponent} from '../input-validate-dialog/input-validate-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { InputValidateDialogComponent } from '../input-validate-dialog/input-validate-dialog.component';
 
 
 @Component({
