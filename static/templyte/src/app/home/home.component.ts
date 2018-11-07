@@ -1,10 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {ApiInterfaceService} from '../providers/api-interface.service';
-import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
 import {AuthService} from '../providers/auth.service';
 import {Router} from '@angular/router';
 import {User} from 'firebase';
 import {CreateTemplateComponent} from "../create-template/create-template.component";
+
+export enum SortingOptions {
+    CREATIONDATE = "Creation Date",
+    LASTDOWNLOADEDDATE = "Last Downloaded Date",
+    NUMBEROFDOWNLOADS = "Number of downloads",
+    RATING = "Rating"
+}
 
 @Component({
     selector: 'app-home',
@@ -17,12 +24,16 @@ export class HomeComponent implements OnInit {
     searchTerm: String = null;
     hasSearched = false;
     searchedTemplateList: any = null;
-
+    options: String[];
+    optionValues: SortingOptions;
+    SortingOptions : typeof SortingOptions = SortingOptions;
+    templateDirectoryInfoList: AngularFireList<any>;
+    displayList: any[];
     constructor(
         private apiInterfaceService: ApiInterfaceService,
         private authService: AuthService,
         private db: AngularFireDatabase,
-        private router: Router
+        private router: Router,
     ) {
     }
 
@@ -35,7 +46,7 @@ export class HomeComponent implements OnInit {
                 component.user = component.authService.getAuth().currentUser;
             }
         });
-
+        this.options = Object.values(SortingOptions);
     }
 
     doSearch() {
@@ -45,7 +56,7 @@ export class HomeComponent implements OnInit {
             ref =>
                 ref.orderByChild(CreateTemplateComponent.encodeTag(component.searchTerm))
                     .equalTo(true)
-        ).valueChanges();
+        ).valueChanges().subscribe((data) => component.displayList = data);  
     }
 
 
@@ -64,5 +75,35 @@ export class HomeComponent implements OnInit {
 
     logout(): void {
         this.authService.logout(null);
+    }
+
+    sort(option) {
+        const component = this;
+        switch(option) {
+            case SortingOptions.CREATIONDATE: {
+                if (component.displayList != null) {
+                    component.displayList.sort((a,b) => a.templateCreateDate - b.templateCreateDate);
+                } 
+                break;
+            }
+            case SortingOptions.LASTDOWNLOADEDDATE: {
+                if (component.displayList != null) {
+                    component.displayList.sort((a,b) => a.templateLastDownloadDate - b.templateLastDownloadDate);
+                }
+                break;
+            }
+            case SortingOptions.NUMBEROFDOWNLOADS: {
+                if (component.displayList != null) {
+                    component.displayList.sort((a,b) => a.templateNumDownload - b.templateNumDownload);
+                }
+                break;
+            }
+            case SortingOptions.RATING: {
+                if (component.displayList != null) {
+                    component.displayList.sort((a,b) => a.averageRating - b.averageRating);
+                }
+                break;
+            }
+        }
     }
 }

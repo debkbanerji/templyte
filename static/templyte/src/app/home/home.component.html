@@ -28,11 +28,17 @@
         <br>
         TODO: Sorting, CSS
     </div>
-    <div *ngIf="hasSearched && (searchedTemplateList | async)?.length == 0">
+    <div *ngIf="hasSearched && (displayList)?.length == 0">
         No search results found
     </div>
     <div class="row">
-        <div *ngFor="let template of searchedTemplateList | async" class="col col-xs-12">
+        <mat-form-field>
+            <mat-select placeholder="Sort by" [(value)]="selected" (selectionChange)="sort(selected)">
+                <mat-option *ngFor="let option of options" [value]="option">{{option}}</mat-option>
+
+            </mat-select>
+        </mat-form-field>
+        <div *ngFor="let template of displayList" class="col col-xs-12">
             <mat-card class="template-card">
                 <p><b>TODO: Styling, average rating</b></p>
                 <p class="template-title">{{template.templateName}}</p>
