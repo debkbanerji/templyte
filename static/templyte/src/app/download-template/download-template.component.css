@@ -1,9 +1,9 @@
 .form-subheading {
-    font-size:1.2em;
+    font-size: 1.2em;
     font-family: 'Playfair Display', serif;
 }
 
-*{
+* {
     margin: 0;
     padding: 0;
 }
@@ -15,18 +15,18 @@
 }
 
 .rate:not(:checked) > input {
-    position:absolute;
-    top:-9999px;
+    position: absolute;
+    top: -9999px;
 }
 
 .rate:not(:checked) > label {
-    float:right;
-    width:1em;
-    overflow:hidden;
-    white-space:nowrap;
-    cursor:pointer;
-    font-size:30px;
-    color:#ccc;
+    float: right;
+    width: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 30px;
+    color: #ccc;
 }
 
 .rate:not(:checked) > label:before {
@@ -34,12 +34,12 @@
 }
 
 .rate > input:checked ~ label {
-    color: #ffc700;    
+    color: #ffc700;
 }
 
 .rate:not(:checked) > label:hover,
 .rate:not(:checked) > label:hover ~ label {
-    color: #deb217;  
+    color: #deb217;
 }
 
 .rate > input:checked + label:hover,
@@ -48,4 +48,8 @@
 .rate > input:checked ~ label:hover ~ label,
 .rate > label:hover ~ input:checked ~ label {
     color: #c59b08;
+}
+
+.reviews-heading {
+    font-size: 2em;
 }

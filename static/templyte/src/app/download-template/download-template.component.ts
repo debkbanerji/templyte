@@ -1,187 +1,190 @@
-import { AuthService } from '../providers/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { User } from 'firebase';
-import { Component, NgZone, OnInit } from '@angular/core';
-import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
-import { Observable } from 'rxjs';
-import { ApiInterfaceService } from '../providers/api-interface.service';
+import {AuthService} from '../providers/auth.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {User} from 'firebase';
+import {Component, NgZone, OnInit} from '@angular/core';
+import {AngularFireDatabase, AngularFireObject} from 'angularfire2/database';
+import {Observable} from 'rxjs';
+import {ApiInterfaceService} from '../providers/api-interface.service';
 import * as firebase from 'firebase';
-import { Reference } from 'firebase/database';
-import { MatDialog } from '@angular/material/dialog';
-import { InputValidateDialogComponent } from '../input-validate-dialog/input-validate-dialog.component';
+import {Reference} from 'firebase/database';
+import {MatDialog} from '@angular/material/dialog';
+import {InputValidateDialogComponent} from '../input-validate-dialog/input-validate-dialog.component';
 
 
 @Component({
-	selector: 'download-template',
-	templateUrl: './download-template.component.html',
-	styleUrls: ['./download-template.component.css']
+    selector: 'download-template',
+    templateUrl: './download-template.component.html',
+    styleUrls: ['./download-template.component.css']
 })
 export class DownloadTemplateComponent implements OnInit {
-	user: User = null;
-	valueMap: Object = {};
-	ratingText: String = "";
-	ratingVal: number = null;
-	templateDirectoryInfoRef: AngularFireObject<any>;
-	templateRenderInfoRef: AngularFireObject<any>;
-	templateRatingsInfoRef: AngularFireObject<any>;
-	templateRatingsInfoDatabaseRef: Reference;
-	templateDirectoryInfoDatabaseRef: Reference;
-	templateRenderInfo: Observable<any> = null;
-	templateDirectoryInfo: Observable<any> = null;
-	templateRatingsInfo: Observable<any> = null;
-  
-	constructor(
-		private authService: AuthService,
-		private db: AngularFireDatabase,
-		private ngZone: NgZone,
-		private route: ActivatedRoute,
-		private router: Router,
-		private api: ApiInterfaceService,
-		private dialog: MatDialog
-	) {
-	}
+    user: User = null;
+    valueMap: Object = {};
+    ratingText: String = '';
+    ratingVal: number = null;
+    templateDirectoryInfoRef: AngularFireObject<any>;
+    templateRenderInfoRef: AngularFireObject<any>;
+    templateRatingsInfoRef: AngularFireObject<any>;
+    templateRatingsInfoDatabaseRef: Reference;
+    templateDirectoryInfoDatabaseRef: Reference;
+    templateRenderInfo: Observable<any> = null;
+    templateDirectoryInfo: Observable<any> = null;
+    templateRatingsInfo: Observable<any> = null;
+    allRatingsList: Observable<any[]> = null;
 
-	ngOnInit() {
-		const component = this;
-		component.authService.onAuthStateChanged(function (auth) {
-			if (auth === null) { // If the user is logged out
-				component.router.navigate(['login']);
-			} else {
-				component.user = component.authService.getAuth().currentUser;
-				component.route.params.subscribe(params => {
-					component.ngZone.run(() => { // Need to do this using NgZone since we're calling a third party API
-						component.templateDirectoryInfoRef = component.db.object('template-directory/' + params.id);
-						component.templateRenderInfoRef = component.db.object('template-render-info/' + params.id);
-						component.templateRatingsInfoRef = component.db.object('template-ratings/' + params.id);
-						component.templateRatingsInfoDatabaseRef = firebase.database().ref('template-ratings/' + params.id + '/' + component.user.uid);
-						component.templateDirectoryInfoDatabaseRef = firebase.database().ref('template-directory/' + params.id);
-						component.templateRatingsInfo = component.templateRatingsInfoRef.valueChanges();
-						component.templateDirectoryInfo = component.templateDirectoryInfoRef.valueChanges();
-						component.templateRenderInfo = component.templateRenderInfoRef.valueChanges();
-						component.templateDirectoryInfoDatabaseRef = firebase.database().ref('template-directory/' + params.id);
-						component.templateRenderInfo.subscribe((response) => {
-							if (response == null) {
-								component.router.navigate(['home']);
-							}
-						});
-					});
-				});
-			}
-		});
-	}
+    constructor(
+        private authService: AuthService,
+        private db: AngularFireDatabase,
+        private ngZone: NgZone,
+        private route: ActivatedRoute,
+        private router: Router,
+        private api: ApiInterfaceService,
+        private dialog: MatDialog
+    ) {
+    }
 
-	goHome() {
-		this.router.navigate(['']);
-	}
+    ngOnInit() {
+        const component = this;
+        component.authService.onAuthStateChanged(function (auth) {
+            if (auth === null) { // If the user is logged out
+                component.router.navigate(['login']);
+            } else {
+                component.user = component.authService.getAuth().currentUser;
+                component.route.params.subscribe(params => {
+                    component.ngZone.run(() => { // Need to do this using NgZone since we're calling a third party API
+                        component.templateDirectoryInfoRef = component.db.object('template-directory/' + params.id);
+                        component.templateRenderInfoRef = component.db.object('template-render-info/' + params.id);
+                        component.templateRatingsInfoRef = component.db.object('template-ratings/' + params.id);
+                        component.templateRatingsInfoDatabaseRef = firebase.database().ref('template-ratings/' + params.id + '/' + component.user.uid);
+                        component.templateDirectoryInfoDatabaseRef = firebase.database().ref('template-directory/' + params.id);
+                        component.templateRatingsInfo = component.templateRatingsInfoRef.valueChanges();
+                        component.templateDirectoryInfo = component.templateDirectoryInfoRef.valueChanges();
+                        component.templateRenderInfo = component.templateRenderInfoRef.valueChanges();
+                        component.templateDirectoryInfoDatabaseRef = firebase.database().ref('template-directory/' + params.id);
+                        component.templateRenderInfo.subscribe((response) => {
+                            if (response == null) {
+                                component.router.navigate(['home']);
+                            }
+                        });
+                        component.allRatingsList = component.db.list('template-ratings/' + params.id).valueChanges();
+                    });
+                });
+            }
+        });
+    }
 
-	logout(): void {
-		this.authService.logout(null);
-	}
+    goHome() {
+        this.router.navigate(['']);
+    }
 
-	storeRating() {
-		if (this.validateRating()) {
-			const component = this;
-			component.templateRatingsInfoDatabaseRef.once('value').then(snapshot => {
-				const old_rating = snapshot.val(); //value of previous rating
-				let varNumRatings = 0;
-				let varRatingSum = 0;
-				component.templateRatingsInfoDatabaseRef.set({
-					'ratingValue' : this.ratingVal,
-					'ratingText' : this.ratingText
-				});
-				if (old_rating != null) {
-					component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function(ratingSum){
-						varRatingSum = ratingSum - old_rating + this.ratingVal;
-						return ratingSum - old_rating + this.ratingVal;
-					}).then(function(ratingSum) {
-						varNumRatings = 1;
-						component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function(avgRating){
-								return (varRatingSum * 1.0) / varNumRatings;
-						});
-					});
-				} else {
-					component.templateDirectoryInfoDatabaseRef.child('/numberRatings').transaction(function(numberRatings){
-						varNumRatings = numberRatings + 1;
-						return numberRatings + 1;
-					}).then(function(ratingSum) {
-						component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function(ratingSumAgain){
-							varRatingSum = ratingSumAgain + this.ratingVal;
-							return ratingSumAgain + this.ratingVal;
-						}).then(function(ratingSum) {
-							component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function(avgRating){
-								return (varRatingSum * 1.0) / varNumRatings;
-							});
-						});
-					});
-				}
-			});
-		}
-	}
+    logout(): void {
+        this.authService.logout(null);
+    }
 
-	saveRatingVal(star_number) {
-		this.ratingVal = star_number;
-	}
+    storeRating() {
+        if (this.validateRating()) {
+            const component = this;
+            component.templateRatingsInfoDatabaseRef.once('value').then(snapshot => {
+                const old_rating = snapshot.val(); // value of previous rating
+                let varNumRatings = 0;
+                let varRatingSum = 0;
+                component.templateRatingsInfoDatabaseRef.set({
+                    'ratingValue': component.ratingVal,
+                    'ratingText': component.ratingText,
+                    'ratingUserDisplayName': component.user.displayName
+                });
+                if (old_rating != null) {
+                    component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function (ratingSum) {
+                        varRatingSum = ratingSum - old_rating + this.ratingVal;
+                        return ratingSum - old_rating + this.ratingVal;
+                    }).then(function (ratingSum) {
+                        varNumRatings = 1;
+                        component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function (avgRating) {
+                            return (varRatingSum * 1.0) / varNumRatings;
+                        });
+                    });
+                } else {
+                    component.templateDirectoryInfoDatabaseRef.child('/numberRatings').transaction(function (numberRatings) {
+                        varNumRatings = numberRatings + 1;
+                        return numberRatings + 1;
+                    }).then(function (ratingSum) {
+                        component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function (ratingSumAgain) {
+                            varRatingSum = ratingSumAgain + this.ratingVal;
+                            return ratingSumAgain + this.ratingVal;
+                        }).then(function (ratingSum) {
+                            component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function (avgRating) {
+                                return (varRatingSum * 1.0) / varNumRatings;
+                            });
+                        });
+                    });
+                }
+            });
+        }
+    }
 
-	validateRating() {
-		if (this.ratingVal) {
-			return true;
-		} else {
-			this.dialog.open(InputValidateDialogComponent, {
+    saveRatingVal(star_number) {
+        this.ratingVal = star_number;
+    }
+
+    validateRating() {
+        if (this.ratingVal) {
+            return true;
+        } else {
+            this.dialog.open(InputValidateDialogComponent, {
                 data: {message: 'Please enter a star rating for this template.'}
-			});
-			return false;
-		}
-	}
+            });
+            return false;
+        }
+    }
 
-	downloadTemplate() {
-		const component = this;
-		component.validateEnteredVariables();
-		component.templateRenderInfoRef.snapshotChanges().subscribe(data => {
-			const payload_val = data.payload.val();
-			const fileEndings = payload_val.fileEndings;
-			for (let i = 0; i < payload_val.fileEndings.length; i++) {
-				fileEndings[i] = fileEndings[i].name;
-			}
-			const request = encodeURIComponent(JSON.stringify({
-				'variables': component.valueMap,
-				'fileEndings': fileEndings,
-				'url': encodeURI(payload_val.templateArchiveUrl)
-			}));
+    downloadTemplate() {
+        const component = this;
+        component.validateEnteredVariables();
+        component.templateRenderInfoRef.snapshotChanges().subscribe(data => {
+            const payload_val = data.payload.val();
+            const fileEndings = payload_val.fileEndings;
+            for (let i = 0; i < payload_val.fileEndings.length; i++) {
+                fileEndings[i] = fileEndings[i].name;
+            }
+            const request = encodeURIComponent(JSON.stringify({
+                'variables': component.valueMap,
+                'fileEndings': fileEndings,
+                'url': encodeURI(payload_val.templateArchiveUrl)
+            }));
 
-			component.api.getZipFile(request, function (downloadedData) {
-				const linkElement = document.createElement('a');
-				const url = window.URL.createObjectURL(downloadedData);
-				linkElement.setAttribute('href', url);
-				linkElement.setAttribute('download', 'project');
-				const clickEvent = new MouseEvent('click', {
-					'view': window,
-					'bubbles': true,
-					'cancelable': false
-				});
-				linkElement.dispatchEvent(clickEvent);
-				component.templateDirectoryInfoDatabaseRef.child('/templateNumDownload').transaction(function(snapshot) {
-					return snapshot + 1;
-				});
-				component.templateDirectoryInfoDatabaseRef.child('/templateLastDownloadDate').set(Date.now());
-			});
+            component.api.getZipFile(request, function (downloadedData) {
+                const linkElement = document.createElement('a');
+                const url = window.URL.createObjectURL(downloadedData);
+                linkElement.setAttribute('href', url);
+                linkElement.setAttribute('download', 'project');
+                const clickEvent = new MouseEvent('click', {
+                    'view': window,
+                    'bubbles': true,
+                    'cancelable': false
+                });
+                linkElement.dispatchEvent(clickEvent);
+                component.templateDirectoryInfoDatabaseRef.child('/templateNumDownload').transaction(function (snapshot) {
+                    return snapshot + 1;
+                });
+                component.templateDirectoryInfoDatabaseRef.child('/templateLastDownloadDate').set(Date.now());
+            });
 
-		});
-	}
+        });
+    }
 
-	createTemplate() {
-		this.router.navigate(['create']);
-	}
+    createTemplate() {
+        this.router.navigate(['create']);
+    }
 
-	myTemplates() {
-		this.router.navigate(['my-templates']);
-	}
+    myTemplates() {
+        this.router.navigate(['my-templates']);
+    }
 
-	validateEnteredVariables() {
-		const component = this;
-		Object.keys(component.valueMap).forEach(function (variable) {
-			if (!component.valueMap[variable]) {
-				component.valueMap[variable] = '';
-			}
-		});
-	}
+    validateEnteredVariables() {
+        const component = this;
+        Object.keys(component.valueMap).forEach(function (variable) {
+            if (!component.valueMap[variable]) {
+                component.valueMap[variable] = '';
+            }
+        });
+    }
 }
