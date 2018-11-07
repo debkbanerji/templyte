@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 import { ApiInterfaceService } from '../providers/api-interface.service';
 import * as firebase from 'firebase';
 import { Reference } from 'firebase/database';
+import {MatDialog} from '@angular/material/dialog';
+import {InputValidateDialogComponent} from '../input-validate-dialog/input-validate-dialog.component';
 
 
 @Component({
@@ -35,6 +37,7 @@ export class DownloadTemplateComponent implements OnInit {
 		private route: ActivatedRoute,
 		private router: Router,
 		private api: ApiInterfaceService,
+		private dialog: MatDialog
 	) {
 	}
 
@@ -76,45 +79,58 @@ export class DownloadTemplateComponent implements OnInit {
 	}
 
 	storeRating() {
-		const component = this;
-		component.templateRatingsInfoDatabaseRef.once('value').then(snapshot => {
-			const old_rating = snapshot.val(); //value of previous rating
-			let varNumRatings = 0;
-			let varRatingSum = 0;
-			component.templateRatingsInfoDatabaseRef.set({
-				 'ratingValue' : this.ratingVal,
-				 'ratingText' : this.ratingText
-			});
-			if (old_rating != null) {
-				component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function(ratingSum){
-					varRatingSum = ratingSum - old_rating + this.ratingVal;
-					return ratingSum - old_rating + this.ratingVal;
-				}).then(function(ratingSum) {
-					varNumRatings = 1;
-					component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function(avgRating){
-							return (varRatingSum * 1.0) / varNumRatings;
-					});
+		if (this.validateRating()) {
+			const component = this;
+			component.templateRatingsInfoDatabaseRef.once('value').then(snapshot => {
+				const old_rating = snapshot.val(); //value of previous rating
+				let varNumRatings = 0;
+				let varRatingSum = 0;
+				component.templateRatingsInfoDatabaseRef.set({
+					'ratingValue' : this.ratingVal,
+					'ratingText' : this.ratingText
 				});
-			} else {
-				component.templateDirectoryInfoDatabaseRef.child('/numberRatings').transaction(function(numberRatings){
-					varNumRatings = numberRatings + 1;
-					return numberRatings + 1;
-				}).then(function(ratingSum) {
-					component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function(ratingSumAgain){
-						varRatingSum = ratingSumAgain + this.ratingVal;
-						return ratingSumAgain + this.ratingVal;
+				if (old_rating != null) {
+					component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function(ratingSum){
+						varRatingSum = ratingSum - old_rating + this.ratingVal;
+						return ratingSum - old_rating + this.ratingVal;
 					}).then(function(ratingSum) {
+						varNumRatings = 1;
 						component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function(avgRating){
-							return (varRatingSum * 1.0) / varNumRatings;
+								return (varRatingSum * 1.0) / varNumRatings;
 						});
 					});
-				});
-			}
-		});
+				} else {
+					component.templateDirectoryInfoDatabaseRef.child('/numberRatings').transaction(function(numberRatings){
+						varNumRatings = numberRatings + 1;
+						return numberRatings + 1;
+					}).then(function(ratingSum) {
+						component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function(ratingSumAgain){
+							varRatingSum = ratingSumAgain + this.ratingVal;
+							return ratingSumAgain + this.ratingVal;
+						}).then(function(ratingSum) {
+							component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function(avgRating){
+								return (varRatingSum * 1.0) / varNumRatings;
+							});
+						});
+					});
+				}
+			});
+		}
 	}
 
 	saveRatingVal(star_number) {
 		this.ratingVal = star_number;
+	}
+
+	validateRating() {
+		if (this.ratingVal) {
+			return true;
+		} else {
+			this.dialog.open(InputValidateDialogComponent, {
+                data: {message: 'Please enter a star rating for this template.'}
+			});
+			return false;
+		}
 	}
 
 	downloadTemplate() {
