@@ -40,7 +40,7 @@
                 <p>{{template.templateDescription}}</p>
                 <p>Creation date: {{template.templateCreateDate | date}}</p>
                 <p>Number of downloads: {{template.templateNumDownload}}</p>
-                <p><b>TODO: Display average rating</b></p>
+                <p>Average rating: {{template.averageRating}}</p>
                 <p *ngIf="template.templateLastDownloadDate">Last downloaded date: {{template.templateLastDownloadDate |
                     date}}</p>
                 <mat-chip-list>
