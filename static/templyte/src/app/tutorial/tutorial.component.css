@@ -1,0 +1,8 @@
+img { 
+   border:1px solid #021a40;
+}
+.responsive {
+    width: 100%;
+    max-width: 700px;
+    height: auto;
+}

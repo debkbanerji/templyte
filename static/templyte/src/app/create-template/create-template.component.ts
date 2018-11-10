@@ -217,6 +217,10 @@ export class CreateTemplateComponent implements OnInit {
         component.upSvc.pushUpload(component.currentUpload, callback);
     }
 
+    tutorial() {
+        this.router.navigate(['tutorial']);
+    }
+
     myTemplates() {
         this.router.navigate(['my-templates']);
     }

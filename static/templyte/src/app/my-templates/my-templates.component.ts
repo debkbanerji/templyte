@@ -87,6 +87,11 @@ export class MyTemplatesComponent implements OnInit {
         this.authService.logout(null);
     }
 
+    tutorial() {
+        this.router.navigate(['tutorial']);
+    }
+
+
     goHome(): void {
         this.router.navigate(['']);
     }
