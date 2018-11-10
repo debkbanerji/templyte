@@ -91,7 +91,6 @@ export class MyTemplatesComponent implements OnInit {
         this.router.navigate(['tutorial']);
     }
 
-
     goHome(): void {
         this.router.navigate(['']);
     }
