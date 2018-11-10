@@ -4,7 +4,7 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {AuthService} from '../providers/auth.service';
 import {Router} from '@angular/router';
 import {User} from 'firebase';
-import {CreateTemplateComponent} from "../create-template/create-template.component";
+import {CreateTemplateComponent} from '../create-template/create-template.component';
 
 @Component({
     selector: 'app-home',
