@@ -38,6 +38,10 @@ export class HomeComponent implements OnInit {
         this.router.navigate(['create']);
     }
 
+    tutorial() {
+        this.router.navigate(['tutorial']);
+    }
+
     myTemplates() {
         this.router.navigate(['my-templates']);
     }
