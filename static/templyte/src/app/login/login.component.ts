@@ -31,6 +31,10 @@ export class LoginComponent implements OnInit {
         });
     }
 
+    tutorial() {
+        this.router.navigate(['tutorial']);
+    }
+
     goHome() {
         const component = this;
         component.ngZone.run(() => { // Need to do this using NgZone since we're calling a third party API

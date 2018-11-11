@@ -1,0 +1,129 @@
+<mat-toolbar class="mat-elevation-z3">
+    <nav class="navbar">
+        <ul class="nav navbar-right">
+            <li>
+                <button mat-button (click)="goHome()">Home</button>
+            </li>
+            <li>
+                <button mat-button (click)="createTemplate()">Create Template</button>
+            </li>
+            <li>
+                <button mat-button disabled>Tutorial</button>
+            </li>
+            <li>
+                <button mat-button (click)="myTemplates()">My Templates</button>
+            </li>
+            <li>
+                <button mat-button (click)="logout()">Logout</button>
+            </li>
+        </ul>
+    </nav>
+</mat-toolbar>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col col-xs-12">
+            <h1>Tutorial</h1>
+            <h2>Creating a Template</h2>
+
+            <ol type="1">
+                <li>To define the variable parts of your code put double mustaches, <b>{{</b> around any variables you
+                    want to be customized and those will be replaced by user defined values at render time
+                </li>
+                <li>Make sure all of the relevant files are part of the zip file that you upload</li>
+            </ol>
+
+            <div class="defining-variables-section">
+                <h3>More details on defining variables</h3>
+                <p>All variables are HTML-escaped by default. If you want to render unescaped HTML, use the triple
+                    mustache
+                    <b>{{{</b> to enclose the variable. You can also use & to unescape a variable</p>
+                <p>If you want to use <b>{{</b> in your code and not have it represent a variable, you will have to
+                    change
+                    the delimeter to something else and then change it back after that block of code. You can do that by
+                    assigning it to a new symbol with an = </p>
+                <p>Always make sure to set the delimeter back to the original afterwards </p>
+                <img src="assets/img/tutorial/delimeterChangeExample.png" alt="Menu" class="responsive">
+                <br>
+                <br>
+                <p>For more information about variables visit <a href="ttps://mustache.github.io/mustache.5.html">
+                    https://mustache.github.io/mustache.5.html</a></p>
+            </div>
+
+            <h1>Uploading a Template</h1>
+            <ol type="1">
+                <li>Navigate to the "Create Template" page from the navigation bar at the top of each page
+                    <br/>
+                    <img src="assets/img/tutorial/menu.jpg" alt="Menu" class="responsive">
+                <li>Provide a name and description of your template
+                    <br/>
+                    <img src="assets/img/tutorial/templateNameAndDescr.png" alt="Menu" class="responsive">
+                </li>
+                <li>Select the zip file of the template</li>
+                <li>Provide Names and Descriptions of Template Variables. Template Variables are the customizable parts
+                    of the template, and are indicated by <b>{{</b> around them
+                    <br/>
+                    <img src="assets/img/tutorial/templateVariables.png" alt="Menu" class="responsive">
+                </li>
+                <li>Provide Tags. They are used for searching
+                    <br/>
+                    <img src="assets/img/tutorial/templateTags.png" alt="Menu" class="responsive">
+                </li>
+                <li>Provide File Endings. The file endings describe which files have variable names in them and
+                    therefore which
+                    files the back end looks at when it's populating the template during download
+                    <br/>
+                    <img src="assets/img/tutorial/fileEndings.png" alt="Menu" class="responsive">
+                </li>
+                <li>Submit template</li>
+            </ol>
+
+            <h1>View Templates</h1>
+            <ol type="1">
+                <li>Navigate to the "My Templates" page from the navigation bar at the top of each page
+                    <br/>
+                    <img src="assets/img/tutorial/myTemplatesMenu.png" alt="Menu" class="responsive">
+                </li>
+                <li>Your existing templates will be displayed, if there are none you have not created any
+                    <br/>
+                    <img src="assets/img/tutorial/myTemplates.png" alt="Menu" class="responsive">
+                </li>
+            </ol>
+
+            <h2>Downloading A Template</h2>
+            <ol type="1">
+                <li>Navigate to the "My Templates" page from the navigation bar at the top of each page</li>
+                <li>Your existing templates will be displayed, if there are none you have not created any</li>
+                <li>If you wish to download one of your templates, click on download button
+                    <br/>
+                    <img src="assets/img/tutorial/myTemplates.png" alt="Menu" class="responsive">
+                </li>
+                <li>Fill in your customizations and download
+                    <br/>
+                    <img src="assets/img/tutorial/downloadandrating.png" alt="Menu" class="responsive">
+                </li>
+            </ol>
+
+            <h2>Deleting A Template</h2>
+            <ol type="1">
+                <li>Navigate to the "My Templates" page from the navigation bar at the top of each page</li>
+                <li>Your existing templates will be displayed, if there are none you have not created any</li>
+                <li>If you wish to delete one of your templates, click on delete button
+                    <br/>
+                    <img src="assets/img/tutorial/myTemplates.png" alt="Menu" class="responsive">
+                </li>
+            </ol>
+
+            <h2>Rating A Template</h2>
+            <ol type="1">
+                <li>Navigate to the "My Templates" page from the navigation bar at the top of each page</li>
+                <li>Your existing templates will be displayed, if there are none you have not created any</li>
+                <li>If you wish to rate one of your templates, click on the template</li>
+                <li>Click the stars to rate
+                    <br/>
+                    <img src="assets/img/tutorial/downloadandrating.png" alt="Menu" class="responsive">
+                </li>
+            </ol>
+        </div>
+    </div>
+</div>

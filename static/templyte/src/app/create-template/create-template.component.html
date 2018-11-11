@@ -8,6 +8,9 @@
                 <button mat-button disabled>Create Template</button>
             </li>
             <li>
+                <button mat-button (click)="tutorial()">Tutorial</button>
+            </li>
+            <li>
                 <button mat-button (click)="myTemplates()">My Templates</button>
             </li>
             <li>
@@ -18,7 +21,7 @@
 </mat-toolbar>
 
 <mat-card class="card-form">
-    <p class="title large">Upload a Template</p>
+    <p class="title center-text large">Upload a Template</p>
     <div class="container">
         <input class="form-control" id="template-name-input" matInput [(ngModel)]="templateName"
             placeholder="What is the name of your template?">

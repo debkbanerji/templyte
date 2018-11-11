@@ -36,6 +36,11 @@ export class CreateTemplateComponent implements OnInit {
     ) {
     }
 
+
+    static encodeTag(tag) {
+        return '__TAG__' + tag.replace(/\s*/g, '').replace(/[^\w\s\d]/gi, '').toLowerCase();
+    }
+
     ngOnInit() {
         const component = this;
         component.authService.onAuthStateChanged(function (auth) {
@@ -96,7 +101,7 @@ export class CreateTemplateComponent implements OnInit {
             }).then((renderInfoResult) => {
                 const targetKey = renderInfoResult.key;
                 const directoryObject = component.db.object('template-directory/' + targetKey);
-                directoryObject.set({
+                const templateDirectoryData = {
                     'uid': targetKey,
                     'templateName': component.templateName,
                     'templateDescription': component.templateDescription,
@@ -110,7 +115,16 @@ export class CreateTemplateComponent implements OnInit {
                     'templateNumDownload': 0,
                     'templateLastDownloadDate': null,
                     'templateCreateDate': Date.now()
-                });
+                };
+                for (let i = 0; i < component.tagArray.length; i++) {
+                    templateDirectoryData[CreateTemplateComponent.encodeTag(component.tagArray[i].name)] = true;
+                }
+                templateDirectoryData[CreateTemplateComponent.encodeTag(component.templateName)] = true;
+                const nameSplit = component.templateName.split(/\s+/);
+                for (let i = 0; i < nameSplit.length; i++) {
+                    templateDirectoryData[CreateTemplateComponent.encodeTag(nameSplit[i])] = true;
+                }
+                directoryObject.set(templateDirectoryData);
                 component.uploadFile(targetKey + '.zip', function (templateUrl) {
                     component.db.object('template-render-info/' + targetKey + '/templateArchiveUrl')
                         .set(templateUrl).then(() => {
@@ -201,6 +215,10 @@ export class CreateTemplateComponent implements OnInit {
         const file = component.selectedFiles.item(0);
         component.currentUpload = new Upload(file, targetName, component.user.uid);
         component.upSvc.pushUpload(component.currentUpload, callback);
+    }
+
+    tutorial() {
+        this.router.navigate(['tutorial']);
     }
 
     myTemplates() {

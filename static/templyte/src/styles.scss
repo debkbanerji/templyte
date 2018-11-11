@@ -25,7 +25,6 @@ $white: #FFFFFF;
         background-size: auto;
 
         .title {
-            text-align: center;
             font-family: 'Playfair Display', serif;
             margin-top: 5vh;
         }
@@ -36,10 +35,10 @@ $white: #FFFFFF;
             font-size: 2em;
         }
         .large {
-            font-size: 5em;
+            font-size: 4em;
         }
         .xlarge {
-            font-size: 7em;
+            font-size: 6em;
         }
         .mat-toolbar {
             background-color: $white;
@@ -49,7 +48,7 @@ $white: #FFFFFF;
             }
         }
         .subtitle {
-            font-size: 2em;
+            font-size: 1.6em;
         }
         .top-nav {
             height: 70px;
@@ -84,4 +83,19 @@ $white: #FFFFFF;
         }
 
     }
+}
+
+.template-card {
+    max-width: 500px; // TODO: Fix this - why is it 500px?
+    margin: 1em auto 3em auto;
+}
+
+.mat-chip.mat-standard-chip {
+    background-color: #669999;
+    color: #FFFFFF;
+}
+
+.template-title {
+    font-family: "Playfair Display", serif;
+    font-size: 2em;
 }

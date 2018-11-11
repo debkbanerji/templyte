@@ -5,6 +5,7 @@ import {AppComponent} from './app.component';
 import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from './login/login.component';
 import {HomeComponent} from './home/home.component';
+import {TutorialComponent} from './tutorial/tutorial.component';
 import {ApiInterfaceService} from './providers/api-interface.service';
 import {HttpClientModule} from '@angular/common/http';
 import {AngularFireModule} from 'angularfire2';
@@ -21,6 +22,7 @@ import {InputValidateDialogComponent} from './input-validate-dialog/input-valida
 import {UploadSuccessDialogComponent} from './upload-success-dialog/upload-success-dialog.component';
 import {MyTemplatesComponent} from './my-templates/my-templates.component';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatDividerModule} from '@angular/material/divider';
 import {MatSelectModule} from '@angular/material/select';
 import {DownloadTemplateComponent} from './download-template/download-template.component';
 import {DeleteConfirmDialogComponent} from './delete-confirm-dialog/delete-confirm-dialog.component';
@@ -28,6 +30,7 @@ import {DeleteConfirmDialogComponent} from './delete-confirm-dialog/delete-confi
 const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
     {path: 'login', component: LoginComponent, pathMatch: 'full'},
+    {path: 'tutorial', component: TutorialComponent, pathMatch: 'full'},
     {path: 'create', component: CreateTemplateComponent, pathMatch: 'full'},
     {path: 'download-template/:id', component: DownloadTemplateComponent, pathMatch: 'full'},
     {path: 'my-templates', component: MyTemplatesComponent, pathMatch: 'full'},
@@ -44,7 +47,8 @@ const routes: Routes = [
         InputValidateDialogComponent,
         UploadSuccessDialogComponent,
         DeleteConfirmDialogComponent,
-        MyTemplatesComponent
+        MyTemplatesComponent,
+        TutorialComponent,
     ],
     imports: [
         AngularFireModule.initializeApp(config),
@@ -54,6 +58,7 @@ const routes: Routes = [
         MatButtonModule,
         MatCardModule,
         MatDialogModule,
+        MatDividerModule,
         MatToolbarModule,
         MatInputModule,
         MatSelectModule,

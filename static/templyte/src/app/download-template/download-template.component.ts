@@ -17,6 +17,26 @@ import {InputValidateDialogComponent} from '../input-validate-dialog/input-valid
     styleUrls: ['./download-template.component.css']
 })
 export class DownloadTemplateComponent implements OnInit {
+	user: User = null;
+	valueMap: Object = {};
+	templateDirectoryInfoRef: AngularFireObject<any>;
+	templateRenderInfoRef: AngularFireObject<any>;
+	templateRatingsInfoRef: AngularFireObject<any>;
+	templateRatingsInfoDatabaseRef: Reference;
+	templateDirectoryInfoDatabaseRef: Reference;
+	templateRenderInfo: Observable<any> = null;
+	templateDirectoryInfo: Observable<any> = null;
+	templateRatingsInfo: Observable<any> = null;
+
+	constructor(
+		private authService: AuthService,
+		private db: AngularFireDatabase,
+		private ngZone: NgZone,
+		private route: ActivatedRoute,
+		private router: Router,
+		private api: ApiInterfaceService,
+	) {
+	}
     user: User = null;
     valueMap: Object = {};
     ratingText: String = '';
