@@ -1,16 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {ApiInterfaceService} from '../providers/api-interface.service';
-import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
+import {AngularFireDatabase} from 'angularfire2/database';
 import {AuthService} from '../providers/auth.service';
 import {Router} from '@angular/router';
 import {User} from 'firebase';
 import {CreateTemplateComponent} from '../create-template/create-template.component';
 
 export enum SortingOptions {
-    CREATIONDATE = "Creation Date",
-    LASTDOWNLOADEDDATE = "Last Downloaded Date",
-    NUMBEROFDOWNLOADS = "Number of downloads",
-    RATING = "Rating"
+    CREATIONDATE = 'Creation Date',
+    LASTDOWNLOADEDDATE = 'Last Downloaded Date',
+    NUMBEROFDOWNLOADS = 'Number of downloads',
+    RATING = 'Rating'
 }
 
 @Component({
@@ -25,8 +25,10 @@ export class HomeComponent implements OnInit {
     hasSearched = false;
     searchedTemplateList: any = null;
     options: String[];
-    SortingOptions : typeof SortingOptions = SortingOptions;
+    SortingOptions: typeof SortingOptions = SortingOptions;
+    selected: any;
     displayList: any[];
+
     constructor(
         private apiInterfaceService: ApiInterfaceService,
         private authService: AuthService,
@@ -81,28 +83,28 @@ export class HomeComponent implements OnInit {
 
     sort(option) {
         const component = this;
-        switch(option) {
+        switch (option) {
             case SortingOptions.CREATIONDATE: {
                 if (component.displayList != null) {
-                    component.displayList.sort((b,a) => a.templateCreateDate - b.templateCreateDate);
+                    component.displayList.sort((b, a) => a.templateCreateDate - b.templateCreateDate);
                 }
                 break;
             }
             case SortingOptions.LASTDOWNLOADEDDATE: {
                 if (component.displayList != null) {
-                    component.displayList.sort((b,a) => a.templateLastDownloadDate - b.templateLastDownloadDate);
+                    component.displayList.sort((b, a) => a.templateLastDownloadDate - b.templateLastDownloadDate);
                 }
                 break;
             }
             case SortingOptions.NUMBEROFDOWNLOADS: {
                 if (component.displayList != null) {
-                    component.displayList.sort((b,a) => a.templateNumDownload - b.templateNumDownload);
+                    component.displayList.sort((b, a) => a.templateNumDownload - b.templateNumDownload);
                 }
                 break;
             }
             case SortingOptions.RATING: {
                 if (component.displayList != null) {
-                    component.displayList.sort((b,a) => a.averageRating - b.averageRating);
+                    component.displayList.sort((b, a) => a.averageRating - b.averageRating);
                 }
                 break;
             }
