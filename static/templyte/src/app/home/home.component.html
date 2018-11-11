@@ -39,13 +39,19 @@
         </mat-form-field>
         <div *ngFor="let template of displayList" class="col col-xs-12">
             <mat-card class="template-card">
-                <p><b>TODO: Styling, average rating</b></p>
                 <p class="template-title">{{template.templateName}}</p>
                 <p>by {{template.authorName}}</p>
                 <p>{{template.templateDescription}}</p>
                 <p>Creation date: {{template.templateCreateDate | date}}</p>
                 <p>Number of downloads: {{template.templateNumDownload}}</p>
-                <p><b>TODO: Display average rating</b></p>
+                <div>
+                    <span *ngFor="let rating of ([1, 2, 3, 4, 5])" class="rating-star">
+                        <span
+                            [ngClass]="{'rating-star-deactivated': rating > template.averageRating, 'rating-star-activated': rating <= template.averageRating}">
+                            ★
+                        </span>
+                    </span>
+                </div>
                 <p *ngIf="template.templateLastDownloadDate">Last downloaded date: {{template.templateLastDownloadDate |
                     date}}</p>
                 <mat-chip-list>

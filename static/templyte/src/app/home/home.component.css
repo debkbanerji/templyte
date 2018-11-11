@@ -1,0 +1,11 @@
+.rating-star {
+    font-size: 30px;
+}
+
+.rating-star-deactivated {
+    color: #ccc;
+}
+
+.rating-star-activated {
+    color: #ffc700;
+}
