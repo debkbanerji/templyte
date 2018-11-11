@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
     searchedTemplateList: any = null;
     options: String[];
     SortingOptions: typeof SortingOptions = SortingOptions;
+    selected: any;
     displayList: any[];
 
     constructor(
