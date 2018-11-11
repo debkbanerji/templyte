@@ -19,27 +19,15 @@
 
 <mat-card class="card-form">
     <p class="title center-text large">Download a Template</p>
-
     <p class="form-heading center-text">{{(templateDirectoryInfo | async)?.templateName}}</p>
-    <body>
-      <div class="rate">
-        <input type="radio" id="star5" name="rate" value="5" (click)="storeRating(5)" />
-        <label for="star5" title="text">5 stars</label>
-        <input type="radio" id="star4" name="rate" value="4" (click)="storeRating(4)" />
-        <label for="star4" title="text">4 stars</label>
-        <input type="radio" id="star3" name="rate" value="3" (click)="storeRating(3)" />
-        <label for="star3" title="text">3 stars</label>
-        <input type="radio" id="star2" name="rate" value="2" (click)="storeRating(2)" />
-        <label for="star2" title="text">2 stars</label>
-        <input type="radio" id="star1" name="rate" value="1" (click)="storeRating(1)" />
-        <label for="star1" title="text">1 star</label>
-      </div>
-    </body>
 
     <p>{{(templateDirectoryInfo | async)?.templateDescription}}</p>
+    <br>
     <p>Creation date: {{(templateDirectoryInfo | async)?.templateCreateDate | date}}</p>
-    <p *ngIf="(templateDirectoryInfo | async)?.templateNumDownload">Number of downloads: {{(templateDirectoryInfo | async)?.templateNumDownload}}</p>
-    <p *ngIf="(templateDirectoryInfo | async)?.templateLastDownloadDate | date">Last downloaded date: {{(templateDirectoryInfo | async)?.templateLastDownloadDate | date}}</p>
+    <p *ngIf="(templateDirectoryInfo | async)?.templateNumDownload">Number of downloads: {{(templateDirectoryInfo |
+        async)?.templateNumDownload}}</p>
+    <p *ngIf="(templateDirectoryInfo | async)?.templateLastDownloadDate | date">Last downloaded date:
+        {{(templateDirectoryInfo | async)?.templateLastDownloadDate | date}}</p>
 
     <table class="table col-sm-12">
         <tbody>
@@ -50,7 +38,6 @@
                        name="{{variable.name}}"
                        placeholder="{{variable.name}}">
             </td>
-
         </tr>
         </tbody>
     </table>
@@ -58,4 +45,57 @@
     <button mat-raised-button color="primary"
             (click)="downloadTemplate()" class="fa fa-download">Download
     </button>
+</mat-card>
+<br>
+<mat-card class="card-reviews">
+    <p class="title reviews-heading">Reviews</p>
+    <mat-card class="rating-card">
+        <p class="form-subheading">Review this template</p>
+        <br>
+        <div class="rate">
+            <input type="radio" id="star5" name="rate" value="5" (click)="saveRatingVal(5)"/>
+            <label for="star5" title="text">5 stars</label>
+            <input type="radio" id="star4" name="rate" value="4" (click)="saveRatingVal(4)"/>
+            <label for="star4" title="text">4 stars</label>
+            <input type="radio" id="star3" name="rate" value="3" (click)="saveRatingVal(3)"/>
+            <label for="star3" title="text">3 stars</label>
+            <input type="radio" id="star2" name="rate" value="2" (click)="saveRatingVal(2)"/>
+            <label for="star2" title="text">2 stars</label>
+            <input type="radio" id="star1" name="rate" value="1" (click)="saveRatingVal(1)"/>
+            <label for="star1" title="text">1 star</label>
+        </div>
+        <br>
+        <br>
+        <mat-form-field id="rating-text-container">
+            <textarea id="rating-text" name="review" title="review" placeholder="Review text (optional)" matInput
+                      [(ngModel)]="ratingText"></textarea>
+        </mat-form-field>
+        <br>
+        <button mat-raised-button color="primary" id="ratingsubmit" name="saverating" (click)="storeRating()">Submit
+            Review
+        </button>
+    </mat-card>
+    <br>
+    <div *ngFor="let review of allRatingsList | async; let i = index">
+        <div *ngIf="i > 0">
+            <br>
+            <hr>
+            <br>
+        </div>
+        <div>
+            <span *ngFor="let rating of ([1, 2, 3, 4, 5])" class="rating-star">
+                <span
+                    [ngClass]="{'rating-star-deactivated': rating > review.ratingValue, 'rating-star-activated': rating <= review.ratingValue}">
+                    ★
+                </span>
+            </span>
+        </div>
+        <div *ngIf="review.ratingText">
+            <p>{{review.ratingText}}</p>
+        </div>
+        <b>{{review.ratingUserDisplayName}}</b>
+    </div>
+    <div *ngIf="(allRatingsList | async)?.length === 0">
+        <p>No reviews yet</p>
+    </div>
 </mat-card>
