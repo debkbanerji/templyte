@@ -1,6 +1,7 @@
 @import '~@angular/material/theming';
 @import url('https://fonts.googleapis.com/css?family=Playfair+Display:900i');
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans:400, 600');
+
 @include mat-core();
 
 $app-primary: mat-palette($mat-cyan, 100);
@@ -10,35 +11,34 @@ $app-warn: mat-palette($mat-red);
 $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 
 $primary: #669999;
-$bg-color:#FBFBFB;
+$bg-color: #FBFBFB;
 $white: #FFFFFF;
 
 @include angular-material-theme($app-theme);
 
 * {
     body {
-        background-color:$bg-color;
+        background-color: $bg-color;
         font-family: 'Josefin Sans', sans-serif;
-        background-image:url("assets/img/background-img.png");
+        background-image: url("assets/img/background-img.png");
         background-repeat: no-repeat;
         background-size: auto;
 
         .title {
-            text-align: center;
             font-family: 'Playfair Display', serif;
             margin-top: 5vh;
         }
         .sm {
-            font-size:.7em;
+            font-size: .7em;
         }
         .med {
-            font-size:2em;
+            font-size: 2em;
         }
         .large {
-            font-size: 5em;
+            font-size: 4em;
         }
         .xlarge {
-            font-size:7em;
+            font-size: 6em;
         }
         .mat-toolbar {
             background-color: $white;
@@ -48,7 +48,7 @@ $white: #FFFFFF;
             }
         }
         .subtitle {
-            font-size: 2em;
+            font-size: 1.6em;
         }
         .top-nav {
             height: 70px;
@@ -65,7 +65,7 @@ $white: #FFFFFF;
             font-family: "Playfair Display", serif;
         }
         .card-form {
-            margin:auto;
+            margin: auto;
             max-width: 800px;
         }
 
@@ -75,7 +75,7 @@ $white: #FFFFFF;
 
         .form-heading {
             font-family: "Playfair Display", serif;
-            font-size:2em;
+            font-size: 2em;
         }
 
         .center-text {
@@ -83,4 +83,19 @@ $white: #FFFFFF;
         }
 
     }
+}
+
+.template-card {
+    max-width: 500px; // TODO: Fix this - why is it 500px?
+    margin: 1em auto 3em auto;
+}
+
+.mat-chip.mat-standard-chip {
+    background-color: #669999;
+    color: #FFFFFF;
+}
+
+.template-title {
+    font-family: "Playfair Display", serif;
+    font-size: 2em;
 }

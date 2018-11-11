@@ -21,9 +21,12 @@
 </mat-toolbar>
 
 <div>
-    <p class="title large">My Templates</p>
+    <p class="title center-text large">My Templates</p>
 </div>
 
+<div *ngIf="(templateList | async)?.length == 0">
+    <p class="center-text">You haven't created any templates yet</p>
+</div>
 <div *ngFor="let template of templateList | async">
     <mat-card class="template-card">
         <p class="template-title">{{template.templateName}}</p>
@@ -31,13 +34,16 @@
         <p>{{template.templateDescription}}</p>
         <p>Creation date: {{template.templateCreateDate | date}}</p>
         <p>Number of downloads: {{template.templateNumDownload}}</p>
-        <p *ngIf="template.templateLastDownloadDate">Last downloaded date: {{template.templateLastDownloadDate | date}}</p>
+        <p *ngIf="template.templateLastDownloadDate">Last downloaded date: {{template.templateLastDownloadDate |
+            date}}</p>
         <mat-chip-list>
             <mat-chip *ngFor="let tag of template.tags">
                 {{tag.name}}
             </mat-chip>
         </mat-chip-list>
+        <br>
         <button mat-raised-button (click)="openTemplate(template.uid)">Download</button>
+        &nbsp;
         <button mat-raised-button (click)="deleteTemplate(template.uid)">Delete</button>
     </mat-card>
 </div>

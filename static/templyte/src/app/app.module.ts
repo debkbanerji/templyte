@@ -22,6 +22,7 @@ import {InputValidateDialogComponent} from './input-validate-dialog/input-valida
 import {UploadSuccessDialogComponent} from './upload-success-dialog/upload-success-dialog.component';
 import {MyTemplatesComponent} from './my-templates/my-templates.component';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatDividerModule} from '@angular/material/divider';
 import {MatSelectModule} from '@angular/material/select';
 import {DownloadTemplateComponent} from './download-template/download-template.component';
 import {DeleteConfirmDialogComponent} from './delete-confirm-dialog/delete-confirm-dialog.component';
@@ -57,6 +58,7 @@ const routes: Routes = [
         MatButtonModule,
         MatCardModule,
         MatDialogModule,
+        MatDividerModule,
         MatToolbarModule,
         MatInputModule,
         MatSelectModule,
