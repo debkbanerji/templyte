@@ -38,7 +38,7 @@ export class CreateTemplateComponent implements OnInit {
 
 
     static encodeTag(tag) {
-        return '__TAG__' + tag.replace(/\s*/g, '').toLowerCase();
+        return '__TAG__' + tag.replace(/\s*/g, '').replace(/[^\w\s\d]/gi, '').toLowerCase();
     }
 
     ngOnInit() {

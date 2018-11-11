@@ -65,7 +65,7 @@
         Search Results
     </p>
     <div *ngIf="hasSearched && displayList && displayList.length == 0">
-        <p class="sm center-text"></p> No search results found
+        <p class="center-text">No search results found</p>
     </div>
     <div class="row">
         <div *ngFor="let template of displayList" class="col col-xs-12">
@@ -83,36 +83,6 @@
                         </span>
                     </span>
                 </div>
-                <p *ngIf="template.templateLastDownloadDate">Last downloaded date: {{template.templateLastDownloadDate |
-                    date}}</p>
-                <mat-chip-list>
-                    <mat-chip *ngFor="let tag of template.tags">
-                        {{tag.name}}
-                    </mat-chip>
-                </mat-chip-list>
-                <br>
-                <button mat-raised-button (click)="openTemplate(template.uid)">Download</button>
-            </mat-card>
-        </div>
-    </div>
-</mat-card>
-<mat-card *ngIf="hasSearched" class="title search-card">
-    <p *ngIf="hasSearched" class="title center-text med ">
-        Search Results
-    </p>
-    <div *ngIf="hasSearched && (searchedTemplateList | async)?.length == 0">
-        <p class="sm center-text"></p> No search results found
-    </div>
-    <div class="row">
-        <div *ngFor="let template of searchedTemplateList | async" class="col col-xs-12">
-            <mat-card class="template-card">
-                <mat-card-title class="template-title">{{template.templateName}}</mat-card-title>
-                <mat-divider></mat-divider>
-                <p>By {{template.authorName}}</p>
-                <p>{{template.templateDescription}}</p>
-                <p>Creation date: {{template.templateCreateDate | date}}</p>
-                <p>Number of downloads: {{template.templateNumDownload}}</p>
-                <p>Average rating: {{template.averageRating}}</p>
                 <p *ngIf="template.templateLastDownloadDate">Last downloaded date: {{template.templateLastDownloadDate |
                     date}}</p>
                 <mat-chip-list>
