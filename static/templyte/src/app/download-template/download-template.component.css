@@ -11,7 +11,6 @@
 .rate {
     float: left;
     height: 46px;
-    padding: 0 10px;
 }
 
 .rate:not(:checked) > input {
@@ -64,4 +63,8 @@
 
 .reviews-heading {
     font-size: 2em;
+}
+
+#rating-text {
+    width: 100%;
 }
