@@ -96,8 +96,9 @@
         <div class="row">
             <div *ngFor="let template of searchedTemplateList | async" class="col col-xs-12">
                 <mat-card class="template-card">
-                    <p class="template-title">{{template.templateName}}</p>
-                    <p>by {{template.authorName}}</p>
+                    <mat-card-title class="template-title">{{template.templateName}}</mat-card-title>
+                    <mat-divider></mat-divider>
+                    <p>By {{template.authorName}}</p>
                     <p>{{template.templateDescription}}</p>
                     <p>Creation date: {{template.templateCreateDate | date}}</p>
                     <p>Number of downloads: {{template.templateNumDownload}}</p>
