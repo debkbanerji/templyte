@@ -65,6 +65,10 @@
     font-size: 2em;
 }
 
+#rating-text-container {
+    width: 100%;
+}
+
 #rating-text {
     width: 100%;
 }
