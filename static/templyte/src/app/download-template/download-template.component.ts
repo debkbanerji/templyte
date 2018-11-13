@@ -121,8 +121,8 @@ export class DownloadTemplateComponent implements OnInit {
                             }
                         }
                     }).then(function (ratingSumForAverage) {
-                        component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function (avgRating) {
-                            return (varRatingSum * 1.0) / varNumRatings;
+                        component.templateDirectoryInfoDatabaseRef.update({
+                            'averageRating': (varRatingSum * 1.0) / varNumRatings,
                         });
                     });
                 });
