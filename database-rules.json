@@ -3,15 +3,28 @@
         "template-directory": {
             ".read": "auth !== null",
             "$uid": {
-                ".write": "auth !== null && (!data.exists() || (data.child('authorUID').exists() && data.child('authorUID').val() === auth.uid))"
+                ".write": "auth !== null && (!data.exists() || (data.child('authorUID').exists()))"
             },
-            ".indexOn": "authorUID"
+            ".indexOn": "authorUID",
+            "averageRating": {
+                ".write" : "auth !== null"
+            },
+            "numberRatings": {
+                ".write" : "auth !== null"
+            },
+            "ratingSum": {
+                ".write" : "auth !== null"
+            }
         },
         "template-render-info": {
             ".read": "auth !== null",
             "$uid": {
                 ".write": "auth !== null && (!data.exists() || (data.child('authorUID').exists() && data.child('authorUID').val() === auth.uid))"
             }
+        },
+        "template-ratings": {
+            ".read": "auth !== null",
+            ".write" : "auth !== null"
         }
     }
 }
