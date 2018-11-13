@@ -54,7 +54,8 @@ export class DownloadTemplateComponent implements OnInit {
                         component.templateDirectoryInfoRef = component.db.object('template-directory/' + params.id);
                         component.templateRenderInfoRef = component.db.object('template-render-info/' + params.id);
                         component.templateRatingsInfoRef = component.db.object('template-ratings/' + params.id);
-                        component.templateRatingsInfoDatabaseRef = firebase.database().ref('template-ratings/' + params.id + '/' + component.user.uid);
+                        component.templateRatingsInfoDatabaseRef = firebase.database().ref(
+                            'template-ratings/' + params.id + '/' + component.user.uid);
                         component.templateDirectoryInfoDatabaseRef = firebase.database().ref('template-directory/' + params.id);
                         component.templateRatingsInfo = component.templateRatingsInfoRef.valueChanges();
                         component.templateDirectoryInfo = component.templateDirectoryInfoRef.valueChanges();
@@ -113,10 +114,10 @@ export class DownloadTemplateComponent implements OnInit {
                             }
                         }
                     }).then(function (ratingSumForAverage) {
-                        if (ratingSumForAverage != null && numberRatingsUpdated.snapshot.val() != null ) {
+                        if (ratingSumForAverage !== null && numberRatingsUpdated.snapshot.val() !== null) {
                             component.templateDirectoryInfoDatabaseRef.update({
                                 'averageRating': (ratingSumForAverage.snapshot.val()) / numberRatingsUpdated.snapshot.val(),
-                            });                            
+                            });
                         }
                     });
                 });
