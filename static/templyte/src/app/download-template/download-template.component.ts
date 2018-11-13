@@ -87,7 +87,7 @@ export class DownloadTemplateComponent implements OnInit {
                 const old_rating = snapshot.child('ratingValue').val(); // value of previous rating
                 let varNumRatings = 0;
                 let varRatingSum = 0;
-                let currentRatingVal = component.ratingVal;
+                const currentRatingVal = component.ratingVal;
                 component.templateRatingsInfoDatabaseRef.set({
                     'ratingValue': component.ratingVal,
                     'ratingText': component.ratingText,
@@ -104,17 +104,17 @@ export class DownloadTemplateComponent implements OnInit {
                 }).then(function (ratingSumAgain) {
                     component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function (ratingSum) {
                         if (old_rating != null) {
-                            if(ratingSum != 0) {
+                            if (ratingSum !== 0) {
                                 varRatingSum = ratingSum - old_rating + currentRatingVal;
-                                return ratingSum - old_rating + currentRatingVal
+                                return ratingSum - old_rating + currentRatingVal;
                             } else {
                                 varRatingSum = currentRatingVal;
                                 return currentRatingVal;
                             }
                         } else {
-                            if (ratingSum != 0) {
+                            if (ratingSum !== 0) {
                                 varRatingSum = ratingSum + currentRatingVal;
-                                return ratingSum + currentRatingVal;  
+                                return ratingSum + currentRatingVal;
                             } else {
                                 varRatingSum = currentRatingVal;
                                 return currentRatingVal;
