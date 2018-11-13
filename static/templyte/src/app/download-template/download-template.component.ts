@@ -88,15 +88,25 @@ export class DownloadTemplateComponent implements OnInit {
                 console.log('old_rating: '+old_rating);
                 let varNumRatings = 0;
                 let varRatingSum = 0;
+                let currentRatingVal = component.ratingVal;
                 component.templateRatingsInfoDatabaseRef.set({
                     'ratingValue': component.ratingVal,
                     'ratingText': component.ratingText,
                     'ratingUserDisplayName': component.user.displayName
                 });
                 if (old_rating != null) {
+                    console.log("old rating is NOT null");
                     component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function (ratingSum) {
-                        varRatingSum = ratingSum - old_rating + this.ratingVal;
-                        return ratingSum - old_rating + this.ratingVal;
+                        console.log('ratingSum: '+ratingSum);
+                        if(ratingSum != 0) {
+                            varRatingSum = ratingSum - old_rating + currentRatingVal;
+                            console.log('varRatingSum: '+varRatingSum);
+                            return ratingSum - old_rating + currentRatingVal
+                        } else {
+                            varRatingSum = currentRatingVal;
+                            console.log('varRatingSum: '+varRatingSum);
+                            return currentRatingVal;
+                        }
                     }).then(function (ratingSum) {
                         varNumRatings = 1;
                         component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function (avgRating) {
@@ -104,6 +114,7 @@ export class DownloadTemplateComponent implements OnInit {
                         });
                     });
                 } else {
+                    console.log("old rating IS null");
                     component.templateDirectoryInfoDatabaseRef.child('/numberRatings').transaction(function (numberRatings) {
                         varNumRatings = numberRatings + 1;
                         return numberRatings + 1;
