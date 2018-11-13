@@ -97,7 +97,7 @@ export class DownloadTemplateComponent implements OnInit {
                     } else {
                         return numberRatings + 1;
                     }
-                }).then(function (ratingSumAgain) {
+                }).then(function (numberRatingsUpdated) {
                     component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function (ratingSum) {
                         if (old_rating != null) {
                             if (ratingSum !== 0) {
@@ -113,9 +113,9 @@ export class DownloadTemplateComponent implements OnInit {
                             }
                         }
                     }).then(function (ratingSumForAverage) {
-                        if (ratingSumForAverage != null && ratingSumAgain.snapshot.val() != null ) {
+                        if (ratingSumForAverage != null && numberRatingsUpdated.snapshot.val() != null ) {
                             component.templateDirectoryInfoDatabaseRef.update({
-                                'averageRating': (ratingSumForAverage.snapshot.val() * 1.0) / ratingSumAgain.snapshot.val(),
+                                'averageRating': (ratingSumForAverage.snapshot.val() * 1.0) / numberRatingsUpdated.snapshot.val(),
                             });                            
                         }
                     });
