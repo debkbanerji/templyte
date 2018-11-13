@@ -85,7 +85,6 @@ export class DownloadTemplateComponent implements OnInit {
             const component = this;
             component.templateRatingsInfoDatabaseRef.once('value').then(snapshot => {
                 const old_rating = snapshot.child('ratingValue').val(); // value of previous rating
-                console.log('old_rating: '+old_rating);
                 let varNumRatings = 0;
                 let varRatingSum = 0;
                 let currentRatingVal = component.ratingVal;
@@ -95,35 +94,31 @@ export class DownloadTemplateComponent implements OnInit {
                     'ratingUserDisplayName': component.user.displayName
                 });
                 if (old_rating != null) {
-                    console.log("old rating is NOT null");
                     component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function (ratingSum) {
-                        console.log('ratingSum: '+ratingSum);
                         if(ratingSum != 0) {
                             varRatingSum = ratingSum - old_rating + currentRatingVal;
                             console.log('varRatingSum: '+varRatingSum);
                             return ratingSum - old_rating + currentRatingVal
                         } else {
                             varRatingSum = currentRatingVal;
-                            console.log('varRatingSum: '+varRatingSum);
                             return currentRatingVal;
                         }
-                    }).then(function (ratingSum) {
+                    }).then(function (ratingSumForAverage) {
                         varNumRatings = 1;
                         component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function (avgRating) {
                             return (varRatingSum * 1.0) / varNumRatings;
                         });
                     });
                 } else {
-                    console.log("old rating IS null");
                     component.templateDirectoryInfoDatabaseRef.child('/numberRatings').transaction(function (numberRatings) {
                         varNumRatings = numberRatings + 1;
                         return numberRatings + 1;
-                    }).then(function (ratingSum) {
+                    }).then(function (ratingSumAgain) {
                         component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function (ratingSumAgain) {
                             varRatingSum = ratingSumAgain + this.ratingVal;
                             return ratingSumAgain + this.ratingVal;
-                        }).then(function (ratingSum) {
-                            component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function (avgRating) {
+                        }).then(function (ratingSumAgainForAverage) {
+                            component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function (avgRatingAgain) {
                                 return (varRatingSum * 1.0) / varNumRatings;
                             });
                         });
