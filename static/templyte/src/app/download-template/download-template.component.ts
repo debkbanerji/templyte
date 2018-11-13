@@ -93,37 +93,39 @@ export class DownloadTemplateComponent implements OnInit {
                     'ratingText': component.ratingText,
                     'ratingUserDisplayName': component.user.displayName
                 });
-                if (old_rating != null) {
+                component.templateDirectoryInfoDatabaseRef.child('/numberRatings').transaction(function (numberRatings) {
+                    if (old_rating != null) {
+                        varNumRatings = numberRatings;
+                        return varNumRatings;
+                    } else {
+                        varNumRatings = numberRatings + 1;
+                        return varNumRatings;
+                    }
+                }).then(function (ratingSumAgain) {
                     component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function (ratingSum) {
-                        if(ratingSum != 0) {
-                            varRatingSum = ratingSum - old_rating + currentRatingVal;
-                            console.log('varRatingSum: '+varRatingSum);
-                            return ratingSum - old_rating + currentRatingVal
+                        if (old_rating != null) {
+                            if(ratingSum != 0) {
+                                varRatingSum = ratingSum - old_rating + currentRatingVal;
+                                return ratingSum - old_rating + currentRatingVal
+                            } else {
+                                varRatingSum = currentRatingVal;
+                                return currentRatingVal;
+                            }
                         } else {
-                            varRatingSum = currentRatingVal;
-                            return currentRatingVal;
+                            if (ratingSum != 0) {
+                                varRatingSum = ratingSum + currentRatingVal;
+                                return ratingSum + currentRatingVal;  
+                            } else {
+                                varRatingSum = currentRatingVal;
+                                return currentRatingVal;
+                            }
                         }
                     }).then(function (ratingSumForAverage) {
-                        varNumRatings = 1;
                         component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function (avgRating) {
                             return (varRatingSum * 1.0) / varNumRatings;
                         });
                     });
-                } else {
-                    component.templateDirectoryInfoDatabaseRef.child('/numberRatings').transaction(function (numberRatings) {
-                        varNumRatings = numberRatings + 1;
-                        return numberRatings + 1;
-                    }).then(function (ratingSumAgain) {
-                        component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function (ratingSumAgain) {
-                            varRatingSum = ratingSumAgain + this.ratingVal;
-                            return ratingSumAgain + this.ratingVal;
-                        }).then(function (ratingSumAgainForAverage) {
-                            component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function (avgRatingAgain) {
-                                return (varRatingSum * 1.0) / varNumRatings;
-                            });
-                        });
-                    });
-                }
+                });
             });
         }
     }
