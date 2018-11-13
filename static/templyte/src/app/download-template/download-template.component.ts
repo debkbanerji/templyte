@@ -115,7 +115,7 @@ export class DownloadTemplateComponent implements OnInit {
                     }).then(function (ratingSumForAverage) {
                         if (ratingSumForAverage != null && numberRatingsUpdated.snapshot.val() != null ) {
                             component.templateDirectoryInfoDatabaseRef.update({
-                                'averageRating': (ratingSumForAverage.snapshot.val() * 1.0) / numberRatingsUpdated.snapshot.val(),
+                                'averageRating': (ratingSumForAverage.snapshot.val()) / numberRatingsUpdated.snapshot.val(),
                             });                            
                         }
                     });
