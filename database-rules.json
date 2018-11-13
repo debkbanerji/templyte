@@ -30,7 +30,11 @@
         },
         "template-ratings": {
             ".read": "auth !== null",
-            ".write": "auth !== null"
+            "$templateUid": {
+                "$uid": {
+                    ".write": "$uid === auth.uid"
+                }
+            }
         }
     }
 }
