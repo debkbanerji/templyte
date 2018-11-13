@@ -106,7 +106,7 @@ export class DownloadTemplateComponent implements OnInit {
                         if (old_rating != null) {
                             if (ratingSum !== 0) {
                                 varRatingSum = ratingSum - old_rating + currentRatingVal;
-                                return ratingSum - old_rating + currentRatingVal
+                                return ratingSum - old_rating + currentRatingVal;
                             } else {
                                 varRatingSum = currentRatingVal;
                                 return currentRatingVal;
