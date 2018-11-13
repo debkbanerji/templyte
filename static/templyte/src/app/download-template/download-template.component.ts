@@ -54,7 +54,8 @@ export class DownloadTemplateComponent implements OnInit {
                         component.templateDirectoryInfoRef = component.db.object('template-directory/' + params.id);
                         component.templateRenderInfoRef = component.db.object('template-render-info/' + params.id);
                         component.templateRatingsInfoRef = component.db.object('template-ratings/' + params.id);
-                        component.templateRatingsInfoDatabaseRef = firebase.database().ref('template-ratings/' + params.id + '/' + component.user.uid);
+                        component.templateRatingsInfoDatabaseRef = firebase.database().ref(
+                            'template-ratings/' + params.id + '/' + component.user.uid);
                         component.templateDirectoryInfoDatabaseRef = firebase.database().ref('template-directory/' + params.id);
                         component.templateRatingsInfo = component.templateRatingsInfoRef.valueChanges();
                         component.templateDirectoryInfo = component.templateDirectoryInfoRef.valueChanges();
@@ -84,39 +85,41 @@ export class DownloadTemplateComponent implements OnInit {
         if (this.validateRating()) {
             const component = this;
             component.templateRatingsInfoDatabaseRef.once('value').then(snapshot => {
-                const old_rating = snapshot.val(); // value of previous rating
-                let varNumRatings = 0;
-                let varRatingSum = 0;
+                const old_rating = snapshot.child('ratingValue').val(); // value of previous rating
+                const currentRatingVal = component.ratingVal;
                 component.templateRatingsInfoDatabaseRef.set({
                     'ratingValue': component.ratingVal,
                     'ratingText': component.ratingText,
                     'ratingUserDisplayName': component.user.displayName
                 });
-                if (old_rating != null) {
-                    component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function (ratingSum) {
-                        varRatingSum = ratingSum - old_rating + this.ratingVal;
-                        return ratingSum - old_rating + this.ratingVal;
-                    }).then(function (ratingSum) {
-                        varNumRatings = 1;
-                        component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function (avgRating) {
-                            return (varRatingSum * 1.0) / varNumRatings;
-                        });
-                    });
-                } else {
-                    component.templateDirectoryInfoDatabaseRef.child('/numberRatings').transaction(function (numberRatings) {
-                        varNumRatings = numberRatings + 1;
+                component.templateDirectoryInfoDatabaseRef.child('/numberRatings').transaction(function (numberRatings) {
+                    if (old_rating != null) {
+                        return numberRatings;
+                    } else {
                         return numberRatings + 1;
-                    }).then(function (ratingSum) {
-                        component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function (ratingSumAgain) {
-                            varRatingSum = ratingSumAgain + this.ratingVal;
-                            return ratingSumAgain + this.ratingVal;
-                        }).then(function (ratingSum) {
-                            component.templateDirectoryInfoDatabaseRef.child('/averageRating').transaction(function (avgRating) {
-                                return (varRatingSum * 1.0) / varNumRatings;
-                            });
-                        });
+                    }
+                }).then(function (numberRatingsUpdated) {
+                    component.templateDirectoryInfoDatabaseRef.child('/ratingSum').transaction(function (ratingSum) {
+                        if (old_rating != null) {
+                            if (ratingSum !== 0) {
+                                return ratingSum - old_rating + currentRatingVal;
+                            } else {
+                                return currentRatingVal;
+                            }
+                        } else {
+                            if (ratingSum !== 0) {
+                                return ratingSum + currentRatingVal;
+                            } else {
+                                return currentRatingVal;
+                            }
+                        }
+                    }).then(function (ratingSumForAverage) {
+                        if (ratingSumForAverage !== null && numberRatingsUpdated.snapshot.val() !== null) {
+                            component.templateDirectoryInfoDatabaseRef.child('averageRating').set(
+                                ratingSumForAverage.snapshot.val() / numberRatingsUpdated.snapshot.val());
+                        }
                     });
-                }
+                });
             });
         }
     }

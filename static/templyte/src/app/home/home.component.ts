@@ -50,12 +50,14 @@ export class HomeComponent implements OnInit {
 
     doSearch() {
         const component = this;
-        component.hasSearched = true;
-        component.searchedTemplateList = component.db.list('/template-directory',
-            ref =>
-                ref.orderByChild(CreateTemplateComponent.encodeTag(component.searchTerm))
-                    .equalTo(true)
-        ).valueChanges().subscribe((data) => component.displayList = data);
+        if (component.searchTerm) {
+            component.hasSearched = true;
+            component.searchedTemplateList = component.db.list('/template-directory',
+                ref =>
+                    ref.orderByChild(CreateTemplateComponent.encodeTag(component.searchTerm))
+                        .equalTo(true)
+            ).valueChanges().subscribe((data) => component.displayList = data);
+        }
     }
 
 
