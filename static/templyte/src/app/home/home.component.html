@@ -46,7 +46,7 @@
             <p class="title large">Welcome to Templyte</p>
             <p class="med">Ready to get coding?</p>
             <mat-form-field class="search-field">
-                <input matInput placeholder="Search for a Template" [(ngModel)]="searchTerm">
+                <input matInput placeholder="Search for a Template" (keyup.enter)="doSearch()" [(ngModel)]="searchTerm">
             </mat-form-field>
             <br>
             <button mat-raised-button color="primary" (click)="doSearch()">Search</button>

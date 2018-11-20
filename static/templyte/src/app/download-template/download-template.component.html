@@ -24,10 +24,10 @@
     <p>{{(templateDirectoryInfo | async)?.templateDescription}}</p>
     <br>
     <p>Creation date: {{(templateDirectoryInfo | async)?.templateCreateDate | date}}</p>
-    <p *ngIf="(templateDirectoryInfo | async)?.templateNumDownload">Number of downloads: {{(templateDirectoryInfo |
+    <p>Number of downloads: {{(templateDirectoryInfo |
         async)?.templateNumDownload}}</p>
-    <p *ngIf="(templateDirectoryInfo | async)?.templateLastDownloadDate | date">Last downloaded date:
-        {{(templateDirectoryInfo | async)?.templateLastDownloadDate | date}}</p>
+    <p *ngIf="(templateDirectoryInfo | async)?.templateLastDownloadDate as templateLastDownloadDate">Last downloaded date:
+        {{templateLastDownloadDate | date}}</p>
 
     <table class="table col-sm-12">
         <tbody>
