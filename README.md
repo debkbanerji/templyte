@@ -38,3 +38,7 @@ Once the dependencies have been installed, running the application in developmen
 After running `npm install`, running `npm start` will start a production version of the application on port 3000. Most modern web application hosting services, such as Heroku and Amazon Web Services will be able to automatically recognize the npm information defined in `package.json` and run both the `npm install` and `npm start` commands for you.
 
 Note that once you deploy the application to production, you will need to register the domain name of the deployed version within the Firebase console as a trusted login source, or login will be blocked.
+
+### Known Issues
+ 
+ Due to development time limitations, the search functionality of the application is not able to handle more complex search terms. Additionally, it is not as efficient as it could be, due to the need to do the search through Firebase. This triggers a warning in the user's browser console when doing a search, which states that the query is not as efficient as it could be. Though this should be fixed, it is not as huge of an issue as it may appear to be, since the database information has been flattened in order to speed up searches.
