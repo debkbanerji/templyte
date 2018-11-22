@@ -34,3 +34,7 @@ Note that currently, the configuration object in `/static/templyte/src/app/confi
 Once the dependencies have been installed, running the application in development mode requires the developer to run two commands in separate shells. The first is `npm run development-server` which starts up a development version of the A.P.I. that runs on port 3000. (this development server automatically restarts upon any file changes, to allow for faster development) The second command is `npm run development-gui` which starts the Angular application that makes up the front end. This runs on port 4200 and can be accessed by entering `localhost:4200` into the address bar of the developer's web browser. Note that this development version of the Angular application automatically refreshes the web page upon any code changes.
 
 ### Deployment to Production
+
+After running `npm install`, running `npm start` will start a production version of the application on port 3000. Most modern web application hosting services, such as Heroku and Amazon Web Services will be able to automatically recognize the npm information defined in `package.json` and run both the `npm install` and `npm start` commands for you.
+
+Note that once you deploy the application to production, you will need to register the domain name of the deployed version within the Firebase console as a trusted login source, or login will be blocked.
