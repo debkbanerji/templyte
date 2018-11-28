@@ -7,6 +7,7 @@ Templyte is a web application which is designed to help users create and share c
 ### Features
 
 * Users can create and upload templates that are populated with user defined variables at download time, allowing for highly customisable starter code for any project.
+* Users can download templates which are intelligently rendered to use custom variables defined by the user.
 * Templates are language agnostic, so users are not limited according to the technologies that their projects use.
 * The application contains a tutorial page that guides users through creating templates.
 * Secure login through GitHub is supported.
