@@ -2,7 +2,9 @@
 
 Templyte is a web application which is designed to help users create and share code templates to allow for fast bootstrapping of a variety of projects.
 
-## Features
+## Release Notes
+
+### Features
 
 * Users can create and upload templates that are populated with user defined variables at download time, allowing for highly customisable starter code for any project.
 * Templates are language agnostic, so users are not limited according to the technologies that their projects use.
@@ -11,9 +13,19 @@ Templyte is a web application which is designed to help users create and share c
 * The application allows users to rate templates as well as leave text reviews.
 * The application supports searching the database for templates based on the title or user defined tags. Partial fuzzy matching is supported, so users do not need to provide an exact much for the search term. (in terms of capitalization or spacing) Search results can also be ordered according to rating, number of downloads, creation date and last downloaded date.
 
-## Running the Application
+### Known Issues
+ 
+Due to development time limitations, the search functionality of the application is not able to handle more complex search terms. Additionally, it is not as efficient as it could be, due to the need to do the search through Firebase. This triggers a warning in the user's browser console when doing a search, which states that the query is not as efficient as it could be. Though this should be fixed, it is not as huge of an issue as it may appear to be, since the database information has been flattened in order to speed up searches.
+
+## Install Guide
 
 Templyte is a web application with both a front end and a backend component, as well as a database component in order to allow for persistence.
+
+### Prerequisites
+As the dependencies are handled by [npm](https://www.npmjs.com/get-npm), Templyte can be deployed on any operating system that supports npm.
+
+### Acquiring Source Code
+The latest version of the application source code can be downloaded directly from [GitHub](https://github.com/debkbanerji/templyte)
 
 ### Dependency Management
 
@@ -39,6 +51,5 @@ After running `npm install`, running `npm start` will start a production version
 
 Note that once you deploy the application to production, you will need to register the domain name of the deployed version within the Firebase console as a trusted login source, or login will be blocked.
 
-### Known Issues
- 
-Due to development time limitations, the search functionality of the application is not able to handle more complex search terms. Additionally, it is not as efficient as it could be, due to the need to do the search through Firebase. This triggers a warning in the user's browser console when doing a search, which states that the query is not as efficient as it could be. Though this should be fixed, it is not as huge of an issue as it may appear to be, since the database information has been flattened in order to speed up searches.
+### Troubleshooting
+While troubleshooting, first steps should always include clearing the `node_modules` folder and rerunning `npm install`. Most issues will raise errors on the frontend which can be debugged through use of the browser developer console, with the exception of A.P.I. calls (template rendering logic) for which error messages will show up in the server logs.
