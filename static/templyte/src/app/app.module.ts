@@ -26,6 +26,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatSelectModule} from '@angular/material/select';
 import {DownloadTemplateComponent} from './download-template/download-template.component';
 import {DeleteConfirmDialogComponent} from './delete-confirm-dialog/delete-confirm-dialog.component';
+import {RatingSuccessDialogComponent} from './rating-success-dialog/rating-success-dialog.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
@@ -47,6 +48,7 @@ const routes: Routes = [
         InputValidateDialogComponent,
         UploadSuccessDialogComponent,
         DeleteConfirmDialogComponent,
+        RatingSuccessDialogComponent,
         MyTemplatesComponent,
         TutorialComponent,
     ],
@@ -69,7 +71,8 @@ const routes: Routes = [
     entryComponents: [
         InputValidateDialogComponent,
         UploadSuccessDialogComponent,
-        DeleteConfirmDialogComponent
+        DeleteConfirmDialogComponent,
+        RatingSuccessDialogComponent
     ],
     providers: [
         AngularFireAuth,
