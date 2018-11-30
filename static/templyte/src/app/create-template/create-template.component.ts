@@ -130,7 +130,7 @@ export class CreateTemplateComponent implements OnInit {
                         .set(templateUrl).then(() => {
                         const dialogRef = component.dialog.open(UploadSuccessDialogComponent);
                         dialogRef.afterClosed().subscribe(() => {
-                            component.router.navigate(['home']);
+                            component.router.navigate(['my-templates']);
                         });
                     });
                 });
@@ -184,23 +184,18 @@ export class CreateTemplateComponent implements OnInit {
                 }
             }
         }
-        if (this.fileEndingsArray.length === 0) {
-            returnVal = false;
-            this.dialog.open(InputValidateDialogComponent, {
-                data: {message: 'Please enter at least one file ending that includes variables for your template.'}
-            });
-        } else {
-            for (let i = 0; i < this.fileEndingsArray.length - 1; i++) {
-                for (let j = i + 1; j < this.fileEndingsArray.length; j++) {
-                    if (this.fileEndingsArray[i].name === this.fileEndingsArray[j].name) {
-                        returnVal = false;
-                        this.dialog.open(InputValidateDialogComponent, {
-                            data: {message: 'Please do not enter duplicate file endings'}
-                        });
-                    }
+
+        for (let i = 0; i < this.fileEndingsArray.length - 1; i++) {
+            for (let j = i + 1; j < this.fileEndingsArray.length; j++) {
+                if (this.fileEndingsArray[i].name === this.fileEndingsArray[j].name) {
+                    returnVal = false;
+                    this.dialog.open(InputValidateDialogComponent, {
+                        data: {message: 'Please do not enter duplicate file endings'}
+                    });
                 }
             }
         }
+
         if (!/zip/i.test(this.selectedFiles[0].type)) {
             returnVal = false;
             this.dialog.open(InputValidateDialogComponent, {
