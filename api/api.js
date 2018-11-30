@@ -30,7 +30,9 @@ function renderFolder(variableMap, targetFileEndings, path, index, targetArchive
             const relativeFilePath = joinPaths(path, fileName);
             const fullFilePath = joinPaths(targetPath, fileName);
             if (fs.lstatSync(fullFilePath).isDirectory()) {
-                renderFolder(variableMap, targetFileEndings, relativeFilePath, 0, targetArchive, templateBasePath, doneCallback)
+                renderFolder(variableMap, targetFileEndings, relativeFilePath, 0, targetArchive, templateBasePath, function () {
+                    renderFolder(variableMap, targetFileEndings, path, index + 1, targetArchive, templateBasePath, doneCallback);
+                })
             } else {
                 const fileContents = fs.readFileSync(fullFilePath);
                 const fileExtension = fullFilePath.split('.').slice(-1)[0];
@@ -79,6 +81,7 @@ function renderTemplate(variables, fileEndings, targetArchive, templateUrl) {
                 }
                 setTimeout(() => {
                     renderFolder(variables, fileEndings, '', 0, targetArchive, unzippedTemplatePath, () => {
+                        console.log('done');
                         targetArchive.finalize();
                         fs.remove(workingFolderName)
                     });
